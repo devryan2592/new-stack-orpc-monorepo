@@ -1,0 +1,16 @@
+{
+  "name": "@shared/db",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "prisma": "^5.19.1"
+  }
+}

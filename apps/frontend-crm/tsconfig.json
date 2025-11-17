@@ -1,0 +1,30 @@
+{
+  "extends": "../../shared/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@workspace/feature-auth/frontend": ["../../packages/feature-auth/frontend/index.ts"],
+      "@workspace/feature-auth/shared": ["../../packages/feature-auth/shared/index.ts"]
+    },
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+
+}

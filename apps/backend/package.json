@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "scripts": {},
+  "dependencies": {
+    "@workspace/feature-auth": "workspace:*",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@shared/eslint-config": "workspace:*",
+    "@shared/typescript-config": "workspace:*",
+    "@types/node": "^20.19.9",
+    "@types/express": "^5.0.3",
+    "typescript": "^5.9.2",
+    "tsup": "^8.5.0"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "extends": "../../shared/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      
+    }
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../../packages/feature-auth" },
+  ]
+}
