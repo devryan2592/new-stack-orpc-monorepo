@@ -1,0 +1,16 @@
+{
+  "extends": "../../shared/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": ".",
+    "paths": {
+      "@shared/orpc-client/*": ["./src/*"]
+    }
+  },
+  "include": ["./src"]
+}

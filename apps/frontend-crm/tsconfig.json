@@ -4,10 +4,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ],
-      "@workspace/feature-auth/frontend": ["../../packages/feature-auth/frontend/index.ts"],
-      "@workspace/feature-auth/shared": ["../../packages/feature-auth/shared/index.ts"]
+      "@workspace/feature-auth/*": ["../../packages/feature-auth/src/*"],
+      "@shared/ui/*": ["../../shared/ui/src/*"]
     },
     "jsx": "preserve",
     "plugins": [

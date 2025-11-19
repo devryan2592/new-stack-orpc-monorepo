@@ -1,23 +1,20 @@
-import express, { type Express, type Request, type Response } from "express";
-import { issueToken } from "@workspace/feature-auth/backend";
-import type { AuthUser } from "@workspace/feature-auth/shared";
+import app from "@/server";
 
-const app: Express = express();
+// Set the port
+const PORT = process.env.PORT || 8000;
 
-app.get("/health", (req: Request, res: Response) => {
-  res.json({ ok: true });
-});
+// Start the server
+const startServer = () => {
+  try {
+    console.log("🔄 Starting backend server...");
+    // The server is started in server.ts
+    app.listen(PORT, () => {
+      console.log(`✅ Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+    process.exit(1);
+  }
+};
 
-app.get("/token/:id", (req: Request, res: Response) => {
-  const { id } = req.params;
-  const token = issueToken(id ?? "undefined");
-  res.json({ token });
-});
-
-app.listen(3001, () => {
-  const user: AuthUser = { id: "1", name: "Alice" };
-  void user;
-  console.log("Backend server listening on http://localhost:3001");
-});
-
-export default app;
+startServer();

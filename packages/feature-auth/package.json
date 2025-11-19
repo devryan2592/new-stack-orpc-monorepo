@@ -4,6 +4,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@shared/db": "workspace:*",
+    "@shared/ui": "workspace:*",
+    "lucide-react": "^0.475.0",
     "@better-auth/expo": "^1.3.34",
     "better-auth": "^1.3.34"
   },
@@ -11,12 +14,48 @@
     "@shared/eslint-config": "workspace:*",
     "@shared/typescript-config": "workspace:*",
     "@types/node": "^20.19.9",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "typescript": "^5.9.2"
   },
+  "peerDependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "react-hook-form": "^7.64.0",
+    "react-icons": "^5.5.0",
+    "zod": "^3.25.76",
+    "sonner": "^2.0.7",
+    "next": "^15.4.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
   "exports": {
-    ".": "./dist/index.js",
-    "./shared/*": "./dist/shared/*",
-    "./backend/*": "./dist/backend/*",
-    "./frontend/*": "./dist/frontend/*"
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./backend": {
+      "types": "./src/backend/index.ts",
+      "default": "./dist/backend/index.js"
+    },
+    "./frontend": {
+      "types": "./src/frontend/index.ts",
+      "default": "./dist/frontend/index.js"
+    },
+    "./shared": {
+      "types": "./src/shared/index.ts",
+      "default": "./dist/shared/index.js"
+    },
+    "./shared/*": {
+      "types": "./src/shared/*.ts",
+      "default": "./dist/shared/*.js"
+    },
+    "./backend/*": {
+      "types": "./src/backend/*.ts",
+      "default": "./dist/backend/*.js"
+    },
+    "./frontend/*": {
+      "types": "./src/frontend/*.ts",
+      "default": "./dist/frontend/*.js"
+    }
   }
 }

@@ -13,3 +13,5 @@ const nodeProcess = (globalThis as any).process;
 if (nodeProcess && nodeProcess.env?.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
+
+export type Prisma = PrismaClient;

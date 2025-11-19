@@ -3,13 +3,14 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      
+      "@workspace/feature-auth": ["../../packages/feature-auth/src/index.ts"],
+      "@workspace/feature-auth/*": ["../../packages/feature-auth/src/*"],
     }
   },
   "include": ["src"],
