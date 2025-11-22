@@ -1,20 +1,18 @@
-import { Metadata } from "next";
-import { UpdatePasswordForm } from "@workspace/feature-auth/frontend/forms";
-import { AUTH_LINKS } from "@/lib/links";
+"use client";
 
-interface UpdatePasswordPageProps {
-  searchParams: { token?: string };
-}
+import { Metadata } from "next";
+import { useSearchParams } from "next/navigation";
+import { UpdatePasswordForm } from "@modules/feature-auth/frontend/auth-forms";
+import { AUTH_LINKS } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: "Update Password",
   description: "Enter your new password to complete the update",
 };
 
-export default function UpdatePasswordPage({
-  searchParams,
-}: UpdatePasswordPageProps) {
-  const token = searchParams?.token;
+export default function UpdatePasswordPage() {
+  const params = useSearchParams();
+  const token = params.get("token") ?? undefined;
 
   if (!token) {
     return (

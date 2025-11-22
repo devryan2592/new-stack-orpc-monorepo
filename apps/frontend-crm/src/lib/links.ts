@@ -8,4 +8,5 @@ export const AUTH_LINKS = {
 
 export const DASHBOARD_LINKS = {
   HOME: "/",
+  ACCOUNT: "/account",
 };

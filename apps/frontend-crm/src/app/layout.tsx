@@ -1,6 +1,6 @@
 import { Roboto } from "next/font/google";
 
-import "@shared/ui/styles/globals.css";
+import "@workspace/ui/globals.css";
 
 const roboto = Roboto({
   variable: "--font-roboto",

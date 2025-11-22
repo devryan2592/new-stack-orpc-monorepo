@@ -1,0 +1,10 @@
+{
+  "extends": "@workspace/typescript-config/feature.json",
+  "compilerOptions": {
+    "paths": {
+      "@workspace/db/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

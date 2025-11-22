@@ -1,1 +1,0 @@
-export const contractVersion = "0.0.0"

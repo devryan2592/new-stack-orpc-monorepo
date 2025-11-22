@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-import { auth } from "@workspace/feature-auth/backend";
-import { toNodeHandler } from "@workspace/feature-auth";
+import { auth } from "@modules/feature-auth/backend";
+import { toNodeHandler } from "@modules/feature-auth";
 import cors from "cors";
 import { corsConfig } from "./config/cors";
 
@@ -11,7 +11,6 @@ dotenv.config();
 const app: Express = express();
 
 app.use(cors(corsConfig));
-
 
 // Auth Routes (Better Auth)
 app.use("/api/v1/auth", toNodeHandler(auth));

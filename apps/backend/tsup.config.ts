@@ -2,7 +2,7 @@ import { defineConfig, type Options } from "tsup";
 
 export default defineConfig((options: Options) => ({
   entry: ["src/**/*"],
-  noExternal: ["@workspace"],
+  noExternal: [/^@workspace\/.*$/, /^@modules\/.*$/, /^@shared\/.*$/],
   splitting: false,
   bundle: true,
   outDir: "./dist",

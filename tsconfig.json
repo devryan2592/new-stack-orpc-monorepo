@@ -1,4 +1,26 @@
 {
-  "extends": "./shared/typescript-config/base.json"
+  "files": [],
+  "references": [
+    { "path": "modules/feature-auth" },
+    // { "path": "modules/feature-itineraries" },
+    // { "path": "modules/feature-destinations" },
+    { "path": "packages/db" },
+    { "path": "packages/ui" },
+    { "path": "packages/orpc-client" },
+    { "path": "packages/orpc-contract" }
+  ],
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "composite": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": ["modules/*"],
+      "@packages/*": ["packages/*"],
+      "@app/*": ["app/*"]
+    }
+  }
 }
-

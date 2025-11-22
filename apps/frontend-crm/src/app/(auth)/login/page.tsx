@@ -1,4 +1,4 @@
-import { LoginForm } from "@workspace/feature-auth/frontend/forms";
+import { LoginForm } from "@modules/feature-auth/frontend/auth-forms";
 import { Metadata, NextPage } from "next";
 import { DASHBOARD_LINKS, AUTH_LINKS } from "@/lib/links";
 

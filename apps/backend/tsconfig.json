@@ -1,20 +1,16 @@
 {
-  "extends": "../../shared/typescript-config/base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
     "outDir": "dist",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@workspace/feature-auth": ["../../packages/feature-auth/src/index.ts"],
-      "@workspace/feature-auth/*": ["../../packages/feature-auth/src/*"],
-    }
+    "rootDir": "src",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "types": ["node"],
+    "esModuleInterop": true
+
   },
   "include": ["src"],
   "references": [
-    { "path": "../../packages/feature-auth" },
+    { "path": "../../modules/feature-auth" },
   ]
 }

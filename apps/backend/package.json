@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@workspace/feature-auth": "workspace:*",
+    "@modules/feature-auth": "workspace:*",
     "express": "^5.1.0",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
@@ -23,8 +23,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@shared/eslint-config": "workspace:*",
-    "@shared/typescript-config": "workspace:*",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
     "@types/node": "^20.19.9",
     "@types/express": "^5.0.3",
     "@types/archiver": "^7.0.0",
