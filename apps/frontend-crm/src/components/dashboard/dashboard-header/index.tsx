@@ -12,7 +12,7 @@ import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
 import { FC } from "react";
 import DashboardBreadcrumbs from "../dashboard-breadcrumbs";
-import { useAuth } from "@modules/feature-auth/frontend/hooks/use-auth";
+import { useAuth } from "@modules/feature-auth/frontend";
 
 interface DashboardHeaderProps {
   // Add your props here

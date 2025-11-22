@@ -1,10 +1,13 @@
 import { prisma } from "@workspace/db";
-import { Auth, BetterAuthOptions } from "better-auth";
+import { AuthType } from "./auth";
 
 // We will initialize the auth with bootstrap (to check for super user and return the auth instance)
-const bootstrapSuperAdmin = async (auth: Auth<BetterAuthOptions>) => {
-  const users = await prisma.user.count();
-  if (users > 0) return;
+const bootstrapSuperAdmin = async (auth: AuthType) => {
+  const users = await prisma.user.findMany();
+  console.log(users);
+
+  if (users.length > 0) return;
+
   const email = process.env.SUPERADMIN_EMAIL ?? "superadmin@example.com";
   const password = process.env.SUPERADMIN_PASSWORD ?? "ChangeMe123!";
 

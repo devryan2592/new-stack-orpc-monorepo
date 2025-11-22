@@ -1,4 +1,4 @@
-import { RegisterForm } from "@modules/feature-auth/frontend/auth-forms";
+import { RegisterForm } from "@/forms/auth-forms";
 import { Metadata, NextPage } from "next";
 import { AUTH_LINKS } from "@/lib/links";
 

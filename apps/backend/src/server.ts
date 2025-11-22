@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-import { auth } from "@modules/feature-auth/backend";
-import { toNodeHandler } from "@modules/feature-auth";
+import { auth, bootstrapSuperAdmin } from "./auth";
+import { toNodeHandler } from "@workspace/auth";
 import cors from "cors";
 import { corsConfig } from "./config/cors";
 
@@ -17,6 +17,8 @@ app.use("/api/v1/auth", toNodeHandler(auth));
 
 // Apply express.json AFTER Better Auth handler
 app.use(express.json());
+
+bootstrapSuperAdmin(auth);
 
 // RPC Handler
 

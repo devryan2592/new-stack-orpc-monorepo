@@ -1,6 +1,6 @@
 import { Metadata, NextPage } from "next";
 import { AUTH_LINKS } from "@/lib/links";
-import { VerifyEmailForm } from "@modules/feature-auth/frontend/auth-forms";
+import { VerifyEmailForm } from "@/forms/auth-forms";
 
 interface VerifyEmailPageProps {}
 

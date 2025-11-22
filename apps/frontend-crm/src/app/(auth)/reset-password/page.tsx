@@ -1,4 +1,4 @@
-import { ResetPasswordRequestForm } from "@modules/feature-auth/frontend/auth-forms";
+import { ResetPasswordRequestForm } from "@/forms/auth-forms";
 import { Metadata, NextPage } from "next";
 import { AUTH_LINKS } from "@/lib/links";
 

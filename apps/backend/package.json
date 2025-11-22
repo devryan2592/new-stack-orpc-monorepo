@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@modules/feature-auth": "workspace:*",
+    "@workspace/auth": "workspace:*",
+    "@workspace/db": "workspace:*",
     "express": "^5.1.0",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",

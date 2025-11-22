@@ -1,5 +1,6 @@
+import { createAuth } from "@workspace/auth";
+
 import { prisma } from "@workspace/db";
-import { createAuth } from "./auth";
 
 export const auth = createAuth({
   prisma: prisma,
@@ -8,5 +9,4 @@ export const auth = createAuth({
   trustedOrigins: ["http://localhost:3000", "http://localhost:3001"],
 });
 
-export * from "./auth";
-export * from "./bootstrap";
+export type AuthType = typeof auth;

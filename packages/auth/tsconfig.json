@@ -2,7 +2,9 @@
   "extends": "@workspace/typescript-config/internal.json",
   "compilerOptions": {
     "paths": {
-      "@workspace/db/*": ["./src/*"]
+      "@workspace/auth/*": ["./src/*"],
+      "@workspace/db": ["../db/src/index"],
+      "@workspace/*": ["../*/src", "../*/src/index"]
     }
   },
   "include": ["src/**/*"],

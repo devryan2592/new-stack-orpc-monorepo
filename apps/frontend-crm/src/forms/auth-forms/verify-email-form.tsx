@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 import { AppButton } from "@workspace/ui/custom/app-button";
-import { authClient } from "../client";
+import { authClient } from "@/lib/auth-client";
 
 enum VerificationStatus {
   LOADING = "loading",

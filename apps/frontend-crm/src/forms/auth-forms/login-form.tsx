@@ -25,8 +25,8 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { PasswordInput } from "@workspace/ui/custom/password-input";
-import { authClient } from "../client";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 interface LoginFormProps {
   dashboardUrl: string;

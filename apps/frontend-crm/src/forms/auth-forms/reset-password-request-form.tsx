@@ -6,7 +6,12 @@ import { z } from "zod";
 import { toast } from "sonner";
 import Link from "next/link";
 
-import { Field, FieldLabel, FieldError, FieldGroup } from "@workspace/ui/components/field";
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
 import {
   Card,
@@ -17,7 +22,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { AppButton } from "@workspace/ui/custom/app-button";
-import { authClient } from "../client";
+import { authClient } from "@/lib/auth-client";
 
 interface ResetPasswordRequestFormProps {
   updatePasswordUrl: string;

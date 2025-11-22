@@ -24,7 +24,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { PasswordInput } from "@workspace/ui/custom/password-input";
-import { authClient } from "../client";
+import { authClient } from "@/lib/auth-client";
 
 interface RegisterFormProps {
   loginUrl: string;

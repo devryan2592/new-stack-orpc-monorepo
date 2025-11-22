@@ -1,11 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@workspace/typescript-config/nextjs.json",
   "compilerOptions": {
-    "jsx": "preserve",
-    "noEmit": true,
-    "moduleResolution": "Bundler",
-    "allowJs": true,
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@workspace/ui/*": ["../../packages/ui/src/*"],
+      "@workspace/orpc-client/*": ["../../packages/orpc-client/src/*"],
+      "@workspace/orpc-contracts/*": ["../../packages/orpc-contracts/src/*"],
+      "@workspace/text-editor/*": ["../../packages/text-editor/src/*"]
+    },
+    "jsx": "preserve",
     "plugins": [
       {
         "name": "next"
