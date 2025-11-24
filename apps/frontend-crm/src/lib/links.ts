@@ -8,5 +8,25 @@ export const AUTH_LINKS = {
 
 export const DASHBOARD_LINKS = {
   HOME: "/",
-  ACCOUNT: "/account",
+  ACCOUNT: "/settings/account",
+};
+
+export const CRM_LINKS = {
+  HOME: "/crm",
+  LEADS: "/crm/leads",
+  CUSTOMERS: "/crm/customers",
+  QUOTATIONS: "/crm/quotations",
+  USERS: "/crm/users",
+};
+
+export const BACKOFFICE_LINKS = {
+  HOME: "/backoffice",
+  STAFF: "/backoffice/staff",
+  ROLES: "/backoffice/roles",
+};
+
+export const WEBSITE_LINKS = {
+  HOME: "/website",
+  CONTENT: "/website/content",
+  BLOGS: "/website/blogs",
 };

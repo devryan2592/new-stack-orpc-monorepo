@@ -1,6 +1,7 @@
 import { Roboto } from "next/font/google";
 
 import "@workspace/ui/globals.css";
+import { AppProviders } from "@/providers";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${roboto.variable} font-sans antialiased `}>
-        {children}
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@ import { createAuth } from "@workspace/auth";
 
 import { prisma } from "@workspace/db";
 
-export const auth = createAuth({
+export const auth: ReturnType<typeof createAuth> = createAuth({
   prisma: prisma,
   baseURL: "http://localhost:8000",
   basePath: "/api/v1/auth",

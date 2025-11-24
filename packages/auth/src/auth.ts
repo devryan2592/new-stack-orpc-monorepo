@@ -103,6 +103,44 @@ export function createAuth(config: AuthConfig): ReturnType<typeof betterAuth> {
         };
       },
     },
+    databaseHooks: {
+      user: {
+        create: {
+          after: async (user) => {
+            // Create User Profile
+            await config.prisma.userProfile.create({
+              data: {
+                userId: user.id,
+                email: user.email,
+                name: user.name,
+              },
+            });
+
+            // Assign Default "User" Role
+            let userRole = await config.prisma.role.findUnique({
+              where: { name: "user" },
+            });
+
+            if (!userRole) {
+              userRole = await config.prisma.role.create({
+                data: {
+                  name: "user",
+                  label: "User",
+                  description: "Standard user role",
+                },
+              });
+            }
+
+            await config.prisma.userRole.create({
+              data: {
+                userId: user.id,
+                roleId: userRole.id,
+              },
+            });
+          },
+        },
+      },
+    },
     plugins: [openAPI(), expo()],
   });
 }

@@ -1,31 +1,65 @@
-"use client";
-import { FC } from "react";
 import { cn } from "@workspace/ui/lib/utils";
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import React, { FC, HTMLAttributes } from "react";
+import DashboardHeader from "../dashboard-header";
 
-interface DashboardLayoutProps {
-  // Add your props here
-  children?: React.ReactNode;
+interface DashboardLayoutProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
 }
 
-const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
-  const isMobile = useIsMobile();
-
+const DashboardLayoutRoot: FC<DashboardLayoutProps> = ({
+  children,
+  className,
+  ...props
+}) => {
   return (
-    <main
-      className={cn(
-        "relative h-full transition-all duration-300 ease-in-out",
-        // Desktop: header is 64px (h-16), collapsed sidebar makes it 48px (h-12)
-        "max-h-[calc(100vh-4rem)] mt-16 group-has-data-[collapsible=icon]/sidebar-wrapper:max-h-[calc(100vh-3rem)] group-has-data-[collapsible=icon]/sidebar-wrapper:mt-12",
-        // Mobile: header is always 48px (h-12)
-        isMobile && "max-h-[calc(100vh-3rem)] mt-12"
-      )}
+    <div
+      className={cn("flex flex-col h-full w-full overflow-hidden", className)}
+      {...props}
     >
-      <div className="absolute top-0 right-0 bottom-0 left-0 overflow-y-auto no-scrollbar m-4">
-        {children}
-      </div>
-    </main>
+      <DashboardHeader />
+      {children}
+    </div>
   );
 };
+
+interface DashboardLayoutBodyProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+const DashboardLayoutBody: FC<DashboardLayoutBodyProps> = ({
+  children,
+  className,
+  ...props
+}) => {
+  return (
+    <div className={cn("flex-1 overflow-y-auto p-4", className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+interface DashboardLayoutFooterProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+const DashboardLayoutFooter: FC<DashboardLayoutFooterProps> = ({
+  children,
+  className,
+  ...props
+}) => {
+  return (
+    <div
+      className={cn("shrink-0 border-t bg-background p-4 z-10", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+const DashboardLayout = Object.assign(DashboardLayoutRoot, {
+  Body: DashboardLayoutBody,
+  Footer: DashboardLayoutFooter,
+});
 
 export default DashboardLayout;

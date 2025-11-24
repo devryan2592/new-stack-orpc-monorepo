@@ -16,7 +16,10 @@
     "@types/uuid": "^10.0.0"
   },
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
     "./contracts/*": "./dist/contracts/*",
     "./inputs/*": "./dist/inputs/*",
     "./outputs/*": "./dist/outputs/*",

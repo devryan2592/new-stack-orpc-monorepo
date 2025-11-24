@@ -7,12 +7,13 @@ import {
   AvatarImage,
 } from "@workspace/ui/components/avatar";
 import { Separator } from "@workspace/ui/components/separator";
-import { SidebarTrigger } from "@workspace/ui/components/sidebar";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
 import { FC } from "react";
-import DashboardBreadcrumbs from "../dashboard-breadcrumbs";
-import { useAuth } from "@modules/feature-auth/frontend";
+import { useAuth } from "@/hooks/use-auth";
+import DashboardModules from "../dashboard-modules";
+import DashboardSidebarToggle from "../dashboard-sidebar/sidebar-toggle";
+import { SidebarTrigger, useSidebar } from "@workspace/ui/components/sidebar";
 
 interface DashboardHeaderProps {
   // Add your props here
@@ -21,9 +22,7 @@ interface DashboardHeaderProps {
 
 const DashboardHeader: FC<DashboardHeaderProps> = ({ children }) => {
   const { user } = useAuth();
-  const isMobile = useIsMobile();
-
-  console.log(user);
+  const { isMobile, open, openMobile } = useSidebar();
 
   // Generate initials from user name
   const getInitials = (name: string) => {
@@ -45,20 +44,20 @@ const DashboardHeader: FC<DashboardHeaderProps> = ({ children }) => {
   return (
     <header
       className={cn(
-        "fixed top-0 right-0 left-0 flex border-b border-border shrink-0 items-center gap-2 z-10 bg-background transition-all duration-300 ease-in-out",
-        // Desktop: default height 64px, collapsed sidebar makes it 48px, left margin 256px, collapsed makes it 48px
-        "h-16 ml-64 group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 group-has-data-[collapsible=icon]/sidebar-wrapper:ml-12",
-        // Mobile: always height 48px, no left margin
-        isMobile && "ml-0 h-12"
+        "flex w-full border-b border-border shrink-0 items-center gap-2 bg-background transition-all duration-300 ease-in-out",
+        "h-16",
+        (isMobile || open === false) && "h-12"
       )}
     >
       <div className="flex items-center gap-2 px-4">
-        <SidebarTrigger className="-ml-1" />
-        <Separator
-          orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4 "
-        />
-        <DashboardBreadcrumbs />
+        <div className="relative h-full flex items-center">
+          {/* <DashboardSidebarToggle /> */}
+          <SidebarTrigger />
+        </div>
+        <div className="flex items-center gap-2">
+          {/* We will add modules here */}
+          <DashboardModules />
+        </div>
       </div>
       <div className="ml-auto flex items-center gap-2 px-4">
         <ThemeToggle />

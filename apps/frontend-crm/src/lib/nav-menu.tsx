@@ -9,9 +9,22 @@ import {
   Users,
   FileText,
   Plus,
+  LayoutDashboard,
+  Contact,
+  UserCircle,
+  Shield,
+  Globe,
 } from "lucide-react";
 import { IconType } from "react-icons";
-import { TbBeach } from "react-icons/tb";
+import { AuthUser } from "@/hooks/use-auth";
+import { isAdmin } from "@/lib/auth-utils";
+import {
+  BACKOFFICE_LINKS,
+  CRM_LINKS,
+  DASHBOARD_LINKS,
+  WEBSITE_LINKS,
+} from "./links";
+import { MODULES, ModuleId } from "./modules";
 
 type NavMenuItem = {
   title: string;
@@ -26,54 +39,75 @@ type NavMenuGroup = {
   items: NavMenuItem[];
 };
 
-export const getMenuList = (): NavMenuGroup[] => {
-  return [
-    {
-      groupLabel: "Main",
-      items: [
-        { title: "Dashboard", url: "/", icon: Home },
+export const getMenuList = (
+  moduleId: ModuleId,
+  user?: AuthUser
+): NavMenuGroup[] => {
+  switch (moduleId) {
+    case MODULES.CRM:
+      return [
         {
-          title: "Blogs",
-          icon: NotebookPen,
+          groupLabel: "CRM",
+          items: [
+            { title: "Dashboard", url: CRM_LINKS.HOME, icon: LayoutDashboard },
+            { title: "Leads", url: CRM_LINKS.LEADS, icon: Contact },
+            { title: "Customers", url: CRM_LINKS.CUSTOMERS, icon: Users },
+            { title: "Quotations", url: CRM_LINKS.QUOTATIONS, icon: FileText },
+          ],
+        },
+        ...(isAdmin(user)
+          ? [
+              {
+                groupLabel: "Management",
+                items: [
+                  { title: "Users", url: CRM_LINKS.USERS, icon: UserCircle },
+                ],
+              },
+            ]
+          : []),
+      ];
+    case MODULES.BACKOFFICE:
+      return [
+        {
+          groupLabel: "Backoffice",
           items: [
             {
-              title: "View Blogs",
-              url: "/blogs",
+              title: "Dashboard",
+              url: BACKOFFICE_LINKS.HOME,
+              icon: LayoutDashboard,
             },
+            { title: "Staff", url: BACKOFFICE_LINKS.STAFF, icon: Briefcase },
+            { title: "Roles", url: BACKOFFICE_LINKS.ROLES, icon: Shield },
+          ],
+        },
+      ];
+    case MODULES.WEBSITE:
+      return [
+        {
+          groupLabel: "Website",
+          items: [
             {
-              title: "Add Blog",
-              url: "/blogs/add",
+              title: "Dashboard",
+              url: WEBSITE_LINKS.HOME,
+              icon: LayoutDashboard,
             },
+            { title: "Content", url: WEBSITE_LINKS.CONTENT, icon: Globe },
             {
-              title: "Categories",
-              url: "/blogs/categories",
-            },
-            {
-              title: "Tags",
-              url: "/blogs/tags",
+              title: "Blogs",
+              icon: NotebookPen,
+              items: [
+                {
+                  title: "All Blogs",
+                  url: WEBSITE_LINKS.BLOGS,
+                },
+              ],
             },
           ],
         },
-      ],
-    },
-    {
-      groupLabel: "User Management",
-      items: [{ title: "Users", url: "/users", icon: Users }],
-    },
-
-    {
-      groupLabel: "Library",
-      items: [{ title: "Image Gallery", url: "/gallery", icon: Image }],
-    },
-
-    {
-      groupLabel: "Settings",
-      items: [
-        { title: "Backup & Restore", url: "/settings/backup", icon: Settings },
-        { title: "Site Settings", url: "/settings/site", icon: Settings },
-      ],
-    },
-  ];
+      ];
+    default:
+      return [];
+  }
 };
 
 export type { NavMenuItem, NavMenuGroup };

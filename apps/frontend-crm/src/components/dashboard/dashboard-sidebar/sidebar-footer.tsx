@@ -31,6 +31,8 @@ import Link from "next/link";
 import { FC } from "react";
 import { useRouter } from "next/navigation";
 import { AUTH_LINKS, DASHBOARD_LINKS } from "@/lib/links";
+import { useMe } from "@workspace/orpc-client";
+import { authClient } from "@/lib/auth-client";
 
 interface SidebarFooterProps {
   // Add your props here
@@ -40,6 +42,7 @@ interface SidebarFooterProps {
 const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
   const router = useRouter();
   const { isMobile } = useSidebar();
+  const { data: user } = useMe();
 
   // Generate initials from user name
   const getInitials = (name: string) => {
@@ -51,17 +54,12 @@ const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
       .slice(0, 2);
   };
 
-  // Default user data for development when auth is disabled
-  const displayUser = {
-    name: "Development User",
-    email: "dev@example.com",
-    image: undefined,
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    router.push(AUTH_LINKS.LOGIN);
   };
 
-  const handleSignOut = async () => {
-    // Only attempt sign out if user is actually authenticated
-    console.log("Sign Out");
-  };
+  if (!user) return null;
 
   return (
     <Footer>
@@ -74,21 +72,16 @@ const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
               >
                 <Avatar className="h-8 w-8 rounded-lg">
-                  {displayUser.image && (
-                    <AvatarImage
-                      src={displayUser.image}
-                      alt={displayUser.name}
-                    />
+                  {user.image && (
+                    <AvatarImage src={user.image} alt={user.name} />
                   )}
                   <AvatarFallback className="rounded-lg">
-                    {getInitials(displayUser.name)}
+                    {getInitials(user.name)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    {displayUser.name}
-                  </span>
-                  <span className="truncate text-xs">{displayUser.email}</span>
+                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate text-xs">{user.email}</span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4" />
               </SidebarMenuButton>
@@ -102,23 +95,16 @@ const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
-                    {displayUser.image && (
-                      <AvatarImage
-                        src={displayUser.image}
-                        alt={displayUser.name}
-                      />
+                    {user.image && (
+                      <AvatarImage src={user.image} alt={user.name} />
                     )}
                     <AvatarFallback className="rounded-lg">
-                      {getInitials(displayUser.name)}
+                      {getInitials(user.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">
-                      {displayUser.name}
-                    </span>
-                    <span className="truncate text-xs">
-                      {displayUser.email}
-                    </span>
+                    <span className="truncate font-medium">{user.name}</span>
+                    <span className="truncate text-xs">{user.email}</span>
                   </div>
                 </div>
               </DropdownMenuLabel>

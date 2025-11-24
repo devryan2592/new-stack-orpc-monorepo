@@ -1,4 +1,5 @@
 import { getMenuList, NavMenuItem } from "@/lib/nav-menu";
+import { MODULES, ModuleId } from "@/lib/modules";
 import {
   Collapsible,
   CollapsibleContent,
@@ -20,14 +21,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC } from "react";
 
+import { useAuth } from "@/hooks/use-auth";
+
 interface SidebarNavProps {
   // Add your props here
   children?: React.ReactNode;
 }
 
 const SidebarNav: FC<SidebarNavProps> = ({ children }) => {
-  const menuGroups = getMenuList();
+  const { user } = useAuth();
   const pathname = usePathname();
+
+  const getModuleId = (path: string): ModuleId => {
+    if (path.startsWith("/crm")) return MODULES.CRM;
+    if (path.startsWith("/backoffice")) return MODULES.BACKOFFICE;
+    if (path.startsWith("/website")) return MODULES.WEBSITE;
+    return MODULES.CRM; // Default to CRM
+  };
+
+  const moduleId = getModuleId(pathname);
+  const menuGroups = getMenuList(moduleId, user);
 
   const isPathActive = (url?: string, exact: boolean = false) => {
     if (!url) return false;

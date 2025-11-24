@@ -1,16 +1,21 @@
 {
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "composite": true,
-    "declaration": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "incremental": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@shared/orpc-client/*": ["./src/*"]
+      "@workspace/orpc-client/*": ["./src/*"],
+      "@workspace/orpc-contract/*": ["../orpc-contract/src/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

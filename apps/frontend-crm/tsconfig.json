@@ -6,7 +6,7 @@
       "@/*": ["./src/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"],
       "@workspace/orpc-client/*": ["../../packages/orpc-client/src/*"],
-      "@workspace/orpc-contracts/*": ["../../packages/orpc-contracts/src/*"],
+      "@workspace/orpc-contract/*": ["../../packages/orpc-contract/src/*"],
       "@workspace/text-editor/*": ["../../packages/text-editor/src/*"]
     },
     "jsx": "preserve",

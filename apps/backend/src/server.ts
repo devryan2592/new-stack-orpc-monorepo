@@ -1,9 +1,10 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-import { auth, bootstrapSuperAdmin } from "./auth";
+import { auth, bootstrapSuperAdmin, bootstrapPermissions } from "./auth";
 import { toNodeHandler } from "@workspace/auth";
 import cors from "cors";
 import { corsConfig } from "./config/cors";
+import { CORSPlugin } from "@orpc/server/plugins";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,12 +20,24 @@ app.use("/api/v1/auth", toNodeHandler(auth));
 app.use(express.json());
 
 bootstrapSuperAdmin(auth);
+bootstrapPermissions(["destination", "attraction", "tour", "blog", "user"]);
 
-// RPC Handler
+// ORPC Handler
+import { RPCHandler } from "@orpc/server/node";
+import { router } from "./router";
+import { createORPCContext } from "./context";
 
-// OpenAPI Handler
+const rpcHandler = new RPCHandler(router, {
+  plugins: [new CORSPlugin(corsConfig)],
+});
 
-//  ORPC routes
+app.use("/api/v1/orpc", async (req, res, next) => {
+  const context = await createORPCContext({ req, res });
+  await rpcHandler.handle(req, res, {
+    prefix: "/api/v1/orpc",
+    context,
+  });
+});
 
 // Health check endpoint
 app.get("/health", (req, res) => {

@@ -1,16 +1,10 @@
 {
-  "extends": "@workspace/typescript-config/base.json",
+  "extends": "@workspace/typescript-config/internal.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "composite": true,
-    "declaration": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "baseUrl": ".",
     "paths": {
-      "@shared/orpc-contract/*": ["./src/*"]
+      "@workspace/orpc-contracts/*": ["./src/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

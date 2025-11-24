@@ -67,7 +67,7 @@ const DashboardBreadcrumbs: FC = () => {
   const shouldShowDropdown = breadcrumbs.length > 3;
 
   return (
-    <Breadcrumb className="hidden sm:inline w-fit">
+    <Breadcrumb className="w-fit border p-2">
       <BreadcrumbList>
         {/* Home breadcrumb */}
         <BreadcrumbItem>
