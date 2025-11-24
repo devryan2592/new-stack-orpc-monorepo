@@ -17,7 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
-import { UserForm } from "@/forms/user-form";
+import { UserForm } from "@/forms/app-forms/user-form";
 import { useState, useEffect } from "react";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";

@@ -2,10 +2,10 @@
 
 import DashboardPageHeader from "@/components/dashboard/dashboard-page-header";
 import { NextPage } from "next";
-import { RolesList } from "./roles-list";
 import DashboardLayout from "@/components/dashboard/dashboard-layout";
 import { AppButton } from "@workspace/ui/custom/app-button";
-import { RolesDialogForm } from "../../../../forms/roles-dialog-form";
+import { RolesDataTable } from "@/datatables/roles-data-table";
+import { RolesDialogForm } from "@/forms/dialog-forms/roles-dialog-form";
 
 const RolesPage: NextPage = () => {
   return (
@@ -20,7 +20,7 @@ const RolesPage: NextPage = () => {
             </RolesDialogForm>
           }
         />
-        <RolesList />
+        <RolesDataTable />
       </DashboardLayout.Body>
     </DashboardLayout>
   );
