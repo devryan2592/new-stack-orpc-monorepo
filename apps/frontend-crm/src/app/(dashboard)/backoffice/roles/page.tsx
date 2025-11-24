@@ -1,18 +1,28 @@
+"use client";
+
 import DashboardPageHeader from "@/components/dashboard/dashboard-page-header";
 import { NextPage } from "next";
 import { RolesList } from "./roles-list";
+import DashboardLayout from "@/components/dashboard/dashboard-layout";
+import { AppButton } from "@workspace/ui/custom/app-button";
+import { RolesDialogForm } from "../../../../forms/roles-dialog-form";
 
 const RolesPage: NextPage = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <DashboardPageHeader
-        title="Roles"
-        description="Manage roles and permissions"
-      />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+    <DashboardLayout>
+      <DashboardLayout.Body>
+        <DashboardPageHeader
+          title="Roles"
+          description="Manage roles and permissions"
+          actions={
+            <RolesDialogForm>
+              <AppButton variant="default">New Role</AppButton>
+            </RolesDialogForm>
+          }
+        />
         <RolesList />
-      </div>
-    </div>
+      </DashboardLayout.Body>
+    </DashboardLayout>
   );
 };
 

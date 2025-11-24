@@ -12,7 +12,6 @@ import { cn } from "@workspace/ui/lib/utils";
 import { FC } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import DashboardModules from "../dashboard-modules";
-import DashboardSidebarToggle from "../dashboard-sidebar/sidebar-toggle";
 import { SidebarTrigger, useSidebar } from "@workspace/ui/components/sidebar";
 
 interface DashboardHeaderProps {

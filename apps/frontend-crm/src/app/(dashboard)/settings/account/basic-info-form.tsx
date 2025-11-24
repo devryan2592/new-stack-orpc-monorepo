@@ -7,15 +7,14 @@ import {
   UpdateProfileInput,
 } from "@workspace/orpc-contract/inputs/profile";
 import { useUpdateMe, useMe } from "@workspace/orpc-client";
+import { Form } from "@workspace/ui/components/form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@workspace/ui/components/form";
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from "@workspace/ui/components/field";
+import { Controller } from "react-hook-form";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import { Textarea } from "@workspace/ui/components/textarea";
@@ -83,40 +82,36 @@ export function BasicInfoForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 items-start">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FieldGroup>
+              <div className="grid gap-6 md:grid-cols-2 items-start">
+                <Field>
+                  <FieldLabel>Full Name</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
                       <Input placeholder="Your name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.name]} />
+                </Field>
+                <Field>
+                  <FieldLabel>Email</FieldLabel>
                   <Input value={user?.email || ""} disabled />
-                </FormControl>
-                <FormDescription className="text-xs text-indigo-400">
-                  Email cannot be changed.
-                </FormDescription>
-              </FormItem>
-            </div>
+                  <p className="text-xs text-indigo-400 mt-1">
+                    Email cannot be changed.
+                  </p>
+                </Field>
+              </div>
 
-            <div className="grid gap-4 md:grid-cols-2 items-start">
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
+              <div className="grid gap-6 md:grid-cols-2 items-start">
+                <Field>
+                  <FieldLabel>Phone</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
                       <PhoneInput
                         value={field.value as any}
                         onChange={(value) => field.onChange(value || "")}
@@ -125,18 +120,16 @@ export function BasicInfoForm() {
                         onBlur={field.onBlur}
                         defaultCountry="US"
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="altPhone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Alternative Phone</FormLabel>
-                    <FormControl>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.phone]} />
+                </Field>
+                <Field>
+                  <FieldLabel>Alternative Phone</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="altPhone"
+                    render={({ field }) => (
                       <PhoneInput
                         value={field.value as any}
                         onChange={(value) => field.onChange(value || "")}
@@ -145,44 +138,40 @@ export function BasicInfoForm() {
                         onBlur={field.onBlur}
                         defaultCountry="US"
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.altPhone]} />
+                </Field>
+              </div>
 
-            <FormField
-              control={form.control}
-              name="bio"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bio</FormLabel>
-                  <FormControl>
+              <Field>
+                <FieldLabel>Bio</FieldLabel>
+                <Controller
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
                     <Textarea
                       placeholder="Tell us about yourself"
                       className="resize-none"
                       {...field}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  )}
+                />
+                <FieldError errors={[form.formState.errors.bio]} />
+              </Field>
 
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
+              <Field>
+                <FieldLabel>Address</FieldLabel>
+                <Controller
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
                     <Input placeholder="Your address" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  )}
+                />
+                <FieldError errors={[form.formState.errors.address]} />
+              </Field>
+            </FieldGroup>
             <div className="flex justify-end pt-4">
               <Button type="submit" disabled={updateMe.isPending}>
                 {updateMe.isPending ? "Saving..." : "Save Changes"}

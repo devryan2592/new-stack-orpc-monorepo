@@ -16,5 +16,9 @@ export const UpdateRoleInput = z.object({
 
 export const AssignRoleInput = z.object({
   userId: z.string(),
-  roleId: z.string(),
+  roleIds: z.array(z.string()),
 });
+
+export type CreateRoleInputType = z.input<typeof CreateRoleInput>;
+export type UpdateRoleInputType = z.input<typeof UpdateRoleInput>;
+export type AssignRoleInputType = z.input<typeof AssignRoleInput>;

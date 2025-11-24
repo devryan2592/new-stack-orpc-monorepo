@@ -13,4 +13,4 @@ export const UpdateProfileInputSchema = z.object({
   linkedin: z.string().optional(),
 });
 
-export type UpdateProfileInput = z.infer<typeof UpdateProfileInputSchema>;
+export type UpdateProfileInputType = z.input<typeof UpdateProfileInputSchema>;

@@ -16,7 +16,7 @@ const DashboardPageHeader: FC<DashboardPageHeaderProps> = ({
   actions,
 }) => {
   return (
-    <div className="flex flex-col gap-4 md:gap-8  sm:flex-row sm:justify-between sm:items-center">
+    <div className="flex flex-col gap-4 md:gap-8  sm:flex-row sm:justify-between sm:items-center pb-6">
       <div className="flex flex-col">
         <h1 className="text-xl lg:text-3xl font-bold tracking-tight">
           {title}

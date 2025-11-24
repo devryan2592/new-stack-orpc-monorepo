@@ -1,9 +1,10 @@
 import { oc } from "@orpc/contract";
 import { z } from "zod";
-import { CreateUserInputSchema, ListUsersInputSchema } from "../inputs/users";
+import { CreateUserInput, ListUsersInput } from "../inputs/users";
 import { UserOutput } from "../outputs/users";
 
 import { UpdateProfileInputSchema } from "../inputs/profile";
+import { ApiResponse, SuccessResponse } from "../utils/api";
 
 export const usersContract = oc.router({
   me: oc
@@ -13,7 +14,7 @@ export const usersContract = oc.router({
       tags: ["Users"],
       summary: "Get current user profile",
     })
-    .output(UserOutput),
+    .output(ApiResponse(UserOutput)),
 
   updateMe: oc
     .route({
@@ -23,7 +24,7 @@ export const usersContract = oc.router({
       summary: "Update current user profile",
     })
     .input(z.object({ body: UpdateProfileInputSchema }))
-    .output(UserOutput),
+    .output(ApiResponse(UserOutput)),
 
   create: oc
     .route({
@@ -32,8 +33,8 @@ export const usersContract = oc.router({
       tags: ["Users"],
       summary: "Create a new user",
     })
-    .input(z.object({ body: CreateUserInputSchema }))
-    .output(UserOutput),
+    .input(z.object({ body: CreateUserInput }))
+    .output(ApiResponse(UserOutput)),
 
   list: oc
     .route({
@@ -42,14 +43,15 @@ export const usersContract = oc.router({
       tags: ["Users"],
       summary: "List all users",
     })
-    .input(z.object({ query: ListUsersInputSchema }))
+    .input(z.object({ query: ListUsersInput }))
     .output(
-      z.object({
-        users: z.array(UserOutput),
-        total: z.number(),
-      })
+      ApiResponse(
+        z.object({
+          users: z.array(UserOutput),
+          total: z.number(),
+        })
+      )
     ),
-
   delete: oc
     .route({
       method: "DELETE",
@@ -58,5 +60,5 @@ export const usersContract = oc.router({
       summary: "Delete a user",
     })
     .input(z.object({ params: z.object({ id: z.string() }) }))
-    .output(z.object({ success: z.boolean() })),
+    .output(SuccessResponse),
 });

@@ -7,14 +7,14 @@ import {
   UpdateProfileInput,
 } from "@workspace/orpc-contract/inputs/profile";
 import { useUpdateMe, useMe } from "@workspace/orpc-client";
+import { Form } from "@workspace/ui/components/form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@workspace/ui/components/form";
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from "@workspace/ui/components/field";
+import { Controller } from "react-hook-form";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import { useEffect } from "react";
@@ -77,61 +77,55 @@ export function SocialProfilesForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 items-start">
-              <FormField
-                control={form.control}
-                name="facebook"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Facebook</FormLabel>
-                    <FormControl>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FieldGroup>
+              <div className="grid gap-6 md:grid-cols-2 items-start">
+                <Field>
+                  <FieldLabel>Facebook</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="facebook"
+                    render={({ field }) => (
                       <Input placeholder="Facebook profile URL" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="instagram"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Instagram</FormLabel>
-                    <FormControl>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.facebook]} />
+                </Field>
+                <Field>
+                  <FieldLabel>Instagram</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="instagram"
+                    render={({ field }) => (
                       <Input placeholder="Instagram profile URL" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="twitter"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Twitter</FormLabel>
-                    <FormControl>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.instagram]} />
+                </Field>
+                <Field>
+                  <FieldLabel>Twitter</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="twitter"
+                    render={({ field }) => (
                       <Input placeholder="Twitter profile URL" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="linkedin"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>LinkedIn</FormLabel>
-                    <FormControl>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.twitter]} />
+                </Field>
+                <Field>
+                  <FieldLabel>LinkedIn</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="linkedin"
+                    render={({ field }) => (
                       <Input placeholder="LinkedIn profile URL" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    )}
+                  />
+                  <FieldError errors={[form.formState.errors.linkedin]} />
+                </Field>
+              </div>
+            </FieldGroup>
             <div className="flex justify-end pt-4">
               <Button type="submit" disabled={updateMe.isPending}>
                 {updateMe.isPending ? "Saving..." : "Save Changes"}
