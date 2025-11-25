@@ -32,7 +32,9 @@ export default function AvatarInput({
     accept: "image/*",
     onFilesChange: (files) => {
       if (onChange) {
-        onChange(files[0]?.file || null);
+        const file = files[0]?.file;
+        if (!file) return;
+        onChange(file);
       }
     },
   });

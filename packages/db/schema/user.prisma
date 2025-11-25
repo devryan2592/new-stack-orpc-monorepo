@@ -10,6 +10,8 @@ model User {
   accounts      Account[]
   userProfile   UserProfile?
   userRoles     UserRole[]
+  galleryFolders GalleryFolder[]
+  galleryFiles   GalleryFile[]
 
   @@unique([email])
   @@map("user")

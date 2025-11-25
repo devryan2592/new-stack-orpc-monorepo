@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { MODULE_LIST, ModuleId } from "@/lib/modules";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import {
   Select,
   SelectContent,
@@ -54,7 +54,7 @@ const DashboardModules: FC<DashboardModulesProps> = ({ className }) => {
       {MODULE_LIST.map((module) => {
         const isActive = pathname.startsWith(`/${module.id}`);
         return (
-          <Button
+          <AppButton
             key={module.id}
             variant={isActive ? "secondary" : "ghost"}
             size="sm"
@@ -65,7 +65,7 @@ const DashboardModules: FC<DashboardModulesProps> = ({ className }) => {
             )}
           >
             {module.label}
-          </Button>
+          </AppButton>
         );
       })}
     </div>

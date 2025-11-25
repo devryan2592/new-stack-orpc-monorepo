@@ -53,6 +53,7 @@ export const getMenuList = (
             { title: "Leads", url: CRM_LINKS.LEADS, icon: Contact },
             { title: "Customers", url: CRM_LINKS.CUSTOMERS, icon: Users },
             { title: "Quotations", url: CRM_LINKS.QUOTATIONS, icon: FileText },
+            { title: "Gallery", url: CRM_LINKS.GALLERY, icon: Image },
           ],
         },
         ...(isAdmin(user)

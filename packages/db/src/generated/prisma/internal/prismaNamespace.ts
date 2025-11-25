@@ -385,6 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Account: 'Account',
+  GalleryFolder: 'GalleryFolder',
+  GalleryFile: 'GalleryFile',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Role: 'Role',
@@ -408,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "permission" | "rolePermission" | "role" | "session" | "userProfile" | "userRole" | "user" | "verification"
+    modelProps: "account" | "galleryFolder" | "galleryFile" | "permission" | "rolePermission" | "role" | "session" | "userProfile" | "userRole" | "user" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -483,6 +485,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AccountCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AccountCountAggregateOutputType> | number
+        }
+      }
+    }
+    GalleryFolder: {
+      payload: Prisma.$GalleryFolderPayload<ExtArgs>
+      fields: Prisma.GalleryFolderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GalleryFolderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GalleryFolderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>
+        }
+        findFirst: {
+          args: Prisma.GalleryFolderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GalleryFolderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>
+        }
+        findMany: {
+          args: Prisma.GalleryFolderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>[]
+        }
+        create: {
+          args: Prisma.GalleryFolderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>
+        }
+        createMany: {
+          args: Prisma.GalleryFolderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GalleryFolderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>[]
+        }
+        delete: {
+          args: Prisma.GalleryFolderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>
+        }
+        update: {
+          args: Prisma.GalleryFolderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>
+        }
+        deleteMany: {
+          args: Prisma.GalleryFolderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GalleryFolderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GalleryFolderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>[]
+        }
+        upsert: {
+          args: Prisma.GalleryFolderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFolderPayload>
+        }
+        aggregate: {
+          args: Prisma.GalleryFolderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGalleryFolder>
+        }
+        groupBy: {
+          args: Prisma.GalleryFolderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GalleryFolderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GalleryFolderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GalleryFolderCountAggregateOutputType> | number
+        }
+      }
+    }
+    GalleryFile: {
+      payload: Prisma.$GalleryFilePayload<ExtArgs>
+      fields: Prisma.GalleryFileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GalleryFileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GalleryFileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>
+        }
+        findFirst: {
+          args: Prisma.GalleryFileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GalleryFileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>
+        }
+        findMany: {
+          args: Prisma.GalleryFileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>[]
+        }
+        create: {
+          args: Prisma.GalleryFileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>
+        }
+        createMany: {
+          args: Prisma.GalleryFileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GalleryFileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>[]
+        }
+        delete: {
+          args: Prisma.GalleryFileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>
+        }
+        update: {
+          args: Prisma.GalleryFileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>
+        }
+        deleteMany: {
+          args: Prisma.GalleryFileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GalleryFileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GalleryFileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>[]
+        }
+        upsert: {
+          args: Prisma.GalleryFileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GalleryFilePayload>
+        }
+        aggregate: {
+          args: Prisma.GalleryFileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGalleryFile>
+        }
+        groupBy: {
+          args: Prisma.GalleryFileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GalleryFileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GalleryFileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GalleryFileCountAggregateOutputType> | number
         }
       }
     }
@@ -1136,6 +1286,34 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
+export const GalleryFolderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  parentId: 'parentId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GalleryFolderScalarFieldEnum = (typeof GalleryFolderScalarFieldEnum)[keyof typeof GalleryFolderScalarFieldEnum]
+
+
+export const GalleryFileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  type: 'type',
+  size: 'size',
+  publicId: 'publicId',
+  folderId: 'folderId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GalleryFileScalarFieldEnum = (typeof GalleryFileScalarFieldEnum)[keyof typeof GalleryFileScalarFieldEnum]
+
+
 export const PermissionScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1302,13 +1480,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1319,6 +1490,27 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1401,6 +1593,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
+  galleryFolder?: Prisma.GalleryFolderOmit
+  galleryFile?: Prisma.GalleryFileOmit
   permission?: Prisma.PermissionOmit
   rolePermission?: Prisma.RolePermissionOmit
   role?: Prisma.RoleOmit

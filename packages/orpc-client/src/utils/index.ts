@@ -20,6 +20,44 @@ export function usePermissionsQueryInvalidator() {
   return;
 }
 
-//  Roles CLient
+// Roles Client
+export function useRolesClient() {
+  return createTanstackQueryUtils(client.roles, {
+    path: ["roles"],
+  });
+}
 
-//  Users Client
+export function useRolesQueryInvalidator() {
+  const rolesClient = useRolesClient();
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateAll: () =>
+      queryClient.invalidateQueries({
+        queryKey: rolesClient.list.key(),
+      }),
+  };
+}
+
+// Users Client
+export function useUsersClient() {
+  return createTanstackQueryUtils(client.users, {
+    path: ["users"],
+  });
+}
+
+export function useUsersQueryInvalidator() {
+  const usersClient = useUsersClient();
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateAll: () =>
+      queryClient.invalidateQueries({
+        queryKey: usersClient.list.key(),
+      }),
+    invalidateMe: () =>
+      queryClient.invalidateQueries({
+        queryKey: usersClient.me.key(),
+      }),
+  };
+}

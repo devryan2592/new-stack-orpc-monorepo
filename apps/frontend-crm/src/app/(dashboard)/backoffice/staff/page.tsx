@@ -1,19 +1,28 @@
+"use client";
+
 import DashboardPageHeader from "@/components/dashboard/dashboard-page-header";
 import { NextPage } from "next";
+import DashboardLayout from "@/components/dashboard/dashboard-layout";
+import { AppButton } from "@workspace/ui/custom/app-button";
+import { StaffDataTable } from "@/app/(dashboard)/backoffice/staff/_datatable";
+import { UsersDialogForm } from "@/app/(dashboard)/backoffice/staff/_forms/users-dialog-form";
 
 const StaffPage: NextPage = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <DashboardPageHeader title="Staff" description="Manage staff members" />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <div className="h-96 w-96 bg-gray-300" />
-        <div className="h-96 w-96 bg-gray-300" />
-        <div className="h-96 w-96 bg-gray-300" />
-        <div className="h-96 w-96 bg-gray-300" />
-        <div className="h-96 w-96 bg-gray-300" />
-        <div className="h-96 w-96 bg-gray-300" />
-      </div>
-    </div>
+    <DashboardLayout>
+      <DashboardLayout.Body>
+        <DashboardPageHeader
+          title="Staff"
+          description="Manage staff members"
+          actions={
+            <UsersDialogForm>
+              <AppButton variant="default">New Staff</AppButton>
+            </UsersDialogForm>
+          }
+        />
+        <StaffDataTable />
+      </DashboardLayout.Body>
+    </DashboardLayout>
   );
 };
 

@@ -20,11 +20,12 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader: FC<DashboardHeaderProps> = ({ children }) => {
-  const { user } = useAuth();
+  const { user: UserData } = useAuth();
   const { isMobile, open, openMobile } = useSidebar();
 
   // Generate initials from user name
-  const getInitials = (name: string) => {
+  const getInitials = (name?: string) => {
+    if (!name) return "U";
     return name
       .split(" ")
       .map((n) => n[0])
@@ -34,7 +35,7 @@ const DashboardHeader: FC<DashboardHeaderProps> = ({ children }) => {
   };
 
   // Default user data for development when auth is disabled
-  const displayUser = user || {
+  const displayUser = UserData?.data || {
     name: "Development User",
     email: "dev@example.com",
     image: undefined,

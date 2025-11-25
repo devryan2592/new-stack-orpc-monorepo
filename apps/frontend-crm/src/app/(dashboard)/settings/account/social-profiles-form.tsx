@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   UpdateProfileInputSchema,
-  UpdateProfileInput,
+  UpdateProfileInputType,
 } from "@workspace/orpc-contract/inputs/profile";
 import { useUpdateMe, useMe } from "@workspace/orpc-client";
 import { Form } from "@workspace/ui/components/form";
@@ -16,7 +16,7 @@ import {
 } from "@workspace/ui/components/field";
 import { Controller } from "react-hook-form";
 import { Input } from "@workspace/ui/components/input";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import {
@@ -28,10 +28,10 @@ import {
 } from "@workspace/ui/components/card";
 
 export function SocialProfilesForm() {
-  const { data: user, isLoading, refetch } = useMe();
+  const { data: userData, isLoading, refetch } = useMe();
   const updateMe = useUpdateMe();
 
-  const form = useForm<UpdateProfileInput>({
+  const form = useForm<UpdateProfileInputType>({
     resolver: zodResolver(UpdateProfileInputSchema),
     defaultValues: {
       facebook: "",
@@ -42,17 +42,17 @@ export function SocialProfilesForm() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (userData?.success) {
       form.reset({
-        facebook: user.facebook || "",
-        instagram: user.instagram || "",
-        twitter: user.twitter || "",
-        linkedin: user.linkedin || "",
+        facebook: userData.data?.facebook || "",
+        instagram: userData.data?.instagram || "",
+        twitter: userData.data?.twitter || "",
+        linkedin: userData.data?.linkedin || "",
       });
     }
-  }, [user, form]);
+  }, [userData, form]);
 
-  const onSubmit = (data: UpdateProfileInput) => {
+  const onSubmit = (data: UpdateProfileInputType) => {
     updateMe.mutate(
       { body: data },
       {
@@ -127,9 +127,9 @@ export function SocialProfilesForm() {
               </div>
             </FieldGroup>
             <div className="flex justify-end pt-4">
-              <Button type="submit" disabled={updateMe.isPending}>
-                {updateMe.isPending ? "Saving..." : "Save Changes"}
-              </Button>
+              <AppButton type="submit" loading={updateMe.isPending}>
+                Save Changes
+              </AppButton>
             </div>
           </form>
         </Form>

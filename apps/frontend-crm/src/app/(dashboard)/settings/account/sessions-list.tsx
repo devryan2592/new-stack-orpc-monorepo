@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import {
   Card,
   CardContent,
@@ -150,9 +150,9 @@ export function SessionsList() {
                   onOpenChange={setShowRevokeAllDialog}
                 >
                   <AlertDialogTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <AppButton variant="outline" size="sm">
                       Revoke All Other Sessions
-                    </Button>
+                    </AppButton>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -222,17 +222,16 @@ export function SessionsList() {
                     {!session.isCurrent && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button
+                          <AppButton
                             variant="outline"
                             size="sm"
                             disabled={revokingSessionId === session.id}
+                            loading={revokingSessionId === session.id}
+                            icon={Trash2}
+                            iconOnly
                           >
-                            {revokingSessionId === session.id ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <Trash2 className="h-4 w-4" />
-                            )}
-                          </Button>
+                            Revoke
+                          </AppButton>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>

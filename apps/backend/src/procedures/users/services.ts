@@ -191,17 +191,39 @@ export const usersServiceFactory = (db: typeof prisma) => {
     input: ListUsersInput
   ): Promise<ListUsersOutput> {
     await ensureAdmin(requesterId);
-    const { page = 1, limit = 10, search } = input.query;
+    const { page = 1, limit = 10, search, roles } = input.query;
     const skip = (page - 1) * limit;
 
-    const where = search
-      ? {
-          OR: [
-            { name: { contains: search, mode: "insensitive" as const } },
-            { email: { contains: search, mode: "insensitive" as const } },
-          ],
-        }
-      : {};
+    const where: any = {};
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    if (roles && roles.length > 0) {
+      // If roles contains "none", we want users with NO roles OR users with specified roles
+      const includeNoRoles = roles.includes("none");
+      const actualRoles = roles.filter((r) => r !== "none");
+
+      if (includeNoRoles) {
+        where.OR = [
+          ...(where.OR || []),
+          { userRoles: { none: {} } },
+          { userRoles: { some: { role: { name: { in: actualRoles } } } } },
+        ];
+      } else {
+        where.userRoles = {
+          some: {
+            role: {
+              name: { in: actualRoles },
+            },
+          },
+        };
+      }
+    }
 
     const [users, total] = await Promise.all([
       db.user.findMany({

@@ -2,7 +2,7 @@
 
 import { Metadata } from "next";
 import { useSearchParams } from "next/navigation";
-import { UpdatePasswordForm } from "@/forms/auth-forms";
+import { UpdatePasswordForm } from "@/app/(auth)/_forms";
 import { AUTH_LINKS } from "@/lib/links";
 
 export const metadata: Metadata = {

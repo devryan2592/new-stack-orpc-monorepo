@@ -21,5 +21,6 @@ export * from "./utils";
 export * from "./hooks/use-roles";
 export * from "./hooks/use-permissions";
 export * from "./hooks/use-users";
+export * from "./hooks/use-gallery";
 
 export { useInfiniteQuery } from "@tanstack/react-query";

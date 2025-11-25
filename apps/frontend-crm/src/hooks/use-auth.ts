@@ -18,12 +18,11 @@ export interface AuthUser {
 
 export function useAuth() {
   const { data: user, isLoading, error, refetch } = useMe();
-  const router = useRouter();
 
   const isAuthenticated = !!user;
 
   return {
-    user: user as AuthUser | undefined,
+    user,
     isLoading,
     isAuthenticated,
     error,

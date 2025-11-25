@@ -17,6 +17,7 @@ export const CRM_LINKS = {
   CUSTOMERS: "/crm/customers",
   QUOTATIONS: "/crm/quotations",
   USERS: "/crm/users",
+  GALLERY: "/gallery",
 };
 
 export const BACKOFFICE_LINKS = {

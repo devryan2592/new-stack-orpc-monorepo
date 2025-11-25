@@ -1,0 +1,35 @@
+model GalleryFolder {
+  id        String   @id @default(cuid())
+  name      String
+  parentId  String?
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent   GalleryFolder?  @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children GalleryFolder[] @relation("FolderHierarchy")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  files GalleryFile[]
+
+  @@map("gallery_folder")
+}
+
+model GalleryFile {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  type      String // IMAGE, VIDEO
+  size      Int
+  publicId  String
+  folderId  String?
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  folder GalleryFolder? @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("gallery_file")
+}

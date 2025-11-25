@@ -2,10 +2,9 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useUsersClient, useUsersQueryInvalidation } from "../utils";
-import { ListUsersInput } from "@workspace/orpc-contract/inputs/users";
-import { toast } from "sonner";
+import { ListUsersInputType } from "@workspace/orpc-contract/inputs/users";
 
-export function useUsers(input: ListUsersInput = {}) {
+export function useUsers(input: ListUsersInputType = {}) {
   const client = useUsersClient();
   return useQuery(client.list.queryOptions({ input: { query: input } }));
 }
@@ -22,11 +21,7 @@ export function useUpdateMe() {
   return useMutation(
     client.updateMe.mutationOptions({
       onSuccess: () => {
-        toast.success("Profile updated successfully");
         invalidateAll();
-      },
-      onError: (error) => {
-        toast.error(error.message || "Failed to update profile");
       },
     })
   );
@@ -39,11 +34,7 @@ export function useCreateUser() {
   return useMutation(
     client.create.mutationOptions({
       onSuccess: () => {
-        toast.success("User created successfully");
         invalidateAll();
-      },
-      onError: (error) => {
-        toast.error(error.message || "Failed to create user");
       },
     })
   );
@@ -56,11 +47,7 @@ export function useDeleteUser() {
   return useMutation(
     client.delete.mutationOptions({
       onSuccess: () => {
-        toast.success("User deleted successfully");
         invalidateAll();
-      },
-      onError: (error) => {
-        toast.error(error.message || "Failed to delete user");
       },
     })
   );

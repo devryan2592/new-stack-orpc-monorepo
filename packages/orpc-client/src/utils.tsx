@@ -70,3 +70,22 @@ export function useUsersQueryInvalidation() {
       }),
   };
 }
+
+// Gallery Client and Invalidation
+export function useGalleryClient() {
+  return createTanstackQueryUtils(client.gallery, { path: ["gallery"] });
+}
+
+export function useGalleryQueryInvalidation() {
+  const galleryORPC = useGalleryClient();
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateAll: () =>
+      queryClient.invalidateQueries({ queryKey: galleryORPC.list.key() }),
+    invalidateAllGallery: () =>
+      queryClient.invalidateQueries({
+        predicate: (q) => q.queryKey[0] === "gallery",
+      }),
+  };
+}

@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Account: 'Account',
+  GalleryFolder: 'GalleryFolder',
+  GalleryFile: 'GalleryFile',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Role: 'Role',
@@ -95,6 +97,34 @@ export const AccountScalarFieldEnum = {
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const GalleryFolderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  parentId: 'parentId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GalleryFolderScalarFieldEnum = (typeof GalleryFolderScalarFieldEnum)[keyof typeof GalleryFolderScalarFieldEnum]
+
+
+export const GalleryFileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  type: 'type',
+  size: 'size',
+  publicId: 'publicId',
+  folderId: 'folderId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GalleryFileScalarFieldEnum = (typeof GalleryFileScalarFieldEnum)[keyof typeof GalleryFileScalarFieldEnum]
 
 
 export const PermissionScalarFieldEnum = {

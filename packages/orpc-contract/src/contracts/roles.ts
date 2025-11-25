@@ -1,9 +1,9 @@
 import { oc } from "@orpc/contract";
 import { z } from "zod";
 import {
-  CreateRoleInput,
-  UpdateRoleInput,
-  AssignRoleInput,
+  CreateRoleInputSchema,
+  UpdateRoleInputSchema,
+  AssignRoleInputSchema,
 } from "../inputs/roles";
 import { RoleOutput } from "../outputs/roles";
 
@@ -15,7 +15,7 @@ export const rolesContract = oc.router({
       tags: ["Roles"],
       summary: "Create a new role",
     })
-    .input(z.object({ body: CreateRoleInput }))
+    .input(z.object({ body: CreateRoleInputSchema }))
     .output(RoleOutput),
 
   list: oc
@@ -37,7 +37,7 @@ export const rolesContract = oc.router({
     .input(
       z.object({
         params: z.object({ id: z.string() }),
-        body: UpdateRoleInput,
+        body: UpdateRoleInputSchema,
       })
     )
     .output(RoleOutput),
@@ -59,6 +59,6 @@ export const rolesContract = oc.router({
       tags: ["Roles"],
       summary: "Assign a role to a user",
     })
-    .input(z.object({ body: AssignRoleInput }))
+    .input(z.object({ body: AssignRoleInputSchema }))
     .output(z.object({ success: z.boolean() })),
 });

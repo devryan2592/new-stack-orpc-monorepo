@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Account'
+export type * from './models/GalleryFolder'
+export type * from './models/GalleryFile'
 export type * from './models/Permission'
 export type * from './models/RolePermission'
 export type * from './models/Role'

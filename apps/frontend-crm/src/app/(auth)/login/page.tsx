@@ -1,4 +1,4 @@
-import { LoginForm } from "@/forms/auth-forms";
+import { LoginForm } from "@/app/(auth)/_forms";
 import { Metadata, NextPage } from "next";
 import { DASHBOARD_LINKS, AUTH_LINKS } from "@/lib/links";
 

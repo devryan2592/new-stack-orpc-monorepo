@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type Account = Prisma.AccountModel
 /**
+ * Model GalleryFolder
+ * 
+ */
+export type GalleryFolder = Prisma.GalleryFolderModel
+/**
+ * Model GalleryFile
+ * 
+ */
+export type GalleryFile = Prisma.GalleryFileModel
+/**
  * Model Permission
  * 
  */

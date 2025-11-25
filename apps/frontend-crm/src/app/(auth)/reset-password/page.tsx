@@ -1,4 +1,4 @@
-import { ResetPasswordRequestForm } from "@/forms/auth-forms";
+import { ResetPasswordRequestForm } from "@/app/(auth)/_forms";
 import { Metadata, NextPage } from "next";
 import { AUTH_LINKS } from "@/lib/links";
 
