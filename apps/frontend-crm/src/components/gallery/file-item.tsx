@@ -8,14 +8,10 @@ import {
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
+import type { GalleryFileOutputType } from "@workspace/orpc-contract/outputs/gallery";
 
 interface FileItemProps {
-  file: {
-    id: string;
-    name: string;
-    url: string;
-    type: string;
-  };
+  file: GalleryFileOutputType;
   onSelect: () => void;
   onDelete: () => void;
   isSelected?: boolean;

@@ -34,29 +34,27 @@ import { FC, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { AppButton } from "@workspace/ui/custom/app-button";
 import { Badge } from "@workspace/ui/components/badge";
-
-interface Session {
-  id: string;
-  userAgent?: string;
-  ipAddress?: string;
-  createdAt: Date;
-  expiresAt: Date;
-  updatedAt: Date;
-  isCurrent?: boolean;
-}
+import { type Session } from "@workspace/auth";
 
 interface SessionsListFormProps {
-  // Add your props here
   children?: React.ReactNode;
 }
 
 const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
+  const [currentSession, setCurrentSession] = useState<Session>();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [revokingSessionId, setRevokingSessionId] = useState<string | null>(
     null
   );
   const [showRevokeAllDialog, setShowRevokeAllDialog] = useState(false);
+
+  const fetchCurrentSession = async () => {
+    const { data } = await authClient.getSession();
+    if (data) {
+      setCurrentSession(data.session);
+    }
+  };
 
   const fetchSessions = async () => {
     try {
@@ -73,6 +71,7 @@ const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
 
   useEffect(() => {
     fetchSessions();
+    fetchCurrentSession();
   }, []);
 
   const getDeviceIcon = (userAgent?: string) => {
@@ -97,13 +96,21 @@ const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
     return "Unknown Browser";
   };
 
-  const handleRevokeSession = async (sessionId: string) => {
-    setRevokingSessionId(sessionId);
+  const handleRevokeSession = async (sessionToken: string) => {
+    setRevokingSessionId(sessionToken);
+
+    // Optimistically update UI by removing the session immediately
+    const previousSessions = [...sessions];
+    setSessions((prev) => prev.filter((s) => s.token !== sessionToken));
+
     try {
-      await authClient.revokeSession({ token: sessionId });
+      await authClient.revokeSession({ token: sessionToken });
       toast.success("Session revoked");
-      fetchSessions();
+      // Refetch to ensure we have the latest data
+      await fetchSessions();
     } catch (error) {
+      // Restore sessions on error
+      setSessions(previousSessions);
       toast.error("Failed to revoke session");
     } finally {
       setRevokingSessionId(null);
@@ -111,23 +118,24 @@ const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
   };
 
   const handleRevokeAllSessions = async () => {
+    // Optimistically update UI by keeping only the current session
+    const previousSessions = [...sessions];
+    setSessions((prev) =>
+      prev.filter((s) => s.token === currentSession?.token)
+    );
+
     try {
       await authClient.revokeOtherSessions();
       toast.success("All other sessions revoked");
-      fetchSessions();
+      // Refetch to ensure we have the latest data
+      await fetchSessions();
     } catch (error) {
+      // Restore sessions on error
+      setSessions(previousSessions);
       toast.error("Failed to revoke all sessions");
     } finally {
       setShowRevokeAllDialog(false);
     }
-  };
-
-  /**
-   * Determines if a session is the current session
-   */
-  const isCurrentSession = (session: Session) => {
-    // This is a simplified check - in a real app, you'd compare with current session token
-    return sessions && sessions.length > 0 && session.id === sessions[0]?.id;
   };
 
   /**
@@ -192,7 +200,7 @@ const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
                         <p className="font-medium text-sm">
                           {getDeviceType(session.userAgent || undefined)}
                         </p>
-                        {isCurrentSession(session) && (
+                        {currentSession?.id === session.id && (
                           <Badge variant="default" className="text-xs">
                             Current Session
                           </Badge>
@@ -219,13 +227,13 @@ const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {!isCurrentSession(session) && (
+                    {currentSession?.token !== session.token && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <AppButton
                             variant="outline"
                             size="sm"
-                            disabled={revokingSessionId === session.id}
+                            disabled={revokingSessionId === session.token}
                             icon={Trash2}
                             iconOnly
                           >
@@ -243,7 +251,7 @@ const SessionsListForm: FC<SessionsListFormProps> = ({ children }) => {
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={() => handleRevokeSession(session.id)}
+                              onClick={() => handleRevokeSession(session.token)}
                               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             >
                               Revoke Session

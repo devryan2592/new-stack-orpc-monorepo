@@ -7,12 +7,10 @@ import {
 } from "@workspace/ui/components/dropdown-menu";
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
+import type { GalleryFolderOutputType } from "@workspace/orpc-contract/outputs/gallery";
 
 interface FolderItemProps {
-  folder: {
-    id: string;
-    name: string;
-  };
+  folder: GalleryFolderOutputType;
   onSelect: () => void;
   onDelete: () => void;
   onRename: () => void;

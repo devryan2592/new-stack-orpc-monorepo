@@ -10,10 +10,11 @@ import {
 import { GalleryView } from "./gallery-view";
 import { useState } from "react";
 import { Button } from "@workspace/ui/components/button";
+import type { GalleryItemOutputType } from "@workspace/orpc-contract/outputs/gallery";
 
 interface GalleryDialogProps {
   trigger?: React.ReactNode;
-  onSelect: (items: any[]) => void;
+  onSelect: (items: GalleryItemOutputType[]) => void;
   maxSelection?: number;
   allowedTypes?: ("IMAGE" | "VIDEO")[];
   open?: boolean;
@@ -33,7 +34,7 @@ export function GalleryDialog({
   const isOpen = isControlled ? open : internalOpen;
   const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
 
-  const handleSelect = (items: any[]) => {
+  const handleSelect = (items: GalleryItemOutputType[]) => {
     onSelect(items);
     // Optional: close on selection if maxSelection is 1?
     // setIsOpen(false);

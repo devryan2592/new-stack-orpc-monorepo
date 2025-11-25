@@ -34,3 +34,9 @@ export const UploadSignatureOutput = z.object({
   apiKey: z.string(),
   folder: z.string().optional(),
 });
+
+// Export TypeScript types
+export type GalleryFolderOutputType = z.infer<typeof GalleryFolderOutput>;
+export type GalleryFileOutputType = z.infer<typeof GalleryFileOutput>;
+export type GalleryItemOutputType = z.infer<typeof GalleryItemOutput>;
+export type UploadSignatureOutputType = z.infer<typeof UploadSignatureOutput>;

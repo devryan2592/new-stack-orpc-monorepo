@@ -1,11 +1,12 @@
 import { FC } from "react";
 import SessionsListForm from "../_forms/sessions-list-form";
+import { authClient } from "@/lib/auth-client";
 
 interface SessionsSectionProps {
   // Add your props here
 }
 
-const SessionsSection: FC<SessionsSectionProps> = () => {
+const SessionsSection: FC<SessionsSectionProps> = async () => {
   return (
     <section className="grid gap-8 lg:grid-cols-[240px_1fr]">
       <div>

@@ -25,9 +25,10 @@ import { Label } from "@workspace/ui/components/label";
 import { ChevronRight, Home, Loader2, Upload, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@workspace/ui/lib/utils";
+import type { GalleryItemOutputType } from "@workspace/orpc-contract/outputs/gallery";
 
 interface GalleryViewProps {
-  onSelect?: (items: any[]) => void;
+  onSelect?: (items: GalleryItemOutputType[]) => void;
   selectionMode?: boolean;
   maxSelection?: number;
   allowedTypes?: ("IMAGE" | "VIDEO")[];
@@ -45,7 +46,9 @@ export function GalleryView({
   const [folderHistory, setFolderHistory] = useState<
     { id: string | undefined; name: string }[]
   >([{ id: undefined, name: "Home" }]);
-  const [selectedItems, setSelectedItems] = useState<any[]>([]);
+  const [selectedItems, setSelectedItems] = useState<GalleryItemOutputType[]>(
+    []
+  );
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -96,13 +99,13 @@ export function GalleryView({
 
   const handleDeleteFolder = async (id: string) => {
     if (confirm("Are you sure you want to delete this folder?")) {
-      await deleteFolder.mutateAsync({ id });
+      await deleteFolder.mutateAsync({ params: { id } });
     }
   };
 
   const handleDeleteFile = async (id: string) => {
     if (confirm("Are you sure you want to delete this file?")) {
-      await deleteFile.mutateAsync({ id });
+      await deleteFile.mutateAsync({ params: { id } });
     }
   };
 
@@ -172,7 +175,7 @@ export function GalleryView({
     }
   };
 
-  const toggleSelection = (item: any) => {
+  const toggleSelection = (item: GalleryItemOutputType) => {
     if (!selectionMode) return;
 
     const isSelected = selectedItems.some((i) => i.id === item.id);
