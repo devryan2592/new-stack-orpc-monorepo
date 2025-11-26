@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import {
   useGallery,
-  useCreateFolder,
   useUpdateFolder,
   useDeleteFolder,
   useGenerateUploadSignature,
@@ -12,17 +11,33 @@ import {
 } from "@workspace/orpc-client";
 import { FolderItem } from "./folder-item";
 import { FileItem } from "./file-item";
+import { CreateFolderDialog } from "./create-folder-dialog";
 import { Button } from "@workspace/ui/components/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@workspace/ui/components/dialog";
-import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
-import { ChevronRight, Home, Loader2, Upload, Plus } from "lucide-react";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@workspace/ui/components/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
+import {
+  ChevronRight,
+  Home,
+  Loader2,
+  Upload,
+  Plus,
+  MoreHorizontal,
+  CornerUpLeft,
+} from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import type { GalleryItemOutputType } from "@workspace/orpc-contract/outputs/gallery";
@@ -49,15 +64,20 @@ export function GalleryView({
   const [selectedItems, setSelectedItems] = useState<GalleryItemOutputType[]>(
     []
   );
-  const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
-  const [newFolderName, setNewFolderName] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{
+    id: string;
+    type: "folder" | "file";
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Track the "active" item for selection UI (borders) even if not in selectionMode
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
   const { data: galleryData, isLoading } = useGallery({
     folderId: currentFolderId,
   });
-  const createFolder = useCreateFolder();
   const updateFolder = useUpdateFolder();
   const deleteFolder = useDeleteFolder();
   const generateSignature = useGenerateUploadSignature();
@@ -66,6 +86,7 @@ export function GalleryView({
 
   const handleNavigate = (folderId: string | undefined, folderName: string) => {
     setCurrentFolderId(folderId);
+    setActiveItemId(null); // Clear active item on navigation
     if (folderId === undefined) {
       setFolderHistory([{ id: undefined, name: "Home" }]);
     } else {
@@ -80,33 +101,59 @@ export function GalleryView({
         ]);
       }
     }
-    // Clear selection when changing folders if not in selection mode?
-    // Maybe keep it.
   };
 
-  const handleCreateFolder = async () => {
-    if (!newFolderName.trim()) return;
+  const handleNavigateUp = () => {
+    if (folderHistory.length > 1) {
+      const parent = folderHistory[folderHistory.length - 2];
+      if (parent) {
+        handleNavigate(parent.id, parent.name);
+      }
+    }
+  };
+
+  const handleDeleteFolder = (id: string) => {
+    setItemToDelete({ id, type: "folder" });
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+
     try {
-      await createFolder.mutateAsync({
-        body: { name: newFolderName, parentId: currentFolderId },
-      });
-      setIsCreateFolderOpen(false);
-      setNewFolderName("");
+      if (itemToDelete.type === "folder") {
+        await deleteFolder.mutateAsync({ params: { id: itemToDelete.id } });
+        toast.success("Folder deleted successfully");
+      } else {
+        await deleteFile.mutateAsync({ params: { id: itemToDelete.id } });
+        toast.success("File deleted successfully");
+      }
+      if (activeItemId === itemToDelete.id) setActiveItemId(null);
     } catch (error) {
-      // handled by hook
+      toast.error(`Failed to delete ${itemToDelete.type}`);
+      console.error(error);
+    } finally {
+      setDeleteDialogOpen(false);
+      setItemToDelete(null);
     }
   };
 
-  const handleDeleteFolder = async (id: string) => {
-    if (confirm("Are you sure you want to delete this folder?")) {
-      await deleteFolder.mutateAsync({ params: { id } });
+  const handleRenameFolder = async (id: string, newName: string) => {
+    try {
+      await updateFolder.mutateAsync({
+        params: { id },
+        body: { name: newName },
+      });
+      toast.success("Folder renamed successfully");
+    } catch (error) {
+      toast.error("Failed to rename folder");
+      console.error(error);
     }
   };
 
-  const handleDeleteFile = async (id: string) => {
-    if (confirm("Are you sure you want to delete this file?")) {
-      await deleteFile.mutateAsync({ params: { id } });
-    }
+  const handleDeleteFile = (id: string) => {
+    setItemToDelete({ id, type: "file" });
+    setDeleteDialogOpen(true);
   };
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +162,10 @@ export function GalleryView({
 
     setIsUploading(true);
     try {
-      for (const file of Array.from(files)) {
+      const fileArray = Array.from(files);
+      let successCount = 0;
+
+      for (const file of fileArray) {
         const type = file.type.startsWith("image/") ? "IMAGE" : "VIDEO";
         if (allowedTypes && !allowedTypes.includes(type)) {
           toast.error(`File type ${type} not allowed`);
@@ -165,6 +215,13 @@ export function GalleryView({
             folderId: currentFolderId,
           },
         });
+        successCount++;
+      }
+
+      if (successCount > 0) {
+        toast.success(
+          `Successfully uploaded ${successCount} file${successCount > 1 ? "s" : ""}`
+        );
       }
     } catch (error) {
       console.error(error);
@@ -176,6 +233,9 @@ export function GalleryView({
   };
 
   const toggleSelection = (item: GalleryItemOutputType) => {
+    // Always set active item for UI purposes
+    setActiveItemId(item.id);
+
     if (!selectionMode) return;
 
     const isSelected = selectedItems.some((i) => i.id === item.id);
@@ -198,40 +258,97 @@ export function GalleryView({
     galleryData?.data?.filter((i) => i.itemType === "FOLDER") || [];
   const files = galleryData?.data?.filter((i) => i.itemType === "FILE") || [];
 
+  // Breadcrumb Logic
+  const renderBreadcrumbs = () => {
+    if (folderHistory.length <= 3) {
+      return folderHistory.map((folder, index) => (
+        <div key={index} className="flex items-center">
+          {index > 0 && (
+            <ChevronRight className="h-4 w-4 text-muted-foreground mx-1" />
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "h-8 px-2",
+              index === folderHistory.length - 1 && "font-bold"
+            )}
+            onClick={() => handleNavigate(folder.id, folder.name)}
+          >
+            {index === 0 && <Home className="h-4 w-4 mr-1" />}
+            <p className="text-xs">{folder.name}</p>
+          </Button>
+        </div>
+      ));
+    }
+
+    // > 3 items: Home > ... > Last
+    const home = folderHistory[0];
+    const current = folderHistory[folderHistory.length - 1];
+    const middleFolders = folderHistory.slice(1, folderHistory.length - 1);
+
+    if (!home || !current) {
+      return null;
+    }
+
+    return (
+      <>
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 px-2"
+            onClick={() => handleNavigate(home.id, home.name)}
+          >
+            <Home className="h-4 w-4 mr-1" />
+            {middleFolders.length < 2 && <p className="text-xs">{home.name}</p>}
+          </Button>
+        </div>
+        <ChevronRight className="h-4 w-4 text-muted-foreground " />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 px-2">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            {middleFolders.map((folder) => (
+              <DropdownMenuItem
+                key={folder.id}
+                onClick={() => handleNavigate(folder.id, folder.name)}
+              >
+                {folder.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <ChevronRight className="h-4 w-4 text-muted-foreground " />
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 px-2 font-bold"
+          onClick={() => handleNavigate(current.id, current.name)}
+        >
+          <p className="text-xs">{current.name}</p>
+        </Button>
+      </>
+    );
+  };
+
   return (
     <div className="flex flex-col h-full gap-4">
       {/* Header / Toolbar */}
       <div className="flex items-center justify-between p-2 border-b">
         <div className="flex items-center gap-2 overflow-x-auto">
-          {folderHistory.map((folder, index) => (
-            <div key={index} className="flex items-center">
-              {index > 0 && (
-                <ChevronRight className="h-4 w-4 text-muted-foreground mx-1" />
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "h-8 px-2",
-                  index === folderHistory.length - 1 && "font-bold"
-                )}
-                onClick={() => handleNavigate(folder.id, folder.name)}
-              >
-                {index === 0 && <Home className="h-4 w-4 mr-1" />}
-                {folder.name}
-              </Button>
-            </div>
-          ))}
+          {renderBreadcrumbs()}
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsCreateFolderOpen(true)}
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Folder
-          </Button>
+          <CreateFolderDialog currentFolderId={currentFolderId}>
+            <Button variant="outline" size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              New Folder
+            </Button>
+          </CreateFolderDialog>
           <div className="relative">
             <input
               type="file"
@@ -264,23 +381,36 @@ export function GalleryView({
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  gap-4">
+            {/* Back Button Item */}
+            {currentFolderId && (
+              <div className="flex flex-col gap-2 group">
+                <div
+                  className="relative aspect-square flex items-center justify-center rounded-lg border bg-muted/50 text-muted-foreground shadow-sm transition-all cursor-pointer hover:bg-accent/50"
+                  onClick={handleNavigateUp}
+                >
+                  <CornerUpLeft className="h-8 w-8" />
+                </div>
+                <div className="px-1">
+                  <p className="text-sm font-medium truncate text-center select-none text-muted-foreground">
+                    ...
+                  </p>
+                </div>
+              </div>
+            )}
+
             {folders.map((folder) => (
               <FolderItem
                 key={folder.id}
                 folder={folder}
-                onSelect={() => handleNavigate(folder.id, folder.name)}
+                onSelect={() => toggleSelection(folder)}
+                onNavigate={() => handleNavigate(folder.id, folder.name)}
                 onDelete={() => handleDeleteFolder(folder.id)}
-                onRename={() => {
-                  // TODO: Implement rename dialog
-                  const newName = prompt("Enter new name", folder.name);
-                  if (newName && newName !== folder.name) {
-                    updateFolder.mutate({
-                      params: { id: folder.id },
-                      body: { name: newName },
-                    });
-                  }
-                }}
+                onRename={(newName) => handleRenameFolder(folder.id, newName)}
+                isSelected={
+                  activeItemId === folder.id ||
+                  selectedItems.some((i) => i.id === folder.id)
+                }
               />
             ))}
             {files.map((file) => (
@@ -289,11 +419,14 @@ export function GalleryView({
                 file={file}
                 onSelect={() => toggleSelection(file)}
                 onDelete={() => handleDeleteFile(file.id)}
-                isSelected={selectedItems.some((i) => i.id === file.id)}
+                isSelected={
+                  activeItemId === file.id ||
+                  selectedItems.some((i) => i.id === file.id)
+                }
                 selectionMode={selectionMode}
               />
             ))}
-            {folders.length === 0 && files.length === 0 && (
+            {folders.length === 0 && files.length === 0 && !currentFolderId && (
               <div className="col-span-full flex flex-col items-center justify-center py-12 text-muted-foreground">
                 <p>This folder is empty</p>
               </div>
@@ -302,34 +435,32 @@ export function GalleryView({
         )}
       </div>
 
-      {/* Create Folder Dialog */}
-      <Dialog open={isCreateFolderOpen} onOpenChange={setIsCreateFolderOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create New Folder</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Folder Name</Label>
-              <Input
-                id="name"
-                value={newFolderName}
-                onChange={(e) => setNewFolderName(e.target.value)}
-                placeholder="My Folder"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsCreateFolderOpen(false)}
-            >
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the{" "}
+              {itemToDelete?.type === "folder"
+                ? "folder and all its contents"
+                : "file"}
+              .
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setItemToDelete(null)}>
               Cancel
-            </Button>
-            <Button onClick={handleCreateFolder}>Create</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
