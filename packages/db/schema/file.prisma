@@ -1,0 +1,13 @@
+model File {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  url       String
+  name      String
+  mimeType  String
+  size      Int
+  uploadedAt DateTime @default(now())
+  uploaderId String
+  uploader   User     @relation(fields: [uploaderId], references: [id])
+
+  @@map("file")
+}

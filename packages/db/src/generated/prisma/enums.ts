@@ -9,7 +9,68 @@
 * 🟢 You can import this file directly.
 */
 
+export const CustomerType = {
+  INDIVIDUAL: 'INDIVIDUAL',
+  CORPORATE: 'CORPORATE'
+} as const
+
+export type CustomerType = (typeof CustomerType)[keyof typeof CustomerType]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const LeadType = {
+  B2C: 'B2C',
+  B2B_CORPORATE: 'B2B_CORPORATE',
+  B2B_AGENCY: 'B2B_AGENCY'
+} as const
+
+export type LeadType = (typeof LeadType)[keyof typeof LeadType]
+
+
+export const LeadStatus = {
+  NEW: 'NEW',
+  FOLLOW_UP: 'FOLLOW_UP',
+  POTENTIAL: 'POTENTIAL',
+  POSITIVE: 'POSITIVE',
+  CONVERTED: 'CONVERTED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type LeadStatus = (typeof LeadStatus)[keyof typeof LeadStatus]
+
+
+export const LeadPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+} as const
+
+export type LeadPriority = (typeof LeadPriority)[keyof typeof LeadPriority]
+
+
+export const LogType = {
+  CALL: 'CALL',
+  EMAIL: 'EMAIL',
+  MEETING: 'MEETING',
+  WHATSAPP: 'WHATSAPP'
+} as const
+
+export type LogType = (typeof LogType)[keyof typeof LogType]
+
+
+export const TaskStatus = {
+  PENDING: 'PENDING',
+  DONE: 'DONE'
+} as const
+
+export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]
+
+
+export const LeadSource = {
+  WEBSITE: 'WEBSITE',
+  REFERRAL: 'REFERRAL',
+  SOCIAL_MEDIA: 'SOCIAL_MEDIA',
+  CAMPAIGN: 'CAMPAIGN',
+  OTHER: 'OTHER'
+} as const
+
+export type LeadSource = (typeof LeadSource)[keyof typeof LeadSource]

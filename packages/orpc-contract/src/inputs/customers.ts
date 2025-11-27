@@ -1,0 +1,34 @@
+import { z } from "zod";
+
+export const CreateCustomerInput = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email().optional().or(z.literal("")),
+  phone: z.string().optional(),
+  alternatePhone: z.string().optional(),
+  dateOfBirth: z.string().datetime().optional(), // Accepting ISO string for date
+  gender: z.string().optional(),
+  nationality: z.string().optional(),
+  passportNumber: z.string().optional(),
+  passportExpiry: z.string().datetime().optional(),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+  type: z.enum(["INDIVIDUAL", "CORPORATE"]).default("INDIVIDUAL"),
+  companyName: z.string().optional(),
+  gstNumber: z.string().optional(),
+});
+
+export const UpdateCustomerInput = CreateCustomerInput.partial().extend({
+  id: z.string(),
+});
+
+export const ListCustomersInput = z.object({
+  page: z.number().int().min(1).default(1),
+  limit: z.number().int().min(1).max(100).default(10),
+  search: z.string().optional(),
+});
+
+export type CreateCustomerInputType = z.input<typeof CreateCustomerInput>;
+export type UpdateCustomerInputType = z.input<typeof UpdateCustomerInput>;
+export type ListCustomersInputType = z.input<typeof ListCustomersInput>;

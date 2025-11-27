@@ -1,0 +1,48 @@
+model Customer {
+  id               String        @id @default(uuid())
+  avatar           String?
+  firstName        String        @map("first_name")
+  lastName         String        @map("last_name")
+  email            String?       @unique
+  phone            String?
+  alternatePhone   String?       @map("alternate_phone")
+  dateOfBirth      DateTime?     @map("date_of_birth")
+  gender           String?
+  nationality      String?
+  passportNumber   String?       @unique @map("passport_number")
+  passportExpiry   DateTime?     @map("passport_expiry")
+  address          String?
+  city             String?
+  country          String?
+  type             CustomerType  @default(INDIVIDUAL)
+  companyName      String?       @map("company_name")
+  gstNumber        String?       @map("gst_number")
+
+  leads            Lead[]
+  documents        CustomerDocument[]
+
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+
+  @@index([phone])
+  @@index([passportNumber])
+  @@map("customers")
+}
+
+enum CustomerType {
+  INDIVIDUAL
+  CORPORATE
+}
+
+model CustomerDocument {
+  id         String   @id @default(uuid())
+  customerId String   @map("customer_id")
+  name       String
+  url        String
+  type       String?
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([customerId])
+  @@map("customer_documents")
+}

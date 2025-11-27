@@ -515,14 +515,6 @@ export type GalleryFileUncheckedUpdateManyWithoutFolderNestedInput = {
   deleteMany?: Prisma.GalleryFileScalarWhereInput | Prisma.GalleryFileScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type GalleryFileCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.GalleryFileCreateWithoutUserInput, Prisma.GalleryFileUncheckedCreateWithoutUserInput> | Prisma.GalleryFileCreateWithoutUserInput[] | Prisma.GalleryFileUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.GalleryFileCreateOrConnectWithoutUserInput | Prisma.GalleryFileCreateOrConnectWithoutUserInput[]

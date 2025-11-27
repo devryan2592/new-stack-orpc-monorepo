@@ -9,8 +9,15 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Account'
+export type * from './models/Customer'
+export type * from './models/CustomerDocument'
+export type * from './models/File'
 export type * from './models/GalleryFolder'
 export type * from './models/GalleryFile'
+export type * from './models/Lead'
+export type * from './models/LeadNote'
+export type * from './models/LeadLog'
+export type * from './models/LeadTask'
 export type * from './models/Permission'
 export type * from './models/RolePermission'
 export type * from './models/Role'

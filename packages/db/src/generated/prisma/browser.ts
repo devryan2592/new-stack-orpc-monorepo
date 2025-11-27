@@ -23,6 +23,21 @@ export * from './enums';
  */
 export type Account = Prisma.AccountModel
 /**
+ * Model Customer
+ * 
+ */
+export type Customer = Prisma.CustomerModel
+/**
+ * Model CustomerDocument
+ * 
+ */
+export type CustomerDocument = Prisma.CustomerDocumentModel
+/**
+ * Model File
+ * 
+ */
+export type File = Prisma.FileModel
+/**
  * Model GalleryFolder
  * 
  */
@@ -32,6 +47,26 @@ export type GalleryFolder = Prisma.GalleryFolderModel
  * 
  */
 export type GalleryFile = Prisma.GalleryFileModel
+/**
+ * Model Lead
+ * 
+ */
+export type Lead = Prisma.LeadModel
+/**
+ * Model LeadNote
+ * 
+ */
+export type LeadNote = Prisma.LeadNoteModel
+/**
+ * Model LeadLog
+ * 
+ */
+export type LeadLog = Prisma.LeadLogModel
+/**
+ * Model LeadTask
+ * 
+ */
+export type LeadTask = Prisma.LeadTaskModel
 /**
  * Model Permission
  * 

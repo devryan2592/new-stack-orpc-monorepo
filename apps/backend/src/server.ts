@@ -22,6 +22,17 @@ app.use(express.json());
 bootstrapSuperAdmin(auth);
 bootstrapPermissions(["destination", "attraction", "tour", "blog", "user"]);
 
+// UploadThing Handler
+import { createRouteHandler } from "uploadthing/express";
+import { uploadRouter } from "./procedures/files/uploadthing";
+
+app.use(
+  "/api/uploadthing",
+  createRouteHandler({
+    router: uploadRouter,
+  })
+);
+
 // ORPC Handler
 import { RPCHandler } from "@orpc/server/node";
 import { router } from "./router";

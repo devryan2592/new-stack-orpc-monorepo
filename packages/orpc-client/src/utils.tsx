@@ -89,3 +89,60 @@ export function useGalleryQueryInvalidation() {
       }),
   };
 }
+
+// Files Client and Invalidation
+export function useFilesClient() {
+  return createTanstackQueryUtils(client.files, { path: ["files"] });
+}
+
+export function useFilesQueryInvalidation() {
+  const filesORPC = useFilesClient();
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateAll: () =>
+      queryClient.invalidateQueries({ queryKey: filesORPC.list.key() }),
+    invalidateAllFiles: () =>
+      queryClient.invalidateQueries({
+        predicate: (q) => q.queryKey[0] === "files",
+      }),
+  };
+}
+
+// Customers Client and Invalidation
+export function useCustomersClient() {
+  return createTanstackQueryUtils(client.customers, { path: ["customers"] });
+}
+
+export function useCustomersQueryInvalidation() {
+  const customersORPC = useCustomersClient();
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateAll: () =>
+      queryClient.invalidateQueries({ queryKey: customersORPC.list.key() }),
+    invalidateAllCustomers: () =>
+      queryClient.invalidateQueries({
+        predicate: (q) => q.queryKey[0] === "customers",
+      }),
+  };
+}
+
+// Leads Client and Invalidation
+export function useLeadsClient() {
+  return createTanstackQueryUtils(client.leads, { path: ["leads"] });
+}
+
+export function useLeadsQueryInvalidation() {
+  const leadsORPC = useLeadsClient();
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateAll: () =>
+      queryClient.invalidateQueries({ queryKey: leadsORPC.list.key() }),
+    invalidateAllLeads: () =>
+      queryClient.invalidateQueries({
+        predicate: (q) => q.queryKey[0] === "leads",
+      }),
+  };
+}

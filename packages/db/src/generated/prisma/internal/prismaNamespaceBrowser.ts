@@ -52,8 +52,15 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Account: 'Account',
+  Customer: 'Customer',
+  CustomerDocument: 'CustomerDocument',
+  File: 'File',
   GalleryFolder: 'GalleryFolder',
   GalleryFile: 'GalleryFile',
+  Lead: 'Lead',
+  LeadNote: 'LeadNote',
+  LeadLog: 'LeadLog',
+  LeadTask: 'LeadTask',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Role: 'Role',
@@ -99,6 +106,58 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
+export const CustomerScalarFieldEnum = {
+  id: 'id',
+  avatar: 'avatar',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  alternatePhone: 'alternatePhone',
+  dateOfBirth: 'dateOfBirth',
+  gender: 'gender',
+  nationality: 'nationality',
+  passportNumber: 'passportNumber',
+  passportExpiry: 'passportExpiry',
+  address: 'address',
+  city: 'city',
+  country: 'country',
+  type: 'type',
+  companyName: 'companyName',
+  gstNumber: 'gstNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const CustomerDocumentScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  name: 'name',
+  url: 'url',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type CustomerDocumentScalarFieldEnum = (typeof CustomerDocumentScalarFieldEnum)[keyof typeof CustomerDocumentScalarFieldEnum]
+
+
+export const FileScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  url: 'url',
+  name: 'name',
+  mimeType: 'mimeType',
+  size: 'size',
+  uploadedAt: 'uploadedAt',
+  uploaderId: 'uploaderId'
+} as const
+
+export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
+
+
 export const GalleryFolderScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -125,6 +184,70 @@ export const GalleryFileScalarFieldEnum = {
 } as const
 
 export type GalleryFileScalarFieldEnum = (typeof GalleryFileScalarFieldEnum)[keyof typeof GalleryFileScalarFieldEnum]
+
+
+export const LeadScalarFieldEnum = {
+  id: 'id',
+  leadCode: 'leadCode',
+  customerId: 'customerId',
+  assignedToId: 'assignedToId',
+  leadType: 'leadType',
+  leadSource: 'leadSource',
+  status: 'status',
+  priority: 'priority',
+  travelFrom: 'travelFrom',
+  travelTo: 'travelTo',
+  travelStart: 'travelStart',
+  travelEnd: 'travelEnd',
+  numberOfDays: 'numberOfDays',
+  numberOfTravellers: 'numberOfTravellers',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
+
+
+export const LeadNoteScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  content: 'content',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+} as const
+
+export type LeadNoteScalarFieldEnum = (typeof LeadNoteScalarFieldEnum)[keyof typeof LeadNoteScalarFieldEnum]
+
+
+export const LeadLogScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  type: 'type',
+  message: 'message',
+  nextAction: 'nextAction',
+  loggedBy: 'loggedBy',
+  createdAt: 'createdAt'
+} as const
+
+export type LeadLogScalarFieldEnum = (typeof LeadLogScalarFieldEnum)[keyof typeof LeadLogScalarFieldEnum]
+
+
+export const LeadTaskScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  title: 'title',
+  dueDate: 'dueDate',
+  status: 'status',
+  assignedTo: 'assignedTo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LeadTaskScalarFieldEnum = (typeof LeadTaskScalarFieldEnum)[keyof typeof LeadTaskScalarFieldEnum]
 
 
 export const PermissionScalarFieldEnum = {
