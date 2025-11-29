@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { FileType } from "../shared";
 
 export const CreateFolderInputSchema = z.object({
   name: z.string().min(1),
@@ -11,13 +12,13 @@ export const UpdateFolderInputSchema = z.object({
 
 export const GenerateUploadSignatureInputSchema = z.object({
   folderId: z.string().optional(),
-  type: z.enum(["IMAGE", "VIDEO"]).optional(),
+  type: FileType.optional(),
 });
 
 export const CreateFileInputSchema = z.object({
   name: z.string(),
   url: z.string().url(),
-  type: z.enum(["IMAGE", "VIDEO"]),
+  type: FileType,
   size: z.number(),
   publicId: z.string(),
   folderId: z.string().optional(),
@@ -25,7 +26,7 @@ export const CreateFileInputSchema = z.object({
 
 export const ListGalleryItemsInputSchema = z.object({
   folderId: z.string().optional(), // If null/undefined, list root
-  type: z.enum(["IMAGE", "VIDEO"]).optional(),
+  type: FileType.optional(),
 });
 
 export type CreateFolderInputType = z.input<typeof CreateFolderInputSchema>;

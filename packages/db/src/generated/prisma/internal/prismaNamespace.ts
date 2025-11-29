@@ -386,6 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Account: 'Account',
   Customer: 'Customer',
+  FamilyRelation: 'FamilyRelation',
+  AssociateRelation: 'AssociateRelation',
   CustomerDocument: 'CustomerDocument',
   File: 'File',
   GalleryFolder: 'GalleryFolder',
@@ -417,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "customer" | "customerDocument" | "file" | "galleryFolder" | "galleryFile" | "lead" | "leadNote" | "leadLog" | "leadTask" | "permission" | "rolePermission" | "role" | "session" | "userProfile" | "userRole" | "user" | "verification"
+    modelProps: "account" | "customer" | "familyRelation" | "associateRelation" | "customerDocument" | "file" | "galleryFolder" | "galleryFile" | "lead" | "leadNote" | "leadLog" | "leadTask" | "permission" | "rolePermission" | "role" | "session" | "userProfile" | "userRole" | "user" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -566,6 +568,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CustomerCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CustomerCountAggregateOutputType> | number
+        }
+      }
+    }
+    FamilyRelation: {
+      payload: Prisma.$FamilyRelationPayload<ExtArgs>
+      fields: Prisma.FamilyRelationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FamilyRelationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FamilyRelationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>
+        }
+        findFirst: {
+          args: Prisma.FamilyRelationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FamilyRelationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>
+        }
+        findMany: {
+          args: Prisma.FamilyRelationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>[]
+        }
+        create: {
+          args: Prisma.FamilyRelationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>
+        }
+        createMany: {
+          args: Prisma.FamilyRelationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FamilyRelationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>[]
+        }
+        delete: {
+          args: Prisma.FamilyRelationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>
+        }
+        update: {
+          args: Prisma.FamilyRelationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>
+        }
+        deleteMany: {
+          args: Prisma.FamilyRelationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FamilyRelationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FamilyRelationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>[]
+        }
+        upsert: {
+          args: Prisma.FamilyRelationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FamilyRelationPayload>
+        }
+        aggregate: {
+          args: Prisma.FamilyRelationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFamilyRelation>
+        }
+        groupBy: {
+          args: Prisma.FamilyRelationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FamilyRelationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FamilyRelationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FamilyRelationCountAggregateOutputType> | number
+        }
+      }
+    }
+    AssociateRelation: {
+      payload: Prisma.$AssociateRelationPayload<ExtArgs>
+      fields: Prisma.AssociateRelationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AssociateRelationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AssociateRelationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>
+        }
+        findFirst: {
+          args: Prisma.AssociateRelationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AssociateRelationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>
+        }
+        findMany: {
+          args: Prisma.AssociateRelationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>[]
+        }
+        create: {
+          args: Prisma.AssociateRelationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>
+        }
+        createMany: {
+          args: Prisma.AssociateRelationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AssociateRelationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>[]
+        }
+        delete: {
+          args: Prisma.AssociateRelationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>
+        }
+        update: {
+          args: Prisma.AssociateRelationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>
+        }
+        deleteMany: {
+          args: Prisma.AssociateRelationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AssociateRelationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AssociateRelationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>[]
+        }
+        upsert: {
+          args: Prisma.AssociateRelationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssociateRelationPayload>
+        }
+        aggregate: {
+          args: Prisma.AssociateRelationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssociateRelation>
+        }
+        groupBy: {
+          args: Prisma.AssociateRelationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssociateRelationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AssociateRelationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssociateRelationCountAggregateOutputType> | number
         }
       }
     }
@@ -1830,11 +1980,32 @@ export const CustomerScalarFieldEnum = {
   type: 'type',
   companyName: 'companyName',
   gstNumber: 'gstNumber',
+  vatNumber: 'vatNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const FamilyRelationScalarFieldEnum = {
+  customerId: 'customerId',
+  memberId: 'memberId',
+  relation: 'relation',
+  createdAt: 'createdAt'
+} as const
+
+export type FamilyRelationScalarFieldEnum = (typeof FamilyRelationScalarFieldEnum)[keyof typeof FamilyRelationScalarFieldEnum]
+
+
+export const AssociateRelationScalarFieldEnum = {
+  customerId: 'customerId',
+  associateId: 'associateId',
+  relation: 'relation',
+  createdAt: 'createdAt'
+} as const
+
+export type AssociateRelationScalarFieldEnum = (typeof AssociateRelationScalarFieldEnum)[keyof typeof AssociateRelationScalarFieldEnum]
 
 
 export const CustomerDocumentScalarFieldEnum = {
@@ -1905,7 +2076,16 @@ export const LeadScalarFieldEnum = {
   travelStart: 'travelStart',
   travelEnd: 'travelEnd',
   numberOfDays: 'numberOfDays',
-  numberOfTravellers: 'numberOfTravellers',
+  numberOfAdults: 'numberOfAdults',
+  numberOfChildren: 'numberOfChildren',
+  numberOfInfants: 'numberOfInfants',
+  tags: 'tags',
+  destinations: 'destinations',
+  cities: 'cities',
+  companyName: 'companyName',
+  whatsappNumber: 'whatsappNumber',
+  requirements: 'requirements',
+  budget: 'budget',
   firstName: 'firstName',
   lastName: 'lastName',
   email: 'email',
@@ -2205,6 +2385,20 @@ export type ListEnumLeadPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'LogType'
  */
 export type EnumLogTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogType'>
@@ -2236,20 +2430,6 @@ export type ListEnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -2333,6 +2513,8 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   customer?: Prisma.CustomerOmit
+  familyRelation?: Prisma.FamilyRelationOmit
+  associateRelation?: Prisma.AssociateRelationOmit
   customerDocument?: Prisma.CustomerDocumentOmit
   file?: Prisma.FileOmit
   galleryFolder?: Prisma.GalleryFolderOmit

@@ -10,8 +10,9 @@
 */
 
 export const CustomerType = {
-  INDIVIDUAL: 'INDIVIDUAL',
-  CORPORATE: 'CORPORATE'
+  B2C: 'B2C',
+  B2B_CORPORATE: 'B2B_CORPORATE',
+  B2B_AGENCY: 'B2B_AGENCY'
 } as const
 
 export type CustomerType = (typeof CustomerType)[keyof typeof CustomerType]

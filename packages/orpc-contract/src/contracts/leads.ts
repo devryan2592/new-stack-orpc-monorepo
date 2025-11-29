@@ -6,7 +6,20 @@ import {
   ListLeadsInput,
   UpdateLeadInput,
 } from "../inputs/leads";
+import {
+  BulkConvertLeadsInput,
+  BulkDeleteLeadsInput,
+  CreateLeadLogInput,
+  CreateLeadNoteInput,
+  CreateLeadTaskInput,
+  UpdateLeadTaskInput,
+} from "../inputs/lead-actions";
 import { LeadOutput } from "../outputs/leads";
+import {
+  LeadLogOutput,
+  LeadNoteOutput,
+  LeadTaskOutput,
+} from "../outputs/lead-actions";
 import { CustomerOutput } from "../outputs/customers";
 import { ApiResponse, SuccessResponse } from "../utils/api";
 
@@ -87,4 +100,84 @@ export const leadsContract = oc.router({
       })
     )
     .output(ApiResponse(CustomerOutput)),
+
+  addNote: oc
+    .route({
+      method: "POST",
+      path: "/leads/:leadId/notes",
+      tags: ["Leads"],
+      summary: "Add a note to a lead",
+    })
+    .input(
+      z.object({
+        params: z.object({ leadId: z.string() }),
+        body: CreateLeadNoteInput.omit({ leadId: true }),
+      })
+    )
+    .output(ApiResponse(LeadNoteOutput)),
+
+  addLog: oc
+    .route({
+      method: "POST",
+      path: "/leads/:leadId/logs",
+      tags: ["Leads"],
+      summary: "Add a log to a lead",
+    })
+    .input(
+      z.object({
+        params: z.object({ leadId: z.string() }),
+        body: CreateLeadLogInput.omit({ leadId: true }),
+      })
+    )
+    .output(ApiResponse(LeadLogOutput)),
+
+  addTask: oc
+    .route({
+      method: "POST",
+      path: "/leads/:leadId/tasks",
+      tags: ["Leads"],
+      summary: "Add a task to a lead",
+    })
+    .input(
+      z.object({
+        params: z.object({ leadId: z.string() }),
+        body: CreateLeadTaskInput.omit({ leadId: true }),
+      })
+    )
+    .output(ApiResponse(LeadTaskOutput)),
+
+  updateTask: oc
+    .route({
+      method: "PUT",
+      path: "/leads/tasks/:id",
+      tags: ["Leads"],
+      summary: "Update a lead task",
+    })
+    .input(
+      z.object({
+        params: z.object({ id: z.string() }),
+        body: UpdateLeadTaskInput.omit({ id: true }),
+      })
+    )
+    .output(ApiResponse(LeadTaskOutput)),
+
+  bulkDelete: oc
+    .route({
+      method: "POST",
+      path: "/leads/bulk-delete",
+      tags: ["Leads"],
+      summary: "Bulk delete leads",
+    })
+    .input(z.object({ body: BulkDeleteLeadsInput }))
+    .output(SuccessResponse),
+
+  bulkConvert: oc
+    .route({
+      method: "POST",
+      path: "/leads/bulk-convert",
+      tags: ["Leads"],
+      summary: "Bulk convert leads to customers",
+    })
+    .input(z.object({ body: BulkConvertLeadsInput }))
+    .output(SuccessResponse),
 });

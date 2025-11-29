@@ -1,28 +1,35 @@
 model Customer {
-  id               String        @id @default(uuid())
-  avatar           String?
-  firstName        String        @map("first_name")
-  lastName         String        @map("last_name")
-  email            String?       @unique
-  phone            String?
-  alternatePhone   String?       @map("alternate_phone")
-  dateOfBirth      DateTime?     @map("date_of_birth")
-  gender           String?
-  nationality      String?
-  passportNumber   String?       @unique @map("passport_number")
-  passportExpiry   DateTime?     @map("passport_expiry")
-  address          String?
-  city             String?
-  country          String?
-  type             CustomerType  @default(INDIVIDUAL)
-  companyName      String?       @map("company_name")
-  gstNumber        String?       @map("gst_number")
+  id             String       @id @default(uuid())
+  avatar         String?
+  firstName      String       @map("first_name")
+  lastName       String       @map("last_name")
+  email          String?      @unique
+  phone          String?
+  alternatePhone String?      @map("alternate_phone")
+  dateOfBirth    DateTime?    @map("date_of_birth")
+  gender         String?
+  nationality    String?
+  passportNumber String?      @unique @map("passport_number")
+  passportExpiry DateTime?    @map("passport_expiry")
+  address        String?
+  city           String?
+  country        String?
+  type           CustomerType @default(B2C)
+  companyName    String?      @map("company_name")
+  gstNumber      String?      @map("gst_number")
+  vatNumber      String?      @map("vat_number")
 
-  leads            Lead[]
-  documents        CustomerDocument[]
+  familyMembersAsOwner  FamilyRelation[] @relation("FamilyOwner")
+  familyMembersAsMember FamilyRelation[] @relation("FamilyMember")
 
-  createdAt        DateTime      @default(now()) @map("created_at")
-  updatedAt        DateTime      @updatedAt @map("updated_at")
+  associatesAsOwner  AssociateRelation[] @relation("AssociateOwner")
+  associatesAsMember AssociateRelation[] @relation("AssociateMember")
+
+  leads     Lead[]
+  documents CustomerDocument[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([phone])
   @@index([passportNumber])
@@ -30,8 +37,35 @@ model Customer {
 }
 
 enum CustomerType {
-  INDIVIDUAL
-  CORPORATE
+  B2C
+  B2B_CORPORATE
+  B2B_AGENCY
+}
+
+model FamilyRelation {
+  customerId String   @map("customer_id")
+  memberId   String   @map("member_id")
+  relation   String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  customer Customer @relation("FamilyOwner", fields: [customerId], references: [id], onDelete: Cascade)
+  member   Customer @relation("FamilyMember", fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@id([customerId, memberId])
+  @@map("customer_family_relations")
+}
+
+model AssociateRelation {
+  customerId  String   @map("customer_id")
+  associateId String   @map("associate_id")
+  relation    String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  customer  Customer @relation("AssociateOwner", fields: [customerId], references: [id], onDelete: Cascade)
+  associate Customer @relation("AssociateMember", fields: [associateId], references: [id], onDelete: Cascade)
+
+  @@id([customerId, associateId])
+  @@map("customer_associate_relations")
 }
 
 model CustomerDocument {

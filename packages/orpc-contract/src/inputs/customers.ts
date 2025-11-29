@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CustomerType } from "../shared";
 
 export const CreateCustomerInput = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -14,9 +15,11 @@ export const CreateCustomerInput = z.object({
   address: z.string().optional(),
   city: z.string().optional(),
   country: z.string().optional(),
-  type: z.enum(["INDIVIDUAL", "CORPORATE"]).default("INDIVIDUAL"),
+  type: CustomerType.default("B2C"),
   companyName: z.string().optional(),
   gstNumber: z.string().optional(),
+  familyMemberIds: z.array(z.string()).optional(),
+  associateIds: z.array(z.string()).optional(),
 });
 
 export const UpdateCustomerInput = CreateCustomerInput.partial().extend({

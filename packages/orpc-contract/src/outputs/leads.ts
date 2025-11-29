@@ -1,35 +1,33 @@
 import { z } from "zod";
 import { CustomerOutput } from "./customers";
+import { LeadType, LeadSource, LeadStatus, LeadPriority } from "../shared";
 
 export const LeadOutput = z.object({
   id: z.string(),
   leadCode: z.string(),
   customerId: z.string().nullable(),
   assignedToId: z.string().nullable(),
-  leadType: z.enum(["B2C", "B2B_CORPORATE", "B2B_AGENCY"]),
-  leadSource: z.enum([
-    "WEBSITE",
-    "REFERRAL",
-    "SOCIAL_MEDIA",
-    "CAMPAIGN",
-    "OTHER",
-  ]),
-  status: z.enum([
-    "NEW",
-    "FOLLOW_UP",
-    "POTENTIAL",
-    "POSITIVE",
-    "CONVERTED",
-    "CLOSED",
-  ]),
-  priority: z.enum(["LOW", "MEDIUM", "HIGH"]).nullable(),
+  leadType: LeadType,
+  leadSource: LeadSource,
+  status: LeadStatus,
+  priority: LeadPriority.nullable(),
 
   travelFrom: z.string().nullable(),
   travelTo: z.string().nullable(),
   travelStart: z.date().nullable(),
   travelEnd: z.date().nullable(),
   numberOfDays: z.number().nullable(),
-  numberOfTravellers: z.number().nullable(),
+  numberOfAdults: z.number().nullable(),
+  numberOfChildren: z.number().nullable(),
+  numberOfInfants: z.number().nullable(),
+  tags: z.array(z.string()),
+
+  destinations: z.array(z.string()),
+  cities: z.array(z.string()),
+  companyName: z.string().nullable(),
+  whatsappNumber: z.string().nullable(),
+  requirements: z.string().nullable(),
+  budget: z.number().nullable(),
 
   firstName: z.string().nullable(),
   lastName: z.string().nullable(),

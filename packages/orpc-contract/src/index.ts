@@ -19,6 +19,10 @@ export * from "./contracts/leads";
 
 export * from "./inputs/files";
 export * from "./outputs/files";
+export * from "./inputs/leads";
+export * from "./inputs/lead-actions";
+export * from "./outputs/leads";
+export * from "./outputs/lead-actions";
 
 export const appContracts = oc.router({
   roles: rolesContract,

@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@workspace/ui/components/data-table";
+import { ColumnDef } from "@workspace/ui/data-table";
 import { RolesTableActions } from "./actions";
 
 export type RoleRow = {

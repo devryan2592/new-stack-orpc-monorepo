@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Account: 'Account',
   Customer: 'Customer',
+  FamilyRelation: 'FamilyRelation',
+  AssociateRelation: 'AssociateRelation',
   CustomerDocument: 'CustomerDocument',
   File: 'File',
   GalleryFolder: 'GalleryFolder',
@@ -125,11 +127,32 @@ export const CustomerScalarFieldEnum = {
   type: 'type',
   companyName: 'companyName',
   gstNumber: 'gstNumber',
+  vatNumber: 'vatNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const FamilyRelationScalarFieldEnum = {
+  customerId: 'customerId',
+  memberId: 'memberId',
+  relation: 'relation',
+  createdAt: 'createdAt'
+} as const
+
+export type FamilyRelationScalarFieldEnum = (typeof FamilyRelationScalarFieldEnum)[keyof typeof FamilyRelationScalarFieldEnum]
+
+
+export const AssociateRelationScalarFieldEnum = {
+  customerId: 'customerId',
+  associateId: 'associateId',
+  relation: 'relation',
+  createdAt: 'createdAt'
+} as const
+
+export type AssociateRelationScalarFieldEnum = (typeof AssociateRelationScalarFieldEnum)[keyof typeof AssociateRelationScalarFieldEnum]
 
 
 export const CustomerDocumentScalarFieldEnum = {
@@ -200,7 +223,16 @@ export const LeadScalarFieldEnum = {
   travelStart: 'travelStart',
   travelEnd: 'travelEnd',
   numberOfDays: 'numberOfDays',
-  numberOfTravellers: 'numberOfTravellers',
+  numberOfAdults: 'numberOfAdults',
+  numberOfChildren: 'numberOfChildren',
+  numberOfInfants: 'numberOfInfants',
+  tags: 'tags',
+  destinations: 'destinations',
+  cities: 'cities',
+  companyName: 'companyName',
+  whatsappNumber: 'whatsappNumber',
+  requirements: 'requirements',
+  budget: 'budget',
   firstName: 'firstName',
   lastName: 'lastName',
   email: 'email',

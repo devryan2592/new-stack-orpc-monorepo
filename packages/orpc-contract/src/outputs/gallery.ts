@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { FileType } from "../shared";
 
 export const GalleryFolderOutput = z.object({
   id: z.string(),
@@ -13,7 +14,7 @@ export const GalleryFileOutput = z.object({
   id: z.string(),
   name: z.string(),
   url: z.string(),
-  type: z.string(), // IMAGE, VIDEO
+  type: FileType, // IMAGE, VIDEO
   size: z.number(),
   publicId: z.string(),
   folderId: z.string().nullable(),

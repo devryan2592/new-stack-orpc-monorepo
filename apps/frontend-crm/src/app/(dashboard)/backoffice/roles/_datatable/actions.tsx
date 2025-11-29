@@ -30,7 +30,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@workspace/ui/components/dialog";
-import { RoleForm } from "../_forms/role-form.js";
+import { RoleForm } from "../_forms/role-form";
 import { RoleRow } from "./columns";
 
 interface RolesTableActionsProps {

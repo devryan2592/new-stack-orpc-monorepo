@@ -43,6 +43,7 @@ export type CustomerMinAggregateOutputType = {
   type: $Enums.CustomerType | null
   companyName: string | null
   gstNumber: string | null
+  vatNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +67,7 @@ export type CustomerMaxAggregateOutputType = {
   type: $Enums.CustomerType | null
   companyName: string | null
   gstNumber: string | null
+  vatNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -89,6 +91,7 @@ export type CustomerCountAggregateOutputType = {
   type: number
   companyName: number
   gstNumber: number
+  vatNumber: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -114,6 +117,7 @@ export type CustomerMinAggregateInputType = {
   type?: true
   companyName?: true
   gstNumber?: true
+  vatNumber?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -137,6 +141,7 @@ export type CustomerMaxAggregateInputType = {
   type?: true
   companyName?: true
   gstNumber?: true
+  vatNumber?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -160,6 +165,7 @@ export type CustomerCountAggregateInputType = {
   type?: true
   companyName?: true
   gstNumber?: true
+  vatNumber?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -256,6 +262,7 @@ export type CustomerGroupByOutputType = {
   type: $Enums.CustomerType
   companyName: string | null
   gstNumber: string | null
+  vatNumber: string | null
   createdAt: Date
   updatedAt: Date
   _count: CustomerCountAggregateOutputType | null
@@ -300,8 +307,13 @@ export type CustomerWhereInput = {
   type?: Prisma.EnumCustomerTypeFilter<"Customer"> | $Enums.CustomerType
   companyName?: Prisma.StringNullableFilter<"Customer"> | string | null
   gstNumber?: Prisma.StringNullableFilter<"Customer"> | string | null
+  vatNumber?: Prisma.StringNullableFilter<"Customer"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationListRelationFilter
+  familyMembersAsMember?: Prisma.FamilyRelationListRelationFilter
+  associatesAsOwner?: Prisma.AssociateRelationListRelationFilter
+  associatesAsMember?: Prisma.AssociateRelationListRelationFilter
   leads?: Prisma.LeadListRelationFilter
   documents?: Prisma.CustomerDocumentListRelationFilter
 }
@@ -325,8 +337,13 @@ export type CustomerOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   companyName?: Prisma.SortOrderInput | Prisma.SortOrder
   gstNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  vatNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  familyMembersAsOwner?: Prisma.FamilyRelationOrderByRelationAggregateInput
+  familyMembersAsMember?: Prisma.FamilyRelationOrderByRelationAggregateInput
+  associatesAsOwner?: Prisma.AssociateRelationOrderByRelationAggregateInput
+  associatesAsMember?: Prisma.AssociateRelationOrderByRelationAggregateInput
   leads?: Prisma.LeadOrderByRelationAggregateInput
   documents?: Prisma.CustomerDocumentOrderByRelationAggregateInput
 }
@@ -353,8 +370,13 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumCustomerTypeFilter<"Customer"> | $Enums.CustomerType
   companyName?: Prisma.StringNullableFilter<"Customer"> | string | null
   gstNumber?: Prisma.StringNullableFilter<"Customer"> | string | null
+  vatNumber?: Prisma.StringNullableFilter<"Customer"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationListRelationFilter
+  familyMembersAsMember?: Prisma.FamilyRelationListRelationFilter
+  associatesAsOwner?: Prisma.AssociateRelationListRelationFilter
+  associatesAsMember?: Prisma.AssociateRelationListRelationFilter
   leads?: Prisma.LeadListRelationFilter
   documents?: Prisma.CustomerDocumentListRelationFilter
 }, "id" | "email" | "passportNumber">
@@ -378,6 +400,7 @@ export type CustomerOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   companyName?: Prisma.SortOrderInput | Prisma.SortOrder
   gstNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  vatNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CustomerCountOrderByAggregateInput
@@ -407,6 +430,7 @@ export type CustomerScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumCustomerTypeWithAggregatesFilter<"Customer"> | $Enums.CustomerType
   companyName?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
   gstNumber?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
+  vatNumber?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Customer"> | Date | string
 }
@@ -430,8 +454,13 @@ export type CustomerCreateInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationCreateNestedManyWithoutAssociateInput
   leads?: Prisma.LeadCreateNestedManyWithoutCustomerInput
   documents?: Prisma.CustomerDocumentCreateNestedManyWithoutCustomerInput
 }
@@ -455,8 +484,13 @@ export type CustomerUncheckedCreateInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutAssociateInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutCustomerInput
   documents?: Prisma.CustomerDocumentUncheckedCreateNestedManyWithoutCustomerInput
 }
@@ -480,8 +514,13 @@ export type CustomerUpdateInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUpdateManyWithoutAssociateNestedInput
   leads?: Prisma.LeadUpdateManyWithoutCustomerNestedInput
   documents?: Prisma.CustomerDocumentUpdateManyWithoutCustomerNestedInput
 }
@@ -505,8 +544,13 @@ export type CustomerUncheckedUpdateInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedUpdateManyWithoutAssociateNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutCustomerNestedInput
   documents?: Prisma.CustomerDocumentUncheckedUpdateManyWithoutCustomerNestedInput
 }
@@ -530,6 +574,7 @@ export type CustomerCreateManyInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -553,6 +598,7 @@ export type CustomerUpdateManyMutationInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -576,6 +622,7 @@ export type CustomerUncheckedUpdateManyInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -599,6 +646,7 @@ export type CustomerCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   gstNumber?: Prisma.SortOrder
+  vatNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -622,6 +670,7 @@ export type CustomerMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   gstNumber?: Prisma.SortOrder
+  vatNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -645,6 +694,7 @@ export type CustomerMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   gstNumber?: Prisma.SortOrder
+  vatNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -661,6 +711,62 @@ export type CustomerNullableScalarRelationFilter = {
 
 export type EnumCustomerTypeFieldUpdateOperationsInput = {
   set?: $Enums.CustomerType
+}
+
+export type CustomerCreateNestedOneWithoutFamilyMembersAsOwnerInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsOwnerInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutFamilyMembersAsOwnerInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerCreateNestedOneWithoutFamilyMembersAsMemberInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsMemberInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsMemberInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutFamilyMembersAsMemberInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutFamilyMembersAsOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsOwnerInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutFamilyMembersAsOwnerInput
+  upsert?: Prisma.CustomerUpsertWithoutFamilyMembersAsOwnerInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUpdateWithoutFamilyMembersAsOwnerInput>, Prisma.CustomerUncheckedUpdateWithoutFamilyMembersAsOwnerInput>
+}
+
+export type CustomerUpdateOneRequiredWithoutFamilyMembersAsMemberNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsMemberInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsMemberInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutFamilyMembersAsMemberInput
+  upsert?: Prisma.CustomerUpsertWithoutFamilyMembersAsMemberInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutFamilyMembersAsMemberInput, Prisma.CustomerUpdateWithoutFamilyMembersAsMemberInput>, Prisma.CustomerUncheckedUpdateWithoutFamilyMembersAsMemberInput>
+}
+
+export type CustomerCreateNestedOneWithoutAssociatesAsOwnerInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsOwnerInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutAssociatesAsOwnerInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerCreateNestedOneWithoutAssociatesAsMemberInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsMemberInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsMemberInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutAssociatesAsMemberInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutAssociatesAsOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsOwnerInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutAssociatesAsOwnerInput
+  upsert?: Prisma.CustomerUpsertWithoutAssociatesAsOwnerInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutAssociatesAsOwnerInput, Prisma.CustomerUpdateWithoutAssociatesAsOwnerInput>, Prisma.CustomerUncheckedUpdateWithoutAssociatesAsOwnerInput>
+}
+
+export type CustomerUpdateOneRequiredWithoutAssociatesAsMemberNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsMemberInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsMemberInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutAssociatesAsMemberInput
+  upsert?: Prisma.CustomerUpsertWithoutAssociatesAsMemberInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutAssociatesAsMemberInput, Prisma.CustomerUpdateWithoutAssociatesAsMemberInput>, Prisma.CustomerUncheckedUpdateWithoutAssociatesAsMemberInput>
 }
 
 export type CustomerCreateNestedOneWithoutDocumentsInput = {
@@ -693,6 +799,534 @@ export type CustomerUpdateOneWithoutLeadsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutLeadsInput, Prisma.CustomerUpdateWithoutLeadsInput>, Prisma.CustomerUncheckedUpdateWithoutLeadsInput>
 }
 
+export type CustomerCreateWithoutFamilyMembersAsOwnerInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsMember?: Prisma.FamilyRelationCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationCreateNestedManyWithoutAssociateInput
+  leads?: Prisma.LeadCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutFamilyMembersAsOwnerInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutAssociateInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutFamilyMembersAsOwnerInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsOwnerInput>
+}
+
+export type CustomerCreateWithoutFamilyMembersAsMemberInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationCreateNestedManyWithoutCustomerInput
+  associatesAsOwner?: Prisma.AssociateRelationCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationCreateNestedManyWithoutAssociateInput
+  leads?: Prisma.LeadCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutFamilyMembersAsMemberInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutCustomerInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutAssociateInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutFamilyMembersAsMemberInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsMemberInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsMemberInput>
+}
+
+export type CustomerUpsertWithoutFamilyMembersAsOwnerInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUncheckedUpdateWithoutFamilyMembersAsOwnerInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsOwnerInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutFamilyMembersAsOwnerInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutFamilyMembersAsOwnerInput, Prisma.CustomerUncheckedUpdateWithoutFamilyMembersAsOwnerInput>
+}
+
+export type CustomerUpdateWithoutFamilyMembersAsOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsMember?: Prisma.FamilyRelationUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUpdateManyWithoutAssociateNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutFamilyMembersAsOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedUpdateManyWithoutAssociateNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUpsertWithoutFamilyMembersAsMemberInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutFamilyMembersAsMemberInput, Prisma.CustomerUncheckedUpdateWithoutFamilyMembersAsMemberInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutFamilyMembersAsMemberInput, Prisma.CustomerUncheckedCreateWithoutFamilyMembersAsMemberInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutFamilyMembersAsMemberInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutFamilyMembersAsMemberInput, Prisma.CustomerUncheckedUpdateWithoutFamilyMembersAsMemberInput>
+}
+
+export type CustomerUpdateWithoutFamilyMembersAsMemberInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUpdateManyWithoutCustomerNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUpdateManyWithoutAssociateNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutFamilyMembersAsMemberInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedUpdateManyWithoutAssociateNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerCreateWithoutAssociatesAsOwnerInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationCreateNestedManyWithoutMemberInput
+  associatesAsMember?: Prisma.AssociateRelationCreateNestedManyWithoutAssociateInput
+  leads?: Prisma.LeadCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutAssociatesAsOwnerInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutMemberInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutAssociateInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutAssociatesAsOwnerInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsOwnerInput>
+}
+
+export type CustomerCreateWithoutAssociatesAsMemberInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationCreateNestedManyWithoutCustomerInput
+  leads?: Prisma.LeadCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutAssociatesAsMemberInput = {
+  id?: string
+  avatar?: string | null
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  alternatePhone?: string | null
+  dateOfBirth?: Date | string | null
+  gender?: string | null
+  nationality?: string | null
+  passportNumber?: string | null
+  passportExpiry?: Date | string | null
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  type?: $Enums.CustomerType
+  companyName?: string | null
+  gstNumber?: string | null
+  vatNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutCustomerInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutCustomerInput
+  documents?: Prisma.CustomerDocumentUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutAssociatesAsMemberInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsMemberInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsMemberInput>
+}
+
+export type CustomerUpsertWithoutAssociatesAsOwnerInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutAssociatesAsOwnerInput, Prisma.CustomerUncheckedUpdateWithoutAssociatesAsOwnerInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsOwnerInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsOwnerInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutAssociatesAsOwnerInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutAssociatesAsOwnerInput, Prisma.CustomerUncheckedUpdateWithoutAssociatesAsOwnerInput>
+}
+
+export type CustomerUpdateWithoutAssociatesAsOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUpdateManyWithoutMemberNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUpdateManyWithoutAssociateNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutAssociatesAsOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedUpdateManyWithoutMemberNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedUpdateManyWithoutAssociateNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUpsertWithoutAssociatesAsMemberInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutAssociatesAsMemberInput, Prisma.CustomerUncheckedUpdateWithoutAssociatesAsMemberInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutAssociatesAsMemberInput, Prisma.CustomerUncheckedCreateWithoutAssociatesAsMemberInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutAssociatesAsMemberInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutAssociatesAsMemberInput, Prisma.CustomerUncheckedUpdateWithoutAssociatesAsMemberInput>
+}
+
+export type CustomerUpdateWithoutAssociatesAsMemberInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUpdateManyWithoutCustomerNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutAssociatesAsMemberInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passportExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutCustomerNestedInput
+  documents?: Prisma.CustomerDocumentUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
 export type CustomerCreateWithoutDocumentsInput = {
   id?: string
   avatar?: string | null
@@ -712,8 +1346,13 @@ export type CustomerCreateWithoutDocumentsInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationCreateNestedManyWithoutAssociateInput
   leads?: Prisma.LeadCreateNestedManyWithoutCustomerInput
 }
 
@@ -736,8 +1375,13 @@ export type CustomerUncheckedCreateWithoutDocumentsInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutAssociateInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutCustomerInput
 }
 
@@ -776,8 +1420,13 @@ export type CustomerUpdateWithoutDocumentsInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUpdateManyWithoutAssociateNestedInput
   leads?: Prisma.LeadUpdateManyWithoutCustomerNestedInput
 }
 
@@ -800,8 +1449,13 @@ export type CustomerUncheckedUpdateWithoutDocumentsInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedUpdateManyWithoutAssociateNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
@@ -824,8 +1478,13 @@ export type CustomerCreateWithoutLeadsInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationCreateNestedManyWithoutAssociateInput
   documents?: Prisma.CustomerDocumentCreateNestedManyWithoutCustomerInput
 }
 
@@ -848,8 +1507,13 @@ export type CustomerUncheckedCreateWithoutLeadsInput = {
   type?: $Enums.CustomerType
   companyName?: string | null
   gstNumber?: string | null
+  vatNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutCustomerInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedCreateNestedManyWithoutMemberInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutCustomerInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedCreateNestedManyWithoutAssociateInput
   documents?: Prisma.CustomerDocumentUncheckedCreateNestedManyWithoutCustomerInput
 }
 
@@ -888,8 +1552,13 @@ export type CustomerUpdateWithoutLeadsInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUpdateManyWithoutAssociateNestedInput
   documents?: Prisma.CustomerDocumentUpdateManyWithoutCustomerNestedInput
 }
 
@@ -912,8 +1581,13 @@ export type CustomerUncheckedUpdateWithoutLeadsInput = {
   type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyMembersAsOwner?: Prisma.FamilyRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  familyMembersAsMember?: Prisma.FamilyRelationUncheckedUpdateManyWithoutMemberNestedInput
+  associatesAsOwner?: Prisma.AssociateRelationUncheckedUpdateManyWithoutCustomerNestedInput
+  associatesAsMember?: Prisma.AssociateRelationUncheckedUpdateManyWithoutAssociateNestedInput
   documents?: Prisma.CustomerDocumentUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
@@ -923,11 +1597,19 @@ export type CustomerUncheckedUpdateWithoutLeadsInput = {
  */
 
 export type CustomerCountOutputType = {
+  familyMembersAsOwner: number
+  familyMembersAsMember: number
+  associatesAsOwner: number
+  associatesAsMember: number
   leads: number
   documents: number
 }
 
 export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  familyMembersAsOwner?: boolean | CustomerCountOutputTypeCountFamilyMembersAsOwnerArgs
+  familyMembersAsMember?: boolean | CustomerCountOutputTypeCountFamilyMembersAsMemberArgs
+  associatesAsOwner?: boolean | CustomerCountOutputTypeCountAssociatesAsOwnerArgs
+  associatesAsMember?: boolean | CustomerCountOutputTypeCountAssociatesAsMemberArgs
   leads?: boolean | CustomerCountOutputTypeCountLeadsArgs
   documents?: boolean | CustomerCountOutputTypeCountDocumentsArgs
 }
@@ -940,6 +1622,34 @@ export type CustomerCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
    * Select specific fields to fetch from the CustomerCountOutputType
    */
   select?: Prisma.CustomerCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountFamilyMembersAsOwnerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FamilyRelationWhereInput
+}
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountFamilyMembersAsMemberArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FamilyRelationWhereInput
+}
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountAssociatesAsOwnerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssociateRelationWhereInput
+}
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountAssociatesAsMemberArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssociateRelationWhereInput
 }
 
 /**
@@ -976,8 +1686,13 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   type?: boolean
   companyName?: boolean
   gstNumber?: boolean
+  vatNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  familyMembersAsOwner?: boolean | Prisma.Customer$familyMembersAsOwnerArgs<ExtArgs>
+  familyMembersAsMember?: boolean | Prisma.Customer$familyMembersAsMemberArgs<ExtArgs>
+  associatesAsOwner?: boolean | Prisma.Customer$associatesAsOwnerArgs<ExtArgs>
+  associatesAsMember?: boolean | Prisma.Customer$associatesAsMemberArgs<ExtArgs>
   leads?: boolean | Prisma.Customer$leadsArgs<ExtArgs>
   documents?: boolean | Prisma.Customer$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -1002,6 +1717,7 @@ export type CustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   type?: boolean
   companyName?: boolean
   gstNumber?: boolean
+  vatNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["customer"]>
@@ -1025,6 +1741,7 @@ export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   type?: boolean
   companyName?: boolean
   gstNumber?: boolean
+  vatNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["customer"]>
@@ -1048,12 +1765,17 @@ export type CustomerSelectScalar = {
   type?: boolean
   companyName?: boolean
   gstNumber?: boolean
+  vatNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "firstName" | "lastName" | "email" | "phone" | "alternatePhone" | "dateOfBirth" | "gender" | "nationality" | "passportNumber" | "passportExpiry" | "address" | "city" | "country" | "type" | "companyName" | "gstNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "firstName" | "lastName" | "email" | "phone" | "alternatePhone" | "dateOfBirth" | "gender" | "nationality" | "passportNumber" | "passportExpiry" | "address" | "city" | "country" | "type" | "companyName" | "gstNumber" | "vatNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
 export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  familyMembersAsOwner?: boolean | Prisma.Customer$familyMembersAsOwnerArgs<ExtArgs>
+  familyMembersAsMember?: boolean | Prisma.Customer$familyMembersAsMemberArgs<ExtArgs>
+  associatesAsOwner?: boolean | Prisma.Customer$associatesAsOwnerArgs<ExtArgs>
+  associatesAsMember?: boolean | Prisma.Customer$associatesAsMemberArgs<ExtArgs>
   leads?: boolean | Prisma.Customer$leadsArgs<ExtArgs>
   documents?: boolean | Prisma.Customer$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -1064,6 +1786,10 @@ export type CustomerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Customer"
   objects: {
+    familyMembersAsOwner: Prisma.$FamilyRelationPayload<ExtArgs>[]
+    familyMembersAsMember: Prisma.$FamilyRelationPayload<ExtArgs>[]
+    associatesAsOwner: Prisma.$AssociateRelationPayload<ExtArgs>[]
+    associatesAsMember: Prisma.$AssociateRelationPayload<ExtArgs>[]
     leads: Prisma.$LeadPayload<ExtArgs>[]
     documents: Prisma.$CustomerDocumentPayload<ExtArgs>[]
   }
@@ -1086,6 +1812,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     type: $Enums.CustomerType
     companyName: string | null
     gstNumber: string | null
+    vatNumber: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["customer"]>
@@ -1482,6 +2209,10 @@ readonly fields: CustomerFieldRefs;
  */
 export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  familyMembersAsOwner<T extends Prisma.Customer$familyMembersAsOwnerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$familyMembersAsOwnerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FamilyRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  familyMembersAsMember<T extends Prisma.Customer$familyMembersAsMemberArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$familyMembersAsMemberArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FamilyRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  associatesAsOwner<T extends Prisma.Customer$associatesAsOwnerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$associatesAsOwnerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssociateRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  associatesAsMember<T extends Prisma.Customer$associatesAsMemberArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$associatesAsMemberArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssociateRelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   leads<T extends Prisma.Customer$leadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Customer$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1531,6 +2262,7 @@ export interface CustomerFieldRefs {
   readonly type: Prisma.FieldRef<"Customer", 'CustomerType'>
   readonly companyName: Prisma.FieldRef<"Customer", 'String'>
   readonly gstNumber: Prisma.FieldRef<"Customer", 'String'>
+  readonly vatNumber: Prisma.FieldRef<"Customer", 'String'>
   readonly createdAt: Prisma.FieldRef<"Customer", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Customer", 'DateTime'>
 }
@@ -1918,6 +2650,102 @@ export type CustomerDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Customers to delete.
    */
   limit?: number
+}
+
+/**
+ * Customer.familyMembersAsOwner
+ */
+export type Customer$familyMembersAsOwnerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FamilyRelation
+   */
+  select?: Prisma.FamilyRelationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FamilyRelation
+   */
+  omit?: Prisma.FamilyRelationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FamilyRelationInclude<ExtArgs> | null
+  where?: Prisma.FamilyRelationWhereInput
+  orderBy?: Prisma.FamilyRelationOrderByWithRelationInput | Prisma.FamilyRelationOrderByWithRelationInput[]
+  cursor?: Prisma.FamilyRelationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FamilyRelationScalarFieldEnum | Prisma.FamilyRelationScalarFieldEnum[]
+}
+
+/**
+ * Customer.familyMembersAsMember
+ */
+export type Customer$familyMembersAsMemberArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FamilyRelation
+   */
+  select?: Prisma.FamilyRelationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FamilyRelation
+   */
+  omit?: Prisma.FamilyRelationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FamilyRelationInclude<ExtArgs> | null
+  where?: Prisma.FamilyRelationWhereInput
+  orderBy?: Prisma.FamilyRelationOrderByWithRelationInput | Prisma.FamilyRelationOrderByWithRelationInput[]
+  cursor?: Prisma.FamilyRelationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FamilyRelationScalarFieldEnum | Prisma.FamilyRelationScalarFieldEnum[]
+}
+
+/**
+ * Customer.associatesAsOwner
+ */
+export type Customer$associatesAsOwnerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssociateRelation
+   */
+  select?: Prisma.AssociateRelationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssociateRelation
+   */
+  omit?: Prisma.AssociateRelationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssociateRelationInclude<ExtArgs> | null
+  where?: Prisma.AssociateRelationWhereInput
+  orderBy?: Prisma.AssociateRelationOrderByWithRelationInput | Prisma.AssociateRelationOrderByWithRelationInput[]
+  cursor?: Prisma.AssociateRelationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssociateRelationScalarFieldEnum | Prisma.AssociateRelationScalarFieldEnum[]
+}
+
+/**
+ * Customer.associatesAsMember
+ */
+export type Customer$associatesAsMemberArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssociateRelation
+   */
+  select?: Prisma.AssociateRelationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssociateRelation
+   */
+  omit?: Prisma.AssociateRelationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssociateRelationInclude<ExtArgs> | null
+  where?: Prisma.AssociateRelationWhereInput
+  orderBy?: Prisma.AssociateRelationOrderByWithRelationInput | Prisma.AssociateRelationOrderByWithRelationInput[]
+  cursor?: Prisma.AssociateRelationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssociateRelationScalarFieldEnum | Prisma.AssociateRelationScalarFieldEnum[]
 }
 
 /**

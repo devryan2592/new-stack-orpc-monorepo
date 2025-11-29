@@ -28,6 +28,16 @@ export type Account = Prisma.AccountModel
  */
 export type Customer = Prisma.CustomerModel
 /**
+ * Model FamilyRelation
+ * 
+ */
+export type FamilyRelation = Prisma.FamilyRelationModel
+/**
+ * Model AssociateRelation
+ * 
+ */
+export type AssociateRelation = Prisma.AssociateRelationModel
+/**
  * Model CustomerDocument
  * 
  */

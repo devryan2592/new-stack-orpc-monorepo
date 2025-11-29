@@ -3,4 +3,4 @@ export { default as DataTable } from "./data-table";
 export type { DataTableProps } from "./data-table";
 
 // Re-export commonly used types from @tanstack/react-table for convenience
-export type { ColumnDef } from "@tanstack/react-table";
+export type { ColumnDef, RowSelectionState } from "@tanstack/react-table";

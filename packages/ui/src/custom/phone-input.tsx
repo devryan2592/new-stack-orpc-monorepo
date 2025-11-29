@@ -1,6 +1,6 @@
 import * as React from "react";
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
-import RPNInput from "react-phone-number-input";
+import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
 import { Button } from "@workspace/ui/components/button";
@@ -25,15 +25,15 @@ type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
   "onChange" | "value" | "ref"
 > &
-  Omit<RPNInput.Props<typeof RPNInput>, "onChange"> & {
+  Omit<React.ComponentProps<typeof RPNInput.default>, "onChange"> & {
     onChange?: (value: RPNInput.Value) => void;
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
-  React.forwardRef<React.ElementRef<typeof RPNInput>, PhoneInputProps>(
+  React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
     ({ className, onChange, value, ...props }, ref) => {
       return (
-        <RPNInput
+        <RPNInput.default
           ref={ref}
           className={cn("flex", className)}
           flagComponent={FlagComponent}

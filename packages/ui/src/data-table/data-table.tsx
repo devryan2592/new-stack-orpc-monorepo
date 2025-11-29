@@ -54,6 +54,10 @@ export interface DataTableProps<TData, TValue> {
     pageSize?: number;
     pageIndex?: number;
   };
+  /** Current row selection state */
+  rowSelection?: RowSelectionState;
+  /** Callback when row selection changes */
+  onRowSelectionChange?: (selection: RowSelectionState) => void;
 }
 
 /**
@@ -70,12 +74,29 @@ const DataTable = <TData, TValue>({
   emptyMessage = "No results found.",
   loadingMessage = "Loading data...",
   showPagination = true,
+  rowSelection: controlledRowSelection,
+  onRowSelectionChange: setControlledRowSelection,
 }: DataTableProps<TData, TValue>) => {
   const [tableData, setTableData] = useState<TData[]>(data || []);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [internalRowSelection, setInternalRowSelection] =
+    useState<RowSelectionState>({});
+
+  const rowSelection = controlledRowSelection ?? internalRowSelection;
+  const setRowSelection = setControlledRowSelection
+    ? (updaterOrValue: any) => {
+        // Handle functional updates if necessary, though usually explicit state is passed
+        // React Table passes an updater function
+        if (typeof updaterOrValue === "function") {
+          const newSelection = updaterOrValue(rowSelection);
+          setControlledRowSelection(newSelection);
+        } else {
+          setControlledRowSelection(updaterOrValue);
+        }
+      }
+    : setInternalRowSelection;
 
   // Update table data when props change
   useEffect(() => {
@@ -103,7 +124,15 @@ const DataTable = <TData, TValue>({
         rowSelection,
       },
     }),
-    [tableData, columns, sorting, columnFilters, columnVisibility, rowSelection]
+    [
+      tableData,
+      columns,
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      setRowSelection,
+    ]
   );
 
   const table = useReactTable(tableConfig);

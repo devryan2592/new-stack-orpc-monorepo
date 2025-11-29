@@ -28,12 +28,18 @@ export type AggregateLead = {
 
 export type LeadAvgAggregateOutputType = {
   numberOfDays: number | null
-  numberOfTravellers: number | null
+  numberOfAdults: number | null
+  numberOfChildren: number | null
+  numberOfInfants: number | null
+  budget: number | null
 }
 
 export type LeadSumAggregateOutputType = {
   numberOfDays: number | null
-  numberOfTravellers: number | null
+  numberOfAdults: number | null
+  numberOfChildren: number | null
+  numberOfInfants: number | null
+  budget: number | null
 }
 
 export type LeadMinAggregateOutputType = {
@@ -50,7 +56,13 @@ export type LeadMinAggregateOutputType = {
   travelStart: Date | null
   travelEnd: Date | null
   numberOfDays: number | null
-  numberOfTravellers: number | null
+  numberOfAdults: number | null
+  numberOfChildren: number | null
+  numberOfInfants: number | null
+  companyName: string | null
+  whatsappNumber: string | null
+  requirements: string | null
+  budget: number | null
   firstName: string | null
   lastName: string | null
   email: string | null
@@ -73,7 +85,13 @@ export type LeadMaxAggregateOutputType = {
   travelStart: Date | null
   travelEnd: Date | null
   numberOfDays: number | null
-  numberOfTravellers: number | null
+  numberOfAdults: number | null
+  numberOfChildren: number | null
+  numberOfInfants: number | null
+  companyName: string | null
+  whatsappNumber: string | null
+  requirements: string | null
+  budget: number | null
   firstName: string | null
   lastName: string | null
   email: string | null
@@ -96,7 +114,16 @@ export type LeadCountAggregateOutputType = {
   travelStart: number
   travelEnd: number
   numberOfDays: number
-  numberOfTravellers: number
+  numberOfAdults: number
+  numberOfChildren: number
+  numberOfInfants: number
+  tags: number
+  destinations: number
+  cities: number
+  companyName: number
+  whatsappNumber: number
+  requirements: number
+  budget: number
   firstName: number
   lastName: number
   email: number
@@ -109,12 +136,18 @@ export type LeadCountAggregateOutputType = {
 
 export type LeadAvgAggregateInputType = {
   numberOfDays?: true
-  numberOfTravellers?: true
+  numberOfAdults?: true
+  numberOfChildren?: true
+  numberOfInfants?: true
+  budget?: true
 }
 
 export type LeadSumAggregateInputType = {
   numberOfDays?: true
-  numberOfTravellers?: true
+  numberOfAdults?: true
+  numberOfChildren?: true
+  numberOfInfants?: true
+  budget?: true
 }
 
 export type LeadMinAggregateInputType = {
@@ -131,7 +164,13 @@ export type LeadMinAggregateInputType = {
   travelStart?: true
   travelEnd?: true
   numberOfDays?: true
-  numberOfTravellers?: true
+  numberOfAdults?: true
+  numberOfChildren?: true
+  numberOfInfants?: true
+  companyName?: true
+  whatsappNumber?: true
+  requirements?: true
+  budget?: true
   firstName?: true
   lastName?: true
   email?: true
@@ -154,7 +193,13 @@ export type LeadMaxAggregateInputType = {
   travelStart?: true
   travelEnd?: true
   numberOfDays?: true
-  numberOfTravellers?: true
+  numberOfAdults?: true
+  numberOfChildren?: true
+  numberOfInfants?: true
+  companyName?: true
+  whatsappNumber?: true
+  requirements?: true
+  budget?: true
   firstName?: true
   lastName?: true
   email?: true
@@ -177,7 +222,16 @@ export type LeadCountAggregateInputType = {
   travelStart?: true
   travelEnd?: true
   numberOfDays?: true
-  numberOfTravellers?: true
+  numberOfAdults?: true
+  numberOfChildren?: true
+  numberOfInfants?: true
+  tags?: true
+  destinations?: true
+  cities?: true
+  companyName?: true
+  whatsappNumber?: true
+  requirements?: true
+  budget?: true
   firstName?: true
   lastName?: true
   email?: true
@@ -287,7 +341,16 @@ export type LeadGroupByOutputType = {
   travelStart: Date | null
   travelEnd: Date | null
   numberOfDays: number | null
-  numberOfTravellers: number | null
+  numberOfAdults: number | null
+  numberOfChildren: number | null
+  numberOfInfants: number | null
+  tags: string[]
+  destinations: string[]
+  cities: string[]
+  companyName: string | null
+  whatsappNumber: string | null
+  requirements: string | null
+  budget: number | null
   firstName: string | null
   lastName: string | null
   email: string | null
@@ -333,7 +396,16 @@ export type LeadWhereInput = {
   travelStart?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   travelEnd?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   numberOfDays?: Prisma.IntNullableFilter<"Lead"> | number | null
-  numberOfTravellers?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfAdults?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfChildren?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfInfants?: Prisma.IntNullableFilter<"Lead"> | number | null
+  tags?: Prisma.StringNullableListFilter<"Lead">
+  destinations?: Prisma.StringNullableListFilter<"Lead">
+  cities?: Prisma.StringNullableListFilter<"Lead">
+  companyName?: Prisma.StringNullableFilter<"Lead"> | string | null
+  whatsappNumber?: Prisma.StringNullableFilter<"Lead"> | string | null
+  requirements?: Prisma.StringNullableFilter<"Lead"> | string | null
+  budget?: Prisma.FloatNullableFilter<"Lead"> | number | null
   firstName?: Prisma.StringNullableFilter<"Lead"> | string | null
   lastName?: Prisma.StringNullableFilter<"Lead"> | string | null
   email?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -360,7 +432,16 @@ export type LeadOrderByWithRelationInput = {
   travelStart?: Prisma.SortOrderInput | Prisma.SortOrder
   travelEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   numberOfDays?: Prisma.SortOrderInput | Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  destinations?: Prisma.SortOrder
+  cities?: Prisma.SortOrder
+  companyName?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  requirements?: Prisma.SortOrderInput | Prisma.SortOrder
+  budget?: Prisma.SortOrderInput | Prisma.SortOrder
   firstName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -390,7 +471,16 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   travelStart?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   travelEnd?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   numberOfDays?: Prisma.IntNullableFilter<"Lead"> | number | null
-  numberOfTravellers?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfAdults?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfChildren?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfInfants?: Prisma.IntNullableFilter<"Lead"> | number | null
+  tags?: Prisma.StringNullableListFilter<"Lead">
+  destinations?: Prisma.StringNullableListFilter<"Lead">
+  cities?: Prisma.StringNullableListFilter<"Lead">
+  companyName?: Prisma.StringNullableFilter<"Lead"> | string | null
+  whatsappNumber?: Prisma.StringNullableFilter<"Lead"> | string | null
+  requirements?: Prisma.StringNullableFilter<"Lead"> | string | null
+  budget?: Prisma.FloatNullableFilter<"Lead"> | number | null
   firstName?: Prisma.StringNullableFilter<"Lead"> | string | null
   lastName?: Prisma.StringNullableFilter<"Lead"> | string | null
   email?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -417,7 +507,16 @@ export type LeadOrderByWithAggregationInput = {
   travelStart?: Prisma.SortOrderInput | Prisma.SortOrder
   travelEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   numberOfDays?: Prisma.SortOrderInput | Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  destinations?: Prisma.SortOrder
+  cities?: Prisma.SortOrder
+  companyName?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  requirements?: Prisma.SortOrderInput | Prisma.SortOrder
+  budget?: Prisma.SortOrderInput | Prisma.SortOrder
   firstName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -448,7 +547,16 @@ export type LeadScalarWhereWithAggregatesInput = {
   travelStart?: Prisma.DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
   travelEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
   numberOfDays?: Prisma.IntNullableWithAggregatesFilter<"Lead"> | number | null
-  numberOfTravellers?: Prisma.IntNullableWithAggregatesFilter<"Lead"> | number | null
+  numberOfAdults?: Prisma.IntNullableWithAggregatesFilter<"Lead"> | number | null
+  numberOfChildren?: Prisma.IntNullableWithAggregatesFilter<"Lead"> | number | null
+  numberOfInfants?: Prisma.IntNullableWithAggregatesFilter<"Lead"> | number | null
+  tags?: Prisma.StringNullableListFilter<"Lead">
+  destinations?: Prisma.StringNullableListFilter<"Lead">
+  cities?: Prisma.StringNullableListFilter<"Lead">
+  companyName?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  whatsappNumber?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  requirements?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  budget?: Prisma.FloatNullableWithAggregatesFilter<"Lead"> | number | null
   firstName?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   lastName?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -470,7 +578,16 @@ export type LeadCreateInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -497,7 +614,16 @@ export type LeadUncheckedCreateInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -522,7 +648,16 @@ export type LeadUpdateInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -549,7 +684,16 @@ export type LeadUncheckedUpdateInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -575,7 +719,16 @@ export type LeadCreateManyInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -597,7 +750,16 @@ export type LeadUpdateManyMutationInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -620,7 +782,16 @@ export type LeadUncheckedUpdateManyInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -639,6 +810,14 @@ export type LeadOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type LeadCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   leadCode?: Prisma.SortOrder
@@ -653,7 +832,16 @@ export type LeadCountOrderByAggregateInput = {
   travelStart?: Prisma.SortOrder
   travelEnd?: Prisma.SortOrder
   numberOfDays?: Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  destinations?: Prisma.SortOrder
+  cities?: Prisma.SortOrder
+  companyName?: Prisma.SortOrder
+  whatsappNumber?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -664,7 +852,10 @@ export type LeadCountOrderByAggregateInput = {
 
 export type LeadAvgOrderByAggregateInput = {
   numberOfDays?: Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
 }
 
 export type LeadMaxOrderByAggregateInput = {
@@ -681,7 +872,13 @@ export type LeadMaxOrderByAggregateInput = {
   travelStart?: Prisma.SortOrder
   travelEnd?: Prisma.SortOrder
   numberOfDays?: Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrder
+  companyName?: Prisma.SortOrder
+  whatsappNumber?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -704,7 +901,13 @@ export type LeadMinOrderByAggregateInput = {
   travelStart?: Prisma.SortOrder
   travelEnd?: Prisma.SortOrder
   numberOfDays?: Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrder
+  companyName?: Prisma.SortOrder
+  whatsappNumber?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -715,7 +918,10 @@ export type LeadMinOrderByAggregateInput = {
 
 export type LeadSumOrderByAggregateInput = {
   numberOfDays?: Prisma.SortOrder
-  numberOfTravellers?: Prisma.SortOrder
+  numberOfAdults?: Prisma.SortOrder
+  numberOfChildren?: Prisma.SortOrder
+  numberOfInfants?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
 }
 
 export type LeadScalarRelationFilter = {
@@ -765,6 +971,18 @@ export type LeadUncheckedUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
 }
 
+export type LeadCreatetagsInput = {
+  set: string[]
+}
+
+export type LeadCreatedestinationsInput = {
+  set: string[]
+}
+
+export type LeadCreatecitiesInput = {
+  set: string[]
+}
+
 export type EnumLeadTypeFieldUpdateOperationsInput = {
   set?: $Enums.LeadType
 }
@@ -782,6 +1000,29 @@ export type NullableEnumLeadPriorityFieldUpdateOperationsInput = {
 }
 
 export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type LeadUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type LeadUpdatedestinationsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type LeadUpdatecitiesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
   decrement?: number
@@ -844,7 +1085,16 @@ export type LeadCreateWithoutCustomerInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -869,7 +1119,16 @@ export type LeadUncheckedCreateWithoutCustomerInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -924,7 +1183,16 @@ export type LeadScalarWhereInput = {
   travelStart?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   travelEnd?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   numberOfDays?: Prisma.IntNullableFilter<"Lead"> | number | null
-  numberOfTravellers?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfAdults?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfChildren?: Prisma.IntNullableFilter<"Lead"> | number | null
+  numberOfInfants?: Prisma.IntNullableFilter<"Lead"> | number | null
+  tags?: Prisma.StringNullableListFilter<"Lead">
+  destinations?: Prisma.StringNullableListFilter<"Lead">
+  cities?: Prisma.StringNullableListFilter<"Lead">
+  companyName?: Prisma.StringNullableFilter<"Lead"> | string | null
+  whatsappNumber?: Prisma.StringNullableFilter<"Lead"> | string | null
+  requirements?: Prisma.StringNullableFilter<"Lead"> | string | null
+  budget?: Prisma.FloatNullableFilter<"Lead"> | number | null
   firstName?: Prisma.StringNullableFilter<"Lead"> | string | null
   lastName?: Prisma.StringNullableFilter<"Lead"> | string | null
   email?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -946,7 +1214,16 @@ export type LeadCreateWithoutNotesInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -972,7 +1249,16 @@ export type LeadUncheckedCreateWithoutNotesInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -1012,7 +1298,16 @@ export type LeadUpdateWithoutNotesInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1038,7 +1333,16 @@ export type LeadUncheckedUpdateWithoutNotesInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1062,7 +1366,16 @@ export type LeadCreateWithoutLogsInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -1088,7 +1401,16 @@ export type LeadUncheckedCreateWithoutLogsInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -1128,7 +1450,16 @@ export type LeadUpdateWithoutLogsInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1154,7 +1485,16 @@ export type LeadUncheckedUpdateWithoutLogsInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1178,7 +1518,16 @@ export type LeadCreateWithoutTasksInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -1204,7 +1553,16 @@ export type LeadUncheckedCreateWithoutTasksInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -1244,7 +1602,16 @@ export type LeadUpdateWithoutTasksInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1270,7 +1637,16 @@ export type LeadUncheckedUpdateWithoutTasksInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1294,7 +1670,16 @@ export type LeadCreateManyCustomerInput = {
   travelStart?: Date | string | null
   travelEnd?: Date | string | null
   numberOfDays?: number | null
-  numberOfTravellers?: number | null
+  numberOfAdults?: number | null
+  numberOfChildren?: number | null
+  numberOfInfants?: number | null
+  tags?: Prisma.LeadCreatetagsInput | string[]
+  destinations?: Prisma.LeadCreatedestinationsInput | string[]
+  cities?: Prisma.LeadCreatecitiesInput | string[]
+  companyName?: string | null
+  whatsappNumber?: string | null
+  requirements?: string | null
+  budget?: number | null
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -1316,7 +1701,16 @@ export type LeadUpdateWithoutCustomerInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1341,7 +1735,16 @@ export type LeadUncheckedUpdateWithoutCustomerInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1366,7 +1769,16 @@ export type LeadUncheckedUpdateManyWithoutCustomerInput = {
   travelStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   travelEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   numberOfDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numberOfTravellers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfAdults?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfChildren?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  numberOfInfants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tags?: Prisma.LeadUpdatetagsInput | string[]
+  destinations?: Prisma.LeadUpdatedestinationsInput | string[]
+  cities?: Prisma.LeadUpdatecitiesInput | string[]
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1438,7 +1850,16 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   travelStart?: boolean
   travelEnd?: boolean
   numberOfDays?: boolean
-  numberOfTravellers?: boolean
+  numberOfAdults?: boolean
+  numberOfChildren?: boolean
+  numberOfInfants?: boolean
+  tags?: boolean
+  destinations?: boolean
+  cities?: boolean
+  companyName?: boolean
+  whatsappNumber?: boolean
+  requirements?: boolean
+  budget?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
@@ -1466,7 +1887,16 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   travelStart?: boolean
   travelEnd?: boolean
   numberOfDays?: boolean
-  numberOfTravellers?: boolean
+  numberOfAdults?: boolean
+  numberOfChildren?: boolean
+  numberOfInfants?: boolean
+  tags?: boolean
+  destinations?: boolean
+  cities?: boolean
+  companyName?: boolean
+  whatsappNumber?: boolean
+  requirements?: boolean
+  budget?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
@@ -1490,7 +1920,16 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   travelStart?: boolean
   travelEnd?: boolean
   numberOfDays?: boolean
-  numberOfTravellers?: boolean
+  numberOfAdults?: boolean
+  numberOfChildren?: boolean
+  numberOfInfants?: boolean
+  tags?: boolean
+  destinations?: boolean
+  cities?: boolean
+  companyName?: boolean
+  whatsappNumber?: boolean
+  requirements?: boolean
+  budget?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
@@ -1514,7 +1953,16 @@ export type LeadSelectScalar = {
   travelStart?: boolean
   travelEnd?: boolean
   numberOfDays?: boolean
-  numberOfTravellers?: boolean
+  numberOfAdults?: boolean
+  numberOfChildren?: boolean
+  numberOfInfants?: boolean
+  tags?: boolean
+  destinations?: boolean
+  cities?: boolean
+  companyName?: boolean
+  whatsappNumber?: boolean
+  requirements?: boolean
+  budget?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
@@ -1523,7 +1971,7 @@ export type LeadSelectScalar = {
   updatedAt?: boolean
 }
 
-export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leadCode" | "customerId" | "assignedToId" | "leadType" | "leadSource" | "status" | "priority" | "travelFrom" | "travelTo" | "travelStart" | "travelEnd" | "numberOfDays" | "numberOfTravellers" | "firstName" | "lastName" | "email" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["lead"]>
+export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leadCode" | "customerId" | "assignedToId" | "leadType" | "leadSource" | "status" | "priority" | "travelFrom" | "travelTo" | "travelStart" | "travelEnd" | "numberOfDays" | "numberOfAdults" | "numberOfChildren" | "numberOfInfants" | "tags" | "destinations" | "cities" | "companyName" | "whatsappNumber" | "requirements" | "budget" | "firstName" | "lastName" | "email" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["lead"]>
 export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   notes?: boolean | Prisma.Lead$notesArgs<ExtArgs>
   logs?: boolean | Prisma.Lead$logsArgs<ExtArgs>
@@ -1560,7 +2008,16 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     travelStart: Date | null
     travelEnd: Date | null
     numberOfDays: number | null
-    numberOfTravellers: number | null
+    numberOfAdults: number | null
+    numberOfChildren: number | null
+    numberOfInfants: number | null
+    tags: string[]
+    destinations: string[]
+    cities: string[]
+    companyName: string | null
+    whatsappNumber: string | null
+    requirements: string | null
+    budget: number | null
     firstName: string | null
     lastName: string | null
     email: string | null
@@ -2007,7 +2464,16 @@ export interface LeadFieldRefs {
   readonly travelStart: Prisma.FieldRef<"Lead", 'DateTime'>
   readonly travelEnd: Prisma.FieldRef<"Lead", 'DateTime'>
   readonly numberOfDays: Prisma.FieldRef<"Lead", 'Int'>
-  readonly numberOfTravellers: Prisma.FieldRef<"Lead", 'Int'>
+  readonly numberOfAdults: Prisma.FieldRef<"Lead", 'Int'>
+  readonly numberOfChildren: Prisma.FieldRef<"Lead", 'Int'>
+  readonly numberOfInfants: Prisma.FieldRef<"Lead", 'Int'>
+  readonly tags: Prisma.FieldRef<"Lead", 'String[]'>
+  readonly destinations: Prisma.FieldRef<"Lead", 'String[]'>
+  readonly cities: Prisma.FieldRef<"Lead", 'String[]'>
+  readonly companyName: Prisma.FieldRef<"Lead", 'String'>
+  readonly whatsappNumber: Prisma.FieldRef<"Lead", 'String'>
+  readonly requirements: Prisma.FieldRef<"Lead", 'String'>
+  readonly budget: Prisma.FieldRef<"Lead", 'Float'>
   readonly firstName: Prisma.FieldRef<"Lead", 'String'>
   readonly lastName: Prisma.FieldRef<"Lead", 'String'>
   readonly email: Prisma.FieldRef<"Lead", 'String'>

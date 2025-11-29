@@ -10,6 +10,8 @@
  */
 export type * from './models/Account'
 export type * from './models/Customer'
+export type * from './models/FamilyRelation'
+export type * from './models/AssociateRelation'
 export type * from './models/CustomerDocument'
 export type * from './models/File'
 export type * from './models/GalleryFolder'

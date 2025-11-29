@@ -1,14 +1,28 @@
+"use client";
+
 import DashboardPageHeader from "@/components/dashboard/dashboard-page-header";
 import { NextPage } from "next";
+import DashboardLayout from "@/components/dashboard/dashboard-layout";
+import { AppButton } from "@workspace/ui/custom/app-button";
+import { LeadsDataTable } from "./_datatable";
+import { LeadSheetForm } from "./_forms/lead-sheet-form";
 
 const LeadsPage: NextPage = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <DashboardPageHeader title="Leads" description="Manage your leads" />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-      </div>
-    </div>
+    <DashboardLayout>
+      <DashboardLayout.Body>
+        <DashboardPageHeader
+          title="Leads"
+          description="Manage your leads and sales pipeline"
+          actions={
+            <LeadSheetForm>
+              <AppButton variant="default">New Lead</AppButton>
+            </LeadSheetForm>
+          }
+        />
+        <LeadsDataTable />
+      </DashboardLayout.Body>
+    </DashboardLayout>
   );
 };
 
