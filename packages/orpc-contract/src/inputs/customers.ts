@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { CustomerType } from "../shared";
 
-export const CreateCustomerInput = z.object({
+export const CreateCustomerInputSchema = z.object({
+  avatar: z.string().optional(),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email().optional().or(z.literal("")),
+  email: z.string().email().optional(),
   phone: z.string().optional(),
   alternatePhone: z.string().optional(),
   dateOfBirth: z.string().datetime().optional(), // Accepting ISO string for date
@@ -18,20 +19,21 @@ export const CreateCustomerInput = z.object({
   type: CustomerType.default("B2C"),
   companyName: z.string().optional(),
   gstNumber: z.string().optional(),
+  vatNumber: z.string().optional(),
+
+  // Relationships
   familyMemberIds: z.array(z.string()).optional(),
   associateIds: z.array(z.string()).optional(),
 });
 
-export const UpdateCustomerInput = CreateCustomerInput.partial().extend({
-  id: z.string(),
-});
+export const UpdateCustomerInputSchema = CreateCustomerInputSchema.partial();
 
-export const ListCustomersInput = z.object({
+export const ListCustomersInputSchema = z.object({
   page: z.number().int().min(1).default(1),
   limit: z.number().int().min(1).max(100).default(10),
   search: z.string().optional(),
 });
 
-export type CreateCustomerInputType = z.input<typeof CreateCustomerInput>;
-export type UpdateCustomerInputType = z.input<typeof UpdateCustomerInput>;
-export type ListCustomersInputType = z.input<typeof ListCustomersInput>;
+export type CreateCustomerInputType = z.input<typeof CreateCustomerInputSchema>;
+export type UpdateCustomerInputType = z.input<typeof UpdateCustomerInputSchema>;
+export type ListCustomersInputType = z.input<typeof ListCustomersInputSchema>;

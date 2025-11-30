@@ -2,7 +2,7 @@ import { FileVideo, Trash2 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
-import type { GalleryFileOutputType } from "@workspace/orpc-contract/outputs/gallery";
+import type { GalleryFileOutputType } from "@workspace/orpc-contract";
 
 interface FileItemProps {
   file: GalleryFileOutputType;

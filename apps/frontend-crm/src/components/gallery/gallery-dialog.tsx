@@ -10,7 +10,7 @@ import {
 import { GalleryView } from "./gallery-view";
 import { useState } from "react";
 import { Button } from "@workspace/ui/components/button";
-import type { GalleryItemOutputType } from "@workspace/orpc-contract/outputs/gallery";
+import type { GalleryItemOutputType } from "@workspace/orpc-contract";
 
 interface GalleryDialogProps {
   trigger?: React.ReactNode;

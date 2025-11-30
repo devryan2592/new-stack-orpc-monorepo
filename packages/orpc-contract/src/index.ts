@@ -2,27 +2,16 @@ import { oc } from "@orpc/contract";
 import { rolesContract } from "./contracts/roles";
 import { permissionsContract } from "./contracts/permissions";
 import { usersContract } from "./contracts/users";
-
 import { galleryContract } from "./contracts/gallery";
 import { filesContract } from "./contracts/files";
 import { customersContract } from "./contracts/customers";
 import { leadsContract } from "./contracts/leads";
 
 export const contractVersion = "0.0.0";
-export * from "./contracts/roles";
-export * from "./contracts/permissions";
-export * from "./contracts/users";
-export * from "./contracts/gallery";
-export * from "./contracts/files";
-export * from "./contracts/customers";
-export * from "./contracts/leads";
 
-export * from "./inputs/files";
-export * from "./outputs/files";
-export * from "./inputs/leads";
-export * from "./inputs/lead-actions";
-export * from "./outputs/leads";
-export * from "./outputs/lead-actions";
+export * from "./contracts";
+export * from "./inputs";
+export * from "./outputs";
 
 export const appContracts = oc.router({
   roles: rolesContract,

@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateRoleInputSchema,
   UpdateRoleInputSchema,
-} from "@workspace/orpc-contract/inputs/roles";
+} from "@workspace/orpc-contract";
 import { useCreateRole, useUpdateRole } from "@workspace/orpc-client";
 import { usePermissions } from "@workspace/orpc-client";
 import { Form } from "@workspace/ui/components/form";

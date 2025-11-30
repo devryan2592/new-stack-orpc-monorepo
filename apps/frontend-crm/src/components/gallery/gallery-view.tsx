@@ -40,7 +40,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@workspace/ui/lib/utils";
-import type { GalleryItemOutputType } from "@workspace/orpc-contract/outputs/gallery";
+import type { GalleryItemOutputType } from "@workspace/orpc-contract";
 
 interface GalleryViewProps {
   onSelect?: (items: GalleryItemOutputType[]) => void;

@@ -2,7 +2,7 @@ import { Folder, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { cn } from "@workspace/ui/lib/utils";
-import type { GalleryFolderOutputType } from "@workspace/orpc-contract/outputs/gallery";
+import type { GalleryFolderOutputType } from "@workspace/orpc-contract";
 import { useState, useRef, useEffect } from "react";
 
 interface FolderItemProps {

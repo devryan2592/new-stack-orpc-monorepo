@@ -5,26 +5,28 @@ import { useCustomersClient, useCustomersQueryInvalidation } from "../utils";
 import {
   ListCustomersInput,
   ListCustomersInputType,
-} from "@workspace/orpc-contract/inputs/customers";
+} from "@workspace/orpc-contract";
 
 export function useCustomers(input: ListCustomersInputType = {}) {
   const client = useCustomersClient();
-  return useQuery(client.list.queryOptions({ input: { query: input } }));
+  return useQuery(client.getAll.queryOptions({ input: { query: input } }));
 }
 
 export function useCustomer(id: string) {
   const client = useCustomersClient();
-  return useQuery(client.get.queryOptions({ input: { params: { id } } }));
+  return useQuery(client.getById.queryOptions({ input: { params: { id } } }));
 }
 
 export function useCreateCustomer() {
   const client = useCustomersClient();
-  const { invalidateAll } = useCustomersQueryInvalidation();
+  const { invalidateAll, invalidateAllCustomers } =
+    useCustomersQueryInvalidation();
 
   return useMutation(
     client.create.mutationOptions({
       onSuccess: () => {
         invalidateAll();
+        invalidateAllCustomers();
       },
     })
   );
@@ -32,12 +34,15 @@ export function useCreateCustomer() {
 
 export function useUpdateCustomer() {
   const client = useCustomersClient();
-  const { invalidateAll } = useCustomersQueryInvalidation();
+  const { invalidateAll, invalidateAllCustomers, invalidateById } =
+    useCustomersQueryInvalidation();
 
   return useMutation(
     client.update.mutationOptions({
-      onSuccess: () => {
+      onSuccess: (data, variables) => {
         invalidateAll();
+        invalidateAllCustomers();
+        invalidateById(variables.params.id);
       },
     })
   );
@@ -45,12 +50,12 @@ export function useUpdateCustomer() {
 
 export function useDeleteCustomer() {
   const client = useCustomersClient();
-  const { invalidateAll } = useCustomersQueryInvalidation();
+  const { invalidateAllCustomers } = useCustomersQueryInvalidation();
 
   return useMutation(
     client.delete.mutationOptions({
       onSuccess: () => {
-        invalidateAll();
+        invalidateAllCustomers();
       },
     })
   );

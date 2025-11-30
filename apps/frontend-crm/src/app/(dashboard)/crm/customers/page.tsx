@@ -1,18 +1,29 @@
-import DashboardPageHeader from "@/components/dashboard/dashboard-page-header";
-import { NextPage } from "next";
+"use client";
 
-const CustomersPage: NextPage = () => {
+import { CustomersDataTable } from "./_datatable";
+import { CustomerSheetForm } from "./_forms/customer-sheet-form";
+import { Button } from "@workspace/ui/components/button";
+import { Plus } from "lucide-react";
+
+export default function CustomersPage() {
   return (
-    <div className="flex flex-col gap-4">
-      <DashboardPageHeader
-        title="Customers"
-        description="Manage your customers"
-      />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Customers</h2>
+          <p className="text-muted-foreground">
+            Manage your customers here.
+          </p>
+        </div>
+        <CustomerSheetForm>
+            <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Create Customer
+            </Button>
+        </CustomerSheetForm>
       </div>
+
+      <CustomersDataTable />
     </div>
   );
-};
-
-export default CustomersPage;
+}

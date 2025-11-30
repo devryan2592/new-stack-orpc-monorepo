@@ -1,153 +1,247 @@
 import { prisma } from "@workspace/db";
 import {
   CreateCustomerInput,
+  CustomerOutput,
   ListCustomersInput,
   UpdateCustomerInput,
+  DeleteCustomerInput,
+  ListCustomersOutput,
 } from "./types";
+import { ORPCError } from "@orpc/server";
+import mapCustomerToOutput from "./mapper";
 
-const customerInclude = {
-  familyMembersAsOwner: { include: { member: true } },
-  familyMembersAsMember: { include: { customer: true } },
-  associatesAsOwner: { include: { associate: true } },
-  associatesAsMember: { include: { customer: true } },
-};
+export const customerServiceFactory = (db: typeof prisma) => {
+  // -------------------- Utilities --------------------
 
-const mapCustomer = (customer: any) => {
-  const familyMembers = [
-    ...(customer.familyMembersAsOwner?.map((r: any) => r.member) || []),
-    ...(customer.familyMembersAsMember?.map((r: any) => r.customer) || []),
-  ];
-  const associates = [
-    ...(customer.associatesAsOwner?.map((r: any) => r.associate) || []),
-    ...(customer.associatesAsMember?.map((r: any) => r.customer) || []),
-  ];
+  async function replaceFamilyMembers(
+    customerId: string,
+    memberIds: string[] | undefined,
+    tx?: any
+  ) {
+    const dbInstance = tx || db;
 
-  // Deduplicate by ID
-  const uniqueFamily = Array.from(
-    new Map(familyMembers.map((item: any) => [item.id, item])).values()
-  );
-  const uniqueAssociates = Array.from(
-    new Map(associates.map((item: any) => [item.id, item])).values()
-  );
-
-  const {
-    familyMembersAsOwner,
-    familyMembersAsMember,
-    associatesAsOwner,
-    associatesAsMember,
-    ...rest
-  } = customer;
-
-  return {
-    ...rest,
-    familyMembers: uniqueFamily,
-    associates: uniqueAssociates,
-  };
-};
-
-export const createCustomer = async (body: CreateCustomerInput["body"]) => {
-  const { familyMemberIds, associateIds, ...rest } = body;
-
-  const customer = await prisma.customer.create({
-    data: {
-      ...rest,
-      familyMembersAsOwner: familyMemberIds
-        ? {
-            create: familyMemberIds.map((id) => ({ memberId: id })),
-          }
-        : undefined,
-      associatesAsOwner: associateIds
-        ? {
-            create: associateIds.map((id) => ({ associateId: id })),
-          }
-        : undefined,
-    },
-    include: customerInclude,
-  });
-  return { success: true, data: mapCustomer(customer) };
-};
-
-export const listCustomers = async (query: ListCustomersInput["query"]) => {
-  const { page = 1, limit = 10, search } = query;
-  const skip = (page - 1) * limit;
-  const where: any = {};
-
-  if (search) {
-    where.OR = [
-      { firstName: { contains: search, mode: "insensitive" } },
-      { lastName: { contains: search, mode: "insensitive" } },
-      { email: { contains: search, mode: "insensitive" } },
-      { phone: { contains: search, mode: "insensitive" } },
-    ];
-  }
-
-  const [customers, total] = await Promise.all([
-    prisma.customer.findMany({
-      where,
-      skip,
-      take: limit,
-      orderBy: { createdAt: "desc" },
-      include: customerInclude,
-    }),
-    prisma.customer.count({ where }),
-  ]);
-
-  return {
-    success: true,
-    data: { customers: customers.map(mapCustomer), total },
-  };
-};
-
-export const getCustomer = async (id: string) => {
-  const customer = await prisma.customer.findUnique({
-    where: { id },
-    include: customerInclude,
-  });
-
-  if (!customer) {
-    throw new Error("Customer not found");
-  }
-
-  return { success: true, data: mapCustomer(customer) };
-};
-
-export const updateCustomer = async (
-  id: string,
-  body: UpdateCustomerInput["body"]
-) => {
-  const { familyMemberIds, associateIds, ...rest } = body;
-
-  const updateData: any = { ...rest };
-
-  if (familyMemberIds !== undefined) {
-    await prisma.familyRelation.deleteMany({
-      where: { customerId: id },
+    // Delete existing relations where this customer is the owner
+    await dbInstance.familyRelation.deleteMany({
+      where: {
+        customerId,
+      },
     });
-    updateData.familyMembersAsOwner = {
-      create: familyMemberIds.map((mid) => ({ memberId: mid })),
+
+    if (memberIds?.length) {
+      // Create new relations
+      await dbInstance.familyRelation.createMany({
+        data: memberIds.map((memberId) => ({
+          customerId,
+          memberId,
+        })),
+      });
+    }
+  }
+
+  async function replaceAssociates(
+    customerId: string,
+    associateIds: string[] | undefined,
+    tx?: any
+  ) {
+    const dbInstance = tx || db;
+
+    await dbInstance.associateRelation.deleteMany({
+      where: {
+        customerId,
+      },
+    });
+
+    if (associateIds?.length) {
+      await dbInstance.associateRelation.createMany({
+        data: associateIds.map((associateId) => ({
+          customerId,
+          associateId,
+        })),
+      });
+    }
+  }
+
+  // -------------------- CRUD Operations --------------------
+
+  async function createCustomer(
+    input: CreateCustomerInput["body"]
+  ): Promise<CustomerOutput> {
+    const {
+      familyMemberIds,
+      associateIds,
+      dateOfBirth,
+      passportExpiry,
+      ...rest
+    } = input;
+
+    try {
+      const createdCustomer = await db.$transaction(async (tx) => {
+        const created = await tx.customer.create({
+          data: {
+            ...rest,
+            dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+            passportExpiry: passportExpiry ? new Date(passportExpiry) : null,
+          },
+        });
+
+        if (familyMemberIds) {
+          await replaceFamilyMembers(created.id, familyMemberIds, tx);
+        }
+
+        if (associateIds) {
+          await replaceAssociates(created.id, associateIds, tx);
+        }
+
+        return await tx.customer.findUniqueOrThrow({
+          where: { id: created.id },
+          include: {
+            familyMembersAsOwner: { include: { member: true } },
+            associatesAsOwner: { include: { associate: true } },
+          },
+        });
+      });
+
+      return { success: true, data: mapCustomerToOutput(createdCustomer) };
+    } catch (err: any) {
+      const message = err?.message || "Failed to create customer";
+      throw new ORPCError("BAD_REQUEST", { message, cause: err });
+    }
+  }
+
+  async function updateCustomer(
+    id: string,
+    input: UpdateCustomerInput["body"]
+  ): Promise<CustomerOutput> {
+    const {
+      familyMemberIds,
+      associateIds,
+      dateOfBirth,
+      passportExpiry,
+      ...rest
+    } = input;
+
+    try {
+      const updatedCustomer = await db.$transaction(async (tx) => {
+        const existing = await tx.customer.findUnique({ where: { id } });
+        if (!existing) {
+          throw new ORPCError("NOT_FOUND", { message: "Customer not found" });
+        }
+
+        const updateData: any = { ...rest };
+        if (dateOfBirth !== undefined) {
+          updateData.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : null;
+        }
+        if (passportExpiry !== undefined) {
+          updateData.passportExpiry = passportExpiry
+            ? new Date(passportExpiry)
+            : null;
+        }
+
+        const updated = await tx.customer.update({
+          where: { id },
+          data: updateData,
+        });
+
+        if (familyMemberIds !== undefined) {
+          await replaceFamilyMembers(updated.id, familyMemberIds, tx);
+        }
+
+        if (associateIds !== undefined) {
+          await replaceAssociates(updated.id, associateIds, tx);
+        }
+
+        return await tx.customer.findUniqueOrThrow({
+          where: { id: updated.id },
+          include: {
+            familyMembersAsOwner: { include: { member: true } },
+            associatesAsOwner: { include: { associate: true } },
+          },
+        });
+      });
+
+      return { success: true, data: mapCustomerToOutput(updatedCustomer) };
+    } catch (err: any) {
+      if (err instanceof ORPCError) throw err;
+      const message = err?.message || "Failed to update customer";
+      throw new ORPCError("BAD_REQUEST", { message, cause: err });
+    }
+  }
+
+  async function getCustomer(id: string): Promise<CustomerOutput> {
+    const customer = await db.customer.findUnique({
+      where: { id },
+      include: {
+        familyMembersAsOwner: { include: { member: true } },
+        associatesAsOwner: { include: { associate: true } },
+      },
+    });
+
+    if (!customer) {
+      throw new ORPCError("NOT_FOUND", { message: "Customer not found" });
+    }
+
+    return { success: true, data: mapCustomerToOutput(customer) };
+  }
+
+  async function deleteCustomer(id: string): Promise<{ success: boolean }> {
+    const existing = await db.customer.findUnique({ where: { id } });
+    if (!existing) {
+      throw new ORPCError("NOT_FOUND", { message: "Customer not found" });
+    }
+
+    await db.customer.delete({ where: { id } });
+    return { success: true };
+  }
+
+  async function getAll(
+    input: ListCustomersInput["query"]
+  ): Promise<ListCustomersOutput> {
+    const { page = 1, limit = 10, search } = input;
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+
+    if (search?.trim()) {
+      where.OR = [
+        { firstName: { contains: search.trim(), mode: "insensitive" } },
+        { lastName: { contains: search.trim(), mode: "insensitive" } },
+        { email: { contains: search.trim(), mode: "insensitive" } },
+        { phone: { contains: search.trim(), mode: "insensitive" } },
+      ];
+    }
+
+    const [total, customers] = await Promise.all([
+      db.customer.count({ where }),
+      db.customer.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+        include: {
+          familyMembersAsOwner: { include: { member: true } },
+          associatesAsOwner: { include: { associate: true } },
+        },
+      }),
+    ]);
+
+    const mappedCustomers = customers.map(mapCustomerToOutput);
+
+    return {
+      success: true,
+      data: {
+        customers: mappedCustomers,
+        total,
+      },
     };
   }
 
-  if (associateIds !== undefined) {
-    await prisma.associateRelation.deleteMany({
-      where: { customerId: id },
-    });
-    updateData.associatesAsOwner = {
-      create: associateIds.map((aid) => ({ associateId: aid })),
-    };
-  }
-
-  const customer = await prisma.customer.update({
-    where: { id },
-    data: updateData,
-    include: customerInclude,
-  });
-  return { success: true, data: mapCustomer(customer) };
+  return {
+    createCustomer,
+    updateCustomer,
+    getCustomer,
+    deleteCustomer,
+    getAllCustomers: getAll,
+  };
 };
 
-export const deleteCustomer = async (id: string) => {
-  await prisma.customer.delete({
-    where: { id },
-  });
-  return { success: true };
-};
+export const customerService = customerServiceFactory(prisma);

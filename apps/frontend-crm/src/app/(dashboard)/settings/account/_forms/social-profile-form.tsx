@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   UpdateProfileInputSchema,
   UpdateProfileInputType,
-} from "@workspace/orpc-contract/inputs/profile";
+} from "@workspace/orpc-contract";
 import { useUpdateMe, useMe } from "@workspace/orpc-client";
 import { Form } from "@workspace/ui/components/form";
 import {

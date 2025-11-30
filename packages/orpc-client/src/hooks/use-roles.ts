@@ -10,12 +10,13 @@ export function useRoles() {
 
 export function useCreateRole() {
   const client = useRolesClient();
-  const { invalidateAll } = useRolesQueryInvalidation();
+  const { invalidateAll, invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
     client.create.mutationOptions({
       onSuccess: () => {
         invalidateAll();
+        invalidateAllRoles();
       },
     })
   );
@@ -23,12 +24,13 @@ export function useCreateRole() {
 
 export function useUpdateRole() {
   const client = useRolesClient();
-  const { invalidateAll } = useRolesQueryInvalidation();
+  const { invalidateAll, invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
     client.update.mutationOptions({
       onSuccess: () => {
         invalidateAll();
+        invalidateAllRoles();
       },
     })
   );
@@ -36,12 +38,12 @@ export function useUpdateRole() {
 
 export function useDeleteRole() {
   const client = useRolesClient();
-  const { invalidateAll } = useRolesQueryInvalidation();
+  const { invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
     client.delete.mutationOptions({
       onSuccess: () => {
-        invalidateAll();
+        invalidateAllRoles();
       },
     })
   );
@@ -49,12 +51,13 @@ export function useDeleteRole() {
 
 export function useAssignRole() {
   const client = useRolesClient();
-  const { invalidateAll } = useRolesQueryInvalidation();
+  const { invalidateAll, invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
     client.assign.mutationOptions({
       onSuccess: () => {
         invalidateAll();
+        invalidateAllRoles();
       },
     })
   );

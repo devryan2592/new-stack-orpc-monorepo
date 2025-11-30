@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateUserInput,
   CreateUserInputType,
-} from "@workspace/orpc-contract/inputs/users";
+} from "@workspace/orpc-contract";
 import { useCreateUser } from "@workspace/orpc-client";
 import {
   Form,

@@ -1,9 +1,7 @@
 import { z } from "zod";
 import { LeadType, LeadSource, LeadStatus, LeadPriority } from "../shared";
 
-export const CreateLeadInput = z.object({
-  customerId: z.string().optional(),
-  assignedToId: z.string().optional(),
+export const CreateLeadInputSchema = z.object({
   leadType: LeadType,
   leadSource: LeadSource,
   status: LeadStatus.default("NEW"),
@@ -30,13 +28,15 @@ export const CreateLeadInput = z.object({
   lastName: z.string().optional(),
   email: z.string().email().optional().or(z.literal("")),
   phone: z.string().optional(),
+
+  // Relationships
+  customerId: z.string().optional(),
+  assignedToId: z.string().optional(),
 });
 
-export const UpdateLeadInput = CreateLeadInput.partial().extend({
-  id: z.string(),
-});
+export const UpdateLeadInputSchema = CreateLeadInputSchema.partial();
 
-export const ListLeadsInput = z.object({
+export const ListLeadsInputSchema = z.object({
   page: z.number().int().min(1).default(1),
   limit: z.number().int().min(1).max(100).default(10),
   search: z.string().optional(),
@@ -44,11 +44,11 @@ export const ListLeadsInput = z.object({
   customerId: z.string().optional(),
 });
 
-export const ConvertLeadInput = z.object({
+export const ConvertLeadInputSchema = z.object({
   leadId: z.string(),
 });
 
-export type CreateLeadInputType = z.input<typeof CreateLeadInput>;
-export type UpdateLeadInputType = z.input<typeof UpdateLeadInput>;
-export type ListLeadsInputType = z.input<typeof ListLeadsInput>;
-export type ConvertLeadInputType = z.input<typeof ConvertLeadInput>;
+export type CreateLeadInputType = z.input<typeof CreateLeadInputSchema>;
+export type UpdateLeadInputType = z.input<typeof UpdateLeadInputSchema>;
+export type ListLeadsInputType = z.input<typeof ListLeadsInputSchema>;
+export type ConvertLeadInputType = z.input<typeof ConvertLeadInputSchema>;

@@ -20,17 +20,18 @@ const BaseCustomerOutput = z.object({
   type: CustomerType,
   companyName: z.string().nullable(),
   gstNumber: z.string().nullable(),
+  vatNumber: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
-
-export type CustomerOutputType = z.infer<typeof BaseCustomerOutput> & {
-  familyMembers?: CustomerOutputType[];
-  associates?: CustomerOutputType[];
-};
 
 export const CustomerOutput: z.ZodType<CustomerOutputType> =
   BaseCustomerOutput.extend({
     familyMembers: z.lazy(() => CustomerOutput.array()).optional(),
     associates: z.lazy(() => CustomerOutput.array()).optional(),
   });
+
+export type CustomerOutputType = z.infer<typeof BaseCustomerOutput> & {
+  familyMembers?: CustomerOutputType[];
+  associates?: CustomerOutputType[];
+};

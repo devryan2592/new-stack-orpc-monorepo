@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFilesClient, useFilesQueryInvalidation } from "../utils";
-import { ListFilesInputType } from "@workspace/orpc-contract/inputs/files";
+import { ListFilesInputType } from "@workspace/orpc-contract";
 
 export function useFiles(input: ListFilesInputType = {}) {
   const client = useFilesClient();
@@ -16,12 +16,12 @@ export function useFile(id: string) {
 
 export function useDeleteFile() {
   const client = useFilesClient();
-  const { invalidateAll } = useFilesQueryInvalidation();
+  const { invalidateAllFiles } = useFilesQueryInvalidation();
 
   return useMutation(
     client.delete.mutationOptions({
       onSuccess: () => {
-        invalidateAll();
+        invalidateAllFiles();
       },
     })
   );

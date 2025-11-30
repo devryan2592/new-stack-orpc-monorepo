@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLeadsClient, useLeadsQueryInvalidation } from "../utils";
-import { ListLeadsInputType } from "@workspace/orpc-contract/inputs/leads";
+import { ListLeadsInputType } from "@workspace/orpc-contract";
 
 export function useLeads(input: ListLeadsInputType = {}) {
   const client = useLeadsClient();
