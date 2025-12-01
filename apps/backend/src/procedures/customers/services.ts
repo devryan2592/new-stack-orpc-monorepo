@@ -61,6 +61,67 @@ export const customerServiceFactory = (db: typeof prisma) => {
     }
   }
 
+  async function replaceDocuments(
+    customerId: string,
+    documentIds: string[] | undefined,
+    tx?: any
+  ) {
+    const dbInstance = tx || db;
+
+    await dbInstance.customerDocument.deleteMany({
+      where: {
+        customerId,
+      },
+    });
+
+    if (documentIds?.length) {
+      await dbInstance.customerDocument.createMany({
+        data: documentIds.map((fileId) => ({
+          customerId,
+          fileId,
+        })),
+      });
+    }
+  }
+
+  async function updateLeads(
+    customerId: string,
+    leadIds: string[] | undefined,
+    tx?: any
+  ) {
+    const dbInstance = tx || db;
+
+    if (leadIds !== undefined) {
+      // Unlink all leads currently linked to this customer?
+      // Or just link the new ones?
+      // Usually "replace" logic implies unlinking others.
+      // But leads might be independent.
+      // If we want to "set" the leads for this customer, we should unset others?
+      // But leads are one-to-many.
+      // Let's assume we just update the provided leads to point to this customer.
+      // And maybe unset leads that are NOT in the list but were previously?
+      // That's complex.
+      // Let's just update the provided leads.
+      // The user said "relationships for inputs we will only have array of strings".
+      // If I send an empty array, does it mean clear all leads?
+      // Let's assume yes for consistency with other relations.
+
+      // First, unset customerId for all leads of this customer
+      await dbInstance.lead.updateMany({
+        where: { customerId },
+        data: { customerId: null },
+      });
+
+      // Then set customerId for the new leads
+      if (leadIds.length > 0) {
+        await dbInstance.lead.updateMany({
+          where: { id: { in: leadIds } },
+          data: { customerId },
+        });
+      }
+    }
+  }
+
   // -------------------- CRUD Operations --------------------
 
   async function createCustomer(
@@ -69,6 +130,8 @@ export const customerServiceFactory = (db: typeof prisma) => {
     const {
       familyMemberIds,
       associateIds,
+      leadIds,
+      documentIds,
       dateOfBirth,
       passportExpiry,
       ...rest
@@ -90,6 +153,14 @@ export const customerServiceFactory = (db: typeof prisma) => {
 
         if (associateIds) {
           await replaceAssociates(created.id, associateIds, tx);
+        }
+
+        if (documentIds) {
+          await replaceDocuments(created.id, documentIds, tx);
+        }
+
+        if (leadIds) {
+          await updateLeads(created.id, leadIds, tx);
         }
 
         return await tx.customer.findUniqueOrThrow({
@@ -115,6 +186,8 @@ export const customerServiceFactory = (db: typeof prisma) => {
     const {
       familyMemberIds,
       associateIds,
+      leadIds,
+      documentIds,
       dateOfBirth,
       passportExpiry,
       ...rest
@@ -148,6 +221,14 @@ export const customerServiceFactory = (db: typeof prisma) => {
 
         if (associateIds !== undefined) {
           await replaceAssociates(updated.id, associateIds, tx);
+        }
+
+        if (documentIds !== undefined) {
+          await replaceDocuments(updated.id, documentIds, tx);
+        }
+
+        if (leadIds !== undefined) {
+          await updateLeads(updated.id, leadIds, tx);
         }
 
         return await tx.customer.findUniqueOrThrow({

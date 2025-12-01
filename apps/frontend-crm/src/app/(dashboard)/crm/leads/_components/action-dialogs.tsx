@@ -25,6 +25,9 @@ import {
   CreateLeadNoteInput,
   CreateLeadLogInput,
   CreateLeadTaskInput,
+  createLeadNoteSchema,
+  createLeadLogSchema,
+  createLeadTaskSchema,
 } from "@workspace/orpc-contract";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -41,12 +44,12 @@ export const AddNoteDialog = ({
   onOpenChange,
 }: ActionDialogProps) => {
   const addNote = useAddNote();
-  const form = useForm<z.infer<typeof CreateLeadNoteInput>>({
-    resolver: zodResolver(CreateLeadNoteInput),
+  const form = useForm<CreateLeadNoteInput>({
+    resolver: zodResolver(createLeadNoteSchema),
     defaultValues: { leadId, content: "" },
   });
 
-  const onSubmit = async (data: z.infer<typeof CreateLeadNoteInput>) => {
+  const onSubmit = async (data: CreateLeadNoteInput) => {
     try {
       await addNote.mutateAsync({
         params: { leadId },
@@ -100,12 +103,12 @@ export const AddLogDialog = ({
   onOpenChange,
 }: ActionDialogProps) => {
   const addLog = useAddLog();
-  const form = useForm<z.infer<typeof CreateLeadLogInput>>({
-    resolver: zodResolver(CreateLeadLogInput),
+  const form = useForm<CreateLeadLogInput>({
+    resolver: zodResolver(createLeadLogSchema),
     defaultValues: { leadId, type: "CALL", message: "" },
   });
 
-  const onSubmit = async (data: z.infer<typeof CreateLeadLogInput>) => {
+  const onSubmit = async (data: CreateLeadLogInput) => {
     try {
       await addLog.mutateAsync({
         params: { leadId },
@@ -181,12 +184,12 @@ export const AddTaskDialog = ({
   onOpenChange,
 }: ActionDialogProps) => {
   const addTask = useAddTask();
-  const form = useForm<z.infer<typeof CreateLeadTaskInput>>({
-    resolver: zodResolver(CreateLeadTaskInput),
+  const form = useForm<CreateLeadTaskInput>({
+    resolver: zodResolver(createLeadTaskSchema),
     defaultValues: { leadId, title: "" },
   });
 
-  const onSubmit = async (data: z.infer<typeof CreateLeadTaskInput>) => {
+  const onSubmit = async (data: CreateLeadTaskInput) => {
     try {
       await addTask.mutateAsync({
         params: { leadId },

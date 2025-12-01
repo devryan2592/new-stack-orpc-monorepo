@@ -1,21 +1,21 @@
 import { z } from "zod";
 import { FileType } from "../shared";
 
-export const CreateFolderInputSchema = z.object({
+export const createFolderSchema = z.object({
   name: z.string().min(1),
   parentId: z.string().optional(),
 });
 
-export const UpdateFolderInputSchema = z.object({
+export const updateFolderSchema = z.object({
   name: z.string().min(1),
 });
 
-export const GenerateUploadSignatureInputSchema = z.object({
+export const generateUploadSignatureSchema = z.object({
   folderId: z.string().optional(),
   type: FileType.optional(),
 });
 
-export const CreateFileInputSchema = z.object({
+export const createFileSchema = z.object({
   name: z.string(),
   url: z.string().url(),
   type: FileType,
@@ -24,17 +24,17 @@ export const CreateFileInputSchema = z.object({
   folderId: z.string().optional(),
 });
 
-export const ListGalleryItemsInputSchema = z.object({
+export const listGalleryItemsSchema = z.object({
   folderId: z.string().optional(), // If null/undefined, list root
   type: FileType.optional(),
 });
 
-export type CreateFolderInputType = z.input<typeof CreateFolderInputSchema>;
-export type UpdateFolderInputType = z.input<typeof UpdateFolderInputSchema>;
+export type CreateFolderInputType = z.input<typeof createFolderSchema>;
+export type UpdateFolderInputType = z.input<typeof updateFolderSchema>;
 export type GenerateUploadSignatureInputType = z.input<
-  typeof GenerateUploadSignatureInputSchema
+  typeof generateUploadSignatureSchema
 >;
-export type CreateFileInputType = z.input<typeof CreateFileInputSchema>;
+export type CreateFileInputType = z.input<typeof createFileSchema>;
 export type ListGalleryItemsInputType = z.input<
-  typeof ListGalleryItemsInputSchema
+  typeof listGalleryItemsSchema
 >;

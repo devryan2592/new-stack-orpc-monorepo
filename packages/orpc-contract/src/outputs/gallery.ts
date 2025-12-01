@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { FileType } from "../shared";
 
-export const GalleryFolderOutput = z.object({
+export const GalleryFolderOutputSchema = z.object({
   id: z.string(),
   name: z.string(),
   parentId: z.string().nullable(),
@@ -10,7 +10,7 @@ export const GalleryFolderOutput = z.object({
   updatedAt: z.date(),
 });
 
-export const GalleryFileOutput = z.object({
+export const GalleryFileOutputSchema = z.object({
   id: z.string(),
   name: z.string(),
   url: z.string(),
@@ -23,12 +23,12 @@ export const GalleryFileOutput = z.object({
   updatedAt: z.date(),
 });
 
-export const GalleryItemOutput = z.union([
-  GalleryFolderOutput.extend({ itemType: z.literal("FOLDER") }),
-  GalleryFileOutput.extend({ itemType: z.literal("FILE") }),
+export const GalleryItemOutputSchema = z.union([
+  GalleryFolderOutputSchema.extend({ itemType: z.literal("FOLDER") }),
+  GalleryFileOutputSchema.extend({ itemType: z.literal("FILE") }),
 ]);
 
-export const UploadSignatureOutput = z.object({
+export const UploadSignatureOutputSchema = z.object({
   signature: z.string(),
   timestamp: z.number(),
   cloudName: z.string(),
@@ -37,7 +37,9 @@ export const UploadSignatureOutput = z.object({
 });
 
 // Export TypeScript types
-export type GalleryFolderOutputType = z.infer<typeof GalleryFolderOutput>;
-export type GalleryFileOutputType = z.infer<typeof GalleryFileOutput>;
-export type GalleryItemOutputType = z.infer<typeof GalleryItemOutput>;
-export type UploadSignatureOutputType = z.infer<typeof UploadSignatureOutput>;
+export type GalleryFolderOutputType = z.infer<typeof GalleryFolderOutputSchema>;
+export type GalleryFileOutputType = z.infer<typeof GalleryFileOutputSchema>;
+export type GalleryItemOutputType = z.infer<typeof GalleryItemOutputSchema>;
+export type UploadSignatureOutputType = z.infer<
+  typeof UploadSignatureOutputSchema
+>;

@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-export const UpdateUserPermissionsInput = z.object({
+export const updateUserPermissionsSchema = z.object({
   userId: z.string(),
   permissions: z.array(z.string()),
 });
 
 export type UpdateUserPermissionsInputType = z.input<
-  typeof UpdateUserPermissionsInput
+  typeof updateUserPermissionsSchema
 >;

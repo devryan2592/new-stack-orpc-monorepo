@@ -1,26 +1,28 @@
 import { oc } from "@orpc/contract";
 import { z } from "zod";
 import {
-  ConvertLeadInputSchema,
-  CreateLeadInputSchema,
-  ListLeadsInputSchema,
-  UpdateLeadInputSchema,
+  convertLeadSchema,
+  createLeadSchema,
+  listLeadsSchema,
+  updateLeadSchema,
 } from "../inputs/leads";
 import {
-  BulkConvertLeadsInputSchema,
-  BulkDeleteLeadsInputSchema,
-  CreateLeadLogInputSchema,
-  CreateLeadNoteInputSchema,
-  CreateLeadTaskInputSchema,
-  UpdateLeadTaskInputSchema,
+  bulkConvertLeadsSchema,
+  bulkDeleteLeadsSchema,
+  createLeadLogSchema,
+  createLeadNoteSchema,
+  createLeadTaskSchema,
+  updateLeadLogSchema,
+  updateLeadNoteSchema,
+  updateLeadTaskSchema,
 } from "../inputs/lead-actions";
-import { LeadOutput } from "../outputs/leads";
+import { LeadOutputSchema } from "../outputs/leads";
 import {
-  LeadLogOutput,
-  LeadNoteOutput,
-  LeadTaskOutput,
+  LeadLogOutputSchema,
+  LeadNoteOutputSchema,
+  LeadTaskOutputSchema,
 } from "../outputs/lead-actions";
-import { CustomerOutput } from "../outputs/customers";
+import { CustomerOutputSchema } from "../outputs/customers";
 import { ApiResponse, SuccessResponse } from "../utils/api";
 
 const createLeadContract = oc
@@ -30,8 +32,8 @@ const createLeadContract = oc
     tags: ["Leads"],
     summary: "Create a new lead",
   })
-  .input(z.object({ body: CreateLeadInputSchema }))
-  .output(ApiResponse(LeadOutput));
+  .input(z.object({ body: createLeadSchema }))
+  .output(ApiResponse(LeadOutputSchema));
 
 const getAllLeadsContract = oc
   .route({
@@ -40,11 +42,11 @@ const getAllLeadsContract = oc
     tags: ["Leads"],
     summary: "List all leads",
   })
-  .input(z.object({ query: ListLeadsInputSchema }))
+  .input(z.object({ query: listLeadsSchema }))
   .output(
     ApiResponse(
       z.object({
-        leads: z.array(LeadOutput),
+        leads: z.array(LeadOutputSchema),
         total: z.number(),
       })
     )
@@ -58,7 +60,7 @@ const getLeadByIdContract = oc
     summary: "Get a lead by ID",
   })
   .input(z.object({ params: z.object({ id: z.string() }) }))
-  .output(ApiResponse(LeadOutput));
+  .output(ApiResponse(LeadOutputSchema));
 
 const updateLeadContract = oc
   .route({
@@ -70,10 +72,10 @@ const updateLeadContract = oc
   .input(
     z.object({
       params: z.object({ id: z.string() }),
-      body: UpdateLeadInputSchema.omit({ id: true }),
+      body: updateLeadSchema,
     })
   )
-  .output(ApiResponse(LeadOutput));
+  .output(ApiResponse(LeadOutputSchema));
 
 const deleteLeadContract = oc
   .route({
@@ -95,10 +97,10 @@ const converLeadToCustomerContract = oc
   .input(
     z.object({
       params: z.object({ id: z.string() }),
-      body: ConvertLeadInputSchema.omit({ leadId: true }).optional(),
+      body: convertLeadSchema.omit({ leadId: true }).optional(),
     })
   )
-  .output(ApiResponse(CustomerOutput));
+  .output(ApiResponse(CustomerOutputSchema));
 
 const addLeadNoteContract = oc
   .route({
@@ -110,10 +112,25 @@ const addLeadNoteContract = oc
   .input(
     z.object({
       params: z.object({ leadId: z.string() }),
-      body: CreateLeadNoteInputSchema.omit({ leadId: true }),
+      body: createLeadNoteSchema.omit({ leadId: true }),
     })
   )
-  .output(ApiResponse(LeadNoteOutput));
+  .output(ApiResponse(LeadNoteOutputSchema));
+
+const updateLeadNoteContract = oc
+  .route({
+    method: "PUT",
+    path: "/leads/notes/:id",
+    tags: ["Leads"],
+    summary: "Update a lead note",
+  })
+  .input(
+    z.object({
+      params: z.object({ id: z.string() }),
+      body: updateLeadNoteSchema,
+    })
+  )
+  .output(ApiResponse(LeadNoteOutputSchema));
 
 const addLeadLogContract = oc
   .route({
@@ -125,10 +142,25 @@ const addLeadLogContract = oc
   .input(
     z.object({
       params: z.object({ leadId: z.string() }),
-      body: CreateLeadLogInputSchema.omit({ leadId: true }),
+      body: createLeadLogSchema.omit({ leadId: true }),
     })
   )
-  .output(ApiResponse(LeadLogOutput));
+  .output(ApiResponse(LeadLogOutputSchema));
+
+const updateLeadLogContract = oc
+  .route({
+    method: "PUT",
+    path: "/leads/logs/:id",
+    tags: ["Leads"],
+    summary: "Update a lead log",
+  })
+  .input(
+    z.object({
+      params: z.object({ id: z.string() }),
+      body: updateLeadLogSchema,
+    })
+  )
+  .output(ApiResponse(LeadLogOutputSchema));
 
 const addLeadTaskContract = oc
   .route({
@@ -140,10 +172,10 @@ const addLeadTaskContract = oc
   .input(
     z.object({
       params: z.object({ leadId: z.string() }),
-      body: CreateLeadTaskInputSchema.omit({ leadId: true }),
+      body: createLeadTaskSchema.omit({ leadId: true }),
     })
   )
-  .output(ApiResponse(LeadTaskOutput));
+  .output(ApiResponse(LeadTaskOutputSchema));
 
 const updateLeadTaskContract = oc
   .route({
@@ -155,10 +187,10 @@ const updateLeadTaskContract = oc
   .input(
     z.object({
       params: z.object({ id: z.string() }),
-      body: UpdateLeadTaskInputSchema.omit({ id: true }),
+      body: updateLeadTaskSchema,
     })
   )
-  .output(ApiResponse(LeadTaskOutput));
+  .output(ApiResponse(LeadTaskOutputSchema));
 
 const bulkDeleteLeadsContract = oc
   .route({
@@ -167,7 +199,7 @@ const bulkDeleteLeadsContract = oc
     tags: ["Leads"],
     summary: "Bulk delete leads",
   })
-  .input(z.object({ body: BulkDeleteLeadsInputSchema }))
+  .input(z.object({ body: bulkDeleteLeadsSchema }))
   .output(SuccessResponse);
 
 const bulkConverLeadsContract = oc
@@ -177,12 +209,12 @@ const bulkConverLeadsContract = oc
     tags: ["Leads"],
     summary: "Bulk convert leads to customers",
   })
-  .input(z.object({ body: BulkConvertLeadsInputSchema }))
+  .input(z.object({ body: bulkConvertLeadsSchema }))
   .output(SuccessResponse);
 
 export const leadsContract = oc.router({
   createLead: createLeadContract,
-  getAllLeads: getAllLeadsContract,
+  listLeads: getAllLeadsContract,
   getLeadById: getLeadByIdContract,
   updateLead: updateLeadContract,
   deleteLead: deleteLeadContract,
@@ -191,16 +223,11 @@ export const leadsContract = oc.router({
   bulkConvertLeadToCustomer: bulkConverLeadsContract,
 
   addLeadNote: addLeadNoteContract,
+  updateLeadNote: updateLeadNoteContract,
+
   addLeadLog: addLeadLogContract,
+  updateLeadLog: updateLeadLogContract,
 
   addLeadTask: addLeadTaskContract,
   updateLeadTask: updateLeadTaskContract,
-
-  // Pending Contracts
-  // UpdateLeadNote: updateLeadNoteContract,
-  // UpdateLeadLog: updateLeadLogContract,
-
-  // DeleteLeadNote: deleteLeadNoteContract,
-  // DeleteLeadLog: deleteLeadLogContract,
-  // DeleteLeadTask: deleteLeadTaskContract,
 });

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const UserOutput = z.object({
+export const UserOutputSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
@@ -25,3 +25,5 @@ export const UserOutput = z.object({
   twitter: z.string().optional().nullable(),
   linkedin: z.string().optional().nullable(),
 });
+
+export type UserOutputType = z.infer<typeof UserOutputSchema>;

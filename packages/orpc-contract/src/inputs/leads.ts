@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { LeadType, LeadSource, LeadStatus, LeadPriority } from "../shared";
 
-export const CreateLeadInputSchema = z.object({
+export const createLeadSchema = z.object({
   leadType: LeadType,
   leadSource: LeadSource,
   status: LeadStatus.default("NEW"),
@@ -34,9 +34,9 @@ export const CreateLeadInputSchema = z.object({
   assignedToId: z.string().optional(),
 });
 
-export const UpdateLeadInputSchema = CreateLeadInputSchema.partial();
+export const updateLeadSchema = createLeadSchema.partial();
 
-export const ListLeadsInputSchema = z.object({
+export const listLeadsSchema = z.object({
   page: z.number().int().min(1).default(1),
   limit: z.number().int().min(1).max(100).default(10),
   search: z.string().optional(),
@@ -44,11 +44,11 @@ export const ListLeadsInputSchema = z.object({
   customerId: z.string().optional(),
 });
 
-export const ConvertLeadInputSchema = z.object({
+export const convertLeadSchema = z.object({
   leadId: z.string(),
 });
 
-export type CreateLeadInputType = z.input<typeof CreateLeadInputSchema>;
-export type UpdateLeadInputType = z.input<typeof UpdateLeadInputSchema>;
-export type ListLeadsInputType = z.input<typeof ListLeadsInputSchema>;
-export type ConvertLeadInputType = z.input<typeof ConvertLeadInputSchema>;
+export type CreateLeadInputType = z.input<typeof createLeadSchema>;
+export type UpdateLeadInputType = z.input<typeof updateLeadSchema>;
+export type ListLeadsInputType = z.input<typeof listLeadsSchema>;
+export type ConvertLeadInputType = z.input<typeof convertLeadSchema>;

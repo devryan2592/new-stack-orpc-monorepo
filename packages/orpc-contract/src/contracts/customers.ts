@@ -1,11 +1,11 @@
 import { oc } from "@orpc/contract";
 import { z } from "zod";
 import {
-  CreateCustomerInputSchema,
-  ListCustomersInputSchema,
-  UpdateCustomerInputSchema,
+  createCustomerSchema,
+  listCustomersSchema,
+  updateCustomerSchema,
 } from "../inputs/customers";
-import { CustomerOutput } from "../outputs/customers";
+import { CustomerOutputSchema } from "../outputs/customers";
 import { ApiResponse, SuccessResponse } from "../utils/api";
 
 const createCustomerContract = oc
@@ -15,8 +15,8 @@ const createCustomerContract = oc
     tags: ["Customers"],
     summary: "Create a new customer",
   })
-  .input(z.object({ body: CreateCustomerInputSchema }))
-  .output(ApiResponse(CustomerOutput));
+  .input(z.object({ body: createCustomerSchema }))
+  .output(ApiResponse(CustomerOutputSchema));
 
 const getCustomerByIdContract = oc
   .route({
@@ -26,7 +26,7 @@ const getCustomerByIdContract = oc
     summary: "Get a customer by ID",
   })
   .input(z.object({ params: z.object({ id: z.string() }) }))
-  .output(ApiResponse(CustomerOutput));
+  .output(ApiResponse(CustomerOutputSchema));
 
 const getAllCustomersContract = oc
   .route({
@@ -35,11 +35,11 @@ const getAllCustomersContract = oc
     tags: ["Customers"],
     summary: "Get all customers",
   })
-  .input(z.object({ query: ListCustomersInputSchema }))
+  .input(z.object({ query: listCustomersSchema }))
   .output(
     ApiResponse(
       z.object({
-        customers: z.array(CustomerOutput),
+        customers: z.array(CustomerOutputSchema),
         total: z.number(),
       })
     )
@@ -55,10 +55,10 @@ const updateCustomerContract = oc
   .input(
     z.object({
       params: z.object({ id: z.string() }),
-      body: UpdateCustomerInputSchema.omit({ id: true }),
+      body: updateCustomerSchema,
     })
   )
-  .output(ApiResponse(CustomerOutput));
+  .output(ApiResponse(CustomerOutputSchema));
 
 const deleteCustomerContract = oc
   .route({
@@ -71,9 +71,9 @@ const deleteCustomerContract = oc
   .output(SuccessResponse);
 
 export const customersContract = oc.router({
-  create: createCustomerContract,
-  getAll: getAllCustomersContract,
-  getById: getCustomerByIdContract,
-  update: updateCustomerContract,
-  delete: deleteCustomerContract,
+  createCustomer: createCustomerContract,
+  listCustomers: getAllCustomersContract,
+  getCustomerById: getCustomerByIdContract,
+  updateCustomer: updateCustomerContract,
+  deleteCustomer: deleteCustomerContract,
 });

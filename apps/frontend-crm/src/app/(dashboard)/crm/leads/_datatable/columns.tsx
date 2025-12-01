@@ -6,7 +6,7 @@ import { Checkbox } from "@workspace/ui/components/checkbox";
 import { LeadsTableActions } from "./actions";
 import { format } from "date-fns";
 
-export type LeadRow = z.infer<typeof LeadOutput>;
+export type LeadRow = LeadOutput;
 
 export const columns: ColumnDef<LeadRow>[] = [
   {

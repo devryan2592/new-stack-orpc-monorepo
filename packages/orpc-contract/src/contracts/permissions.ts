@@ -1,18 +1,18 @@
 import { oc } from "@orpc/contract";
 import { z } from "zod";
-import { UpdateUserPermissionsInput } from "../inputs/permissions";
-import { PermissionOutput } from "../outputs/permissions";
+import { updateUserPermissionsSchema } from "../inputs/permissions";
+import { PermissionOutputSchema } from "../outputs/permissions";
 import { ApiResponse } from "../utils/api";
 
-export const listPermissions = oc
+const listPermissions = oc
   .route({
     method: "GET",
     path: "/permissions",
     tags: ["Permissions"],
     summary: "List all available permissions",
   })
-  .output(ApiResponse(z.array(PermissionOutput)));
+  .output(ApiResponse(z.array(PermissionOutputSchema)));
 
 export const permissionsContract = oc.router({
-  list: listPermissions,
+  listPermissions: listPermissions,
 });

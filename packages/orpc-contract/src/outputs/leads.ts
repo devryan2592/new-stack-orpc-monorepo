@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { CustomerOutput } from "./customers";
+import { CustomerOutputSchema } from "./customers";
 import { LeadType, LeadSource, LeadStatus, LeadPriority } from "../shared";
 
-export const LeadOutput = z.object({
+export const LeadOutputSchema = z.object({
   id: z.string(),
   leadCode: z.string(),
   customerId: z.string().nullable(),
@@ -34,8 +34,10 @@ export const LeadOutput = z.object({
   email: z.string().nullable(),
   phone: z.string().nullable(),
 
-  customer: CustomerOutput.nullable().optional(),
+  customer: CustomerOutputSchema.nullable().optional(),
 
   createdAt: z.date(),
   updatedAt: z.date(),
 });
+
+export type LeadOutputType = z.infer<typeof LeadOutputSchema>;

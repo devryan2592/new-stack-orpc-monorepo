@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const RoleOutput = z.object({
+export const RoleOutputSchema = z.object({
   id: z.string(),
   name: z.string(),
   label: z.string().nullable(),
@@ -8,3 +8,5 @@ export const RoleOutput = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
 });
+
+export type RoleOutputType = z.infer<typeof RoleOutputSchema>;

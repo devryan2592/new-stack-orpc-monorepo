@@ -9,5 +9,7 @@ model File {
   uploaderId String
   uploader   User     @relation(fields: [uploaderId], references: [id])
 
+  customerDocuments CustomerDocument[]
+
   @@map("file")
 }

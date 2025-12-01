@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { CustomerType } from "../shared";
 
-export const CreateCustomerInputSchema = z.object({
+export const createCustomerSchema = z.object({
   avatar: z.string().optional(),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
@@ -24,16 +24,18 @@ export const CreateCustomerInputSchema = z.object({
   // Relationships
   familyMemberIds: z.array(z.string()).optional(),
   associateIds: z.array(z.string()).optional(),
+  leadIds: z.array(z.string()).optional(),
+  documentIds: z.array(z.string()).optional(),
 });
 
-export const UpdateCustomerInputSchema = CreateCustomerInputSchema.partial();
+export const updateCustomerSchema = createCustomerSchema.partial();
 
-export const ListCustomersInputSchema = z.object({
+export const listCustomersSchema = z.object({
   page: z.number().int().min(1).default(1),
   limit: z.number().int().min(1).max(100).default(10),
   search: z.string().optional(),
 });
 
-export type CreateCustomerInputType = z.input<typeof CreateCustomerInputSchema>;
-export type UpdateCustomerInputType = z.input<typeof UpdateCustomerInputSchema>;
-export type ListCustomersInputType = z.input<typeof ListCustomersInputSchema>;
+export type CreateCustomerInputType = z.input<typeof createCustomerSchema>;
+export type UpdateCustomerInputType = z.input<typeof updateCustomerSchema>;
+export type ListCustomersInputType = z.input<typeof listCustomersSchema>;

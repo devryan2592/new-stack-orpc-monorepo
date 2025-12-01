@@ -26,10 +26,11 @@ import { PhoneInput } from "@workspace/ui/custom/phone-input";
 import ArrayInput from "@workspace/ui/custom/array-input";
 import PositiveNumberInput from "@workspace/ui/custom/positive-number-input";
 import { Label } from "@workspace/ui/components/label";
+import { CreateLeadInput, UpdateLeadInput } from "@workspace/orpc-contract";
 
 interface LeadFormProps {
   form: UseLeadFormReturn["form"];
-  onSubmit: (data: any) => void;
+  onSubmit: (data: CreateLeadInput | UpdateLeadInput) => void;
   isSubmitting?: boolean;
 }
 
@@ -142,7 +143,7 @@ export const LeadForm = ({ form, onSubmit, isSubmitting }: LeadFormProps) => {
               <Field>
                 <FieldLabel>Contact Number</FieldLabel>
                 <PhoneInput
-                  value={field.value}
+                  value={field.value || undefined}
                   onChange={field.onChange}
                   placeholder="Enter phone number"
                 />
@@ -158,7 +159,7 @@ export const LeadForm = ({ form, onSubmit, isSubmitting }: LeadFormProps) => {
                 <Field>
                   <FieldLabel>Whatsapp Number</FieldLabel>
                   <PhoneInput
-                    value={field.value}
+                    value={field.value || undefined}
                     onChange={field.onChange}
                     placeholder="Enter whatsapp number"
                     disabled={sameAsPhone}
@@ -300,6 +301,60 @@ export const LeadForm = ({ form, onSubmit, isSubmitting }: LeadFormProps) => {
                   {...field}
                   value={field.value || ""}
                   placeholder="City/Country"
+                />
+                <FieldError errors={[fieldState.error]} />
+              </Field>
+            )}
+          />
+        </div>
+
+        {/* 6.1 Travel Dates */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Controller
+            control={control}
+            name="travelStart"
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Travel Start</FieldLabel>
+                <Input
+                  {...field}
+                  value={
+                    field.value
+                      ? new Date(field.value).toISOString().slice(0, 16)
+                      : ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    field.onChange(
+                      val ? new Date(val).toISOString() : undefined
+                    );
+                  }}
+                  type="datetime-local"
+                />
+                <FieldError errors={[fieldState.error]} />
+              </Field>
+            )}
+          />
+          <Controller
+            control={control}
+            name="travelEnd"
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Travel End</FieldLabel>
+                <Input
+                  {...field}
+                  value={
+                    field.value
+                      ? new Date(field.value).toISOString().slice(0, 16)
+                      : ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    field.onChange(
+                      val ? new Date(val).toISOString() : undefined
+                    );
+                  }}
+                  type="datetime-local"
                 />
                 <FieldError errors={[fieldState.error]} />
               </Field>

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { CustomerType } from "../shared";
 
-const BaseCustomerOutput = z.object({
+const BaseCustomerOutputSchema = z.object({
   id: z.string(),
   avatar: z.string().nullable(),
   firstName: z.string(),
@@ -25,13 +25,16 @@ const BaseCustomerOutput = z.object({
   updatedAt: z.date(),
 });
 
-export const CustomerOutput: z.ZodType<CustomerOutputType> =
-  BaseCustomerOutput.extend({
-    familyMembers: z.lazy(() => CustomerOutput.array()).optional(),
-    associates: z.lazy(() => CustomerOutput.array()).optional(),
-  });
+const RelatedCustomerOutputSchema = BaseCustomerOutputSchema.pick({
+  id: true,
+  firstName: true,
+  lastName: true,
+  avatar: true,
+});
 
-export type CustomerOutputType = z.infer<typeof BaseCustomerOutput> & {
-  familyMembers?: CustomerOutputType[];
-  associates?: CustomerOutputType[];
-};
+export const CustomerOutputSchema = BaseCustomerOutputSchema.extend({
+  familyMembers: RelatedCustomerOutputSchema.array().optional(),
+  associates: RelatedCustomerOutputSchema.array().optional(),
+});
+
+export type CustomerOutputType = z.infer<typeof CustomerOutputSchema>;

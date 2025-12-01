@@ -1,8 +1,5 @@
 import type { Prisma } from "@workspace/db";
-import { CustomerOutputType } from "@workspace/orpc-contract"; // importing directly from source if package export is not set up for deep imports, or use package name if it exports it.
-// Better to check how to import. Usually @workspace/orpc-contract should export it.
-// The index.ts in orpc-contract exports everything?
-// Let's check packages/orpc-contract/src/index.ts.
+import { CustomerOutput } from "@workspace/orpc-contract";
 
 export type CustomerWithRelations = Prisma.CustomerGetPayload<{
   include: {
@@ -21,7 +18,7 @@ export type CustomerWithRelations = Prisma.CustomerGetPayload<{
 
 const mapCustomerToOutput = (
   customer: CustomerWithRelations
-): CustomerOutputType => {
+): CustomerOutput => {
   return {
     id: customer.id,
     avatar: customer.avatar,
@@ -45,27 +42,20 @@ const mapCustomerToOutput = (
     createdAt: customer.createdAt,
     updatedAt: customer.updatedAt,
 
-    // Map relations
-    // We only map the member details, we might need to recursively map if we want full tree but usually 1 level is enough or we hit infinite loop.
-    // The CustomerOutputType defines familyMembers as CustomerOutputType[] which is recursive.
-    // To avoid infinite loop/deep nesting issues in mapper, we might want to return a simpler version or just map the basic fields.
-    // However, since `familyMembersAsOwner` includes `member` which is a `Customer`, we can map it.
-    // But `member` won't have *its* family members loaded (unless we include deep).
-    // So we cast it or map it to a base customer output.
-
     familyMembers:
       customer.familyMembersAsOwner?.map((r) => ({
-        ...r.member,
-        // Default these to empty/undefined to stop recursion if data isn't loaded
-        familyMembers: [],
-        associates: [],
+        id: r.member.id,
+        firstName: r.member.firstName,
+        lastName: r.member.lastName,
+        avatar: r.member.avatar,
       })) || [],
 
     associates:
       customer.associatesAsOwner?.map((r) => ({
-        ...r.associate,
-        familyMembers: [],
-        associates: [],
+        id: r.associate.id,
+        firstName: r.associate.firstName,
+        lastName: r.associate.lastName,
+        avatar: r.associate.avatar,
       })) || [],
   };
 };

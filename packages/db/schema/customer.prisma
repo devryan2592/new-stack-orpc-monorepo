@@ -69,14 +69,14 @@ model AssociateRelation {
 }
 
 model CustomerDocument {
-  id         String   @id @default(uuid())
   customerId String   @map("customer_id")
-  name       String
-  url        String
-  type       String?
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now()) @map("created_at")
+  fileId     String   @map("file_id")
 
-  @@index([customerId])
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  file       File     @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  @@id([customerId, fileId])
   @@map("customer_documents")
 }

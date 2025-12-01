@@ -1,64 +1,77 @@
 import { privateProcedure } from "@/config/orpc";
 import { leadService } from "./services";
 
-const create = privateProcedure.leads.create.handler(
+const createLead = privateProcedure.leads.createLead.handler(
   async ({ input }) => await leadService.createLead(input.body)
 );
 
-const list = privateProcedure.leads.list.handler(async ({ input }) =>
-  leadService.listLeads(input.query)
+const getAllLeads = privateProcedure.leads.getAllLeads.handler(
+  async ({ input }) => leadService.listLeads(input.query)
 );
 
-const get = privateProcedure.leads.get.handler(async ({ input }) =>
-  leadService.getLead(input.params.id)
+const getLeadById = privateProcedure.leads.getLeadById.handler(
+  async ({ input }) => leadService.getLeadById(input.params.id)
 );
 
-const update = privateProcedure.leads.update.handler(async ({ input }) =>
-  leadService.updateLead(input.params.id, input.body)
+const updateLead = privateProcedure.leads.updateLead.handler(
+  async ({ input }) => leadService.updateLead(input.params.id, input.body)
 );
 
-const deleteLead = privateProcedure.leads.delete.handler(async ({ input }) =>
-  leadService.deleteLead(input.params.id)
+const deleteLead = privateProcedure.leads.deleteLead.handler(
+  async ({ input }) => leadService.deleteLead(input.params.id)
 );
 
-const convert = privateProcedure.leads.convert.handler(async ({ input }) =>
-  leadService.convertLead(input.params.id)
+const convertLeadToCustomer =
+  privateProcedure.leads.convertLeadToCustomer.handler(async ({ input }) =>
+    leadService.convertLeadToCustomer(input.params.id)
+  );
+
+const addLeadNote = privateProcedure.leads.addLeadNote.handler(
+  async ({ input }) => leadService.addLeadNote(input.params.leadId, input.body)
 );
 
-const addNote = privateProcedure.leads.addNote.handler(async ({ input }) =>
-  leadService.addNote(input.params.leadId, input.body)
+const updateLeadNote = privateProcedure.leads.updateLeadNote.handler(
+  async ({ input }) => leadService.updateLeadNote(input.params.id, input.body)
 );
 
-const addLog = privateProcedure.leads.addLog.handler(async ({ input }) =>
-  leadService.addLog(input.params.leadId, input.body)
+const addLeadLog = privateProcedure.leads.addLeadLog.handler(
+  async ({ input }) => leadService.addLeadLog(input.params.leadId, input.body)
 );
 
-const addTask = privateProcedure.leads.addTask.handler(async ({ input }) =>
-  leadService.addTask(input.params.leadId, input.body)
+const updateLeadLog = privateProcedure.leads.updateLeadLog.handler(
+  async ({ input }) => leadService.updateLeadLog(input.params.id, input.body)
 );
 
-const updateTask = privateProcedure.leads.updateTask.handler(
-  async ({ input }) => leadService.updateTask(input.params.id, input.body)
+const addLeadTask = privateProcedure.leads.addLeadTask.handler(
+  async ({ input }) => leadService.addLeadTask(input.params.leadId, input.body)
 );
 
-const bulkDelete = privateProcedure.leads.bulkDelete.handler(
-  async ({ input }) => leadService.bulkDelete(input.body.ids)
+const updateLeadTask = privateProcedure.leads.updateLeadTask.handler(
+  async ({ input }) => leadService.updateLeadTask(input.params.id, input.body)
 );
 
-const bulkConvert = privateProcedure.leads.bulkConvert.handler(
-  async ({ input }) => leadService.bulkConvert(input.body.ids)
+const bulkDeleteLeads = privateProcedure.leads.bulkDeleteLeads.handler(
+  async ({ input }) => leadService.bulkDeleteLeads(input.body)
 );
+
+const bulkConvertLeadToCustomer =
+  privateProcedure.leads.bulkConvertLeadToCustomer.handler(async ({ input }) =>
+    leadService.bulkConvertLeads(input.body)
+  );
 
 export const leadsRouter = {
-  create,
-  list,
-  get,
-  update,
-  delete: deleteLead,
-  convert,
-  addNote,
-  addTask,
-  updateTask,
-  bulkDelete,
-  bulkConvert,
+  createLead,
+  getAllLeads,
+  getLeadById,
+  updateLead,
+  deleteLead,
+  convertLeadToCustomer,
+  addLeadNote,
+  updateLeadNote,
+  addLeadLog,
+  updateLeadLog,
+  addLeadTask,
+  updateLeadTask,
+  bulkDeleteLeads,
+  bulkConvertLeadToCustomer,
 };

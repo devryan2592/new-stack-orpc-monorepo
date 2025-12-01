@@ -1,14 +1,22 @@
 import { prisma, PrismaClient } from "@workspace/db";
 import {
-  AddLogInput,
-  AddNoteInput,
-  AddTaskInput,
   CreateLeadInput,
   LeadOutput,
   ListLeadsInput,
   UpdateLeadInput,
-  UpdateTaskInput,
+  CreateLeadLogInput,
+  CreateLeadNoteInput,
+  CreateLeadTaskInput,
+  UpdateLeadTaskInput,
+  LeadLogOutput,
+  LeadNoteOutput,
+  LeadTaskOutput,
+  BulkDeleteInput,
+  BulkConvertInput,
 } from "./types";
+import { ORPCError } from "@orpc/server";
+import mapLeadToOutput from "./mapper";
+import mapCustomerToOutput from "../customers/mapper";
 
 const leadServiceFactory = (db: PrismaClient) => {
   const createLead = async (
@@ -21,6 +29,8 @@ const leadServiceFactory = (db: PrismaClient) => {
       status,
       priority,
       tags,
+      travelStart,
+      travelEnd,
       ...leadData
     } = body;
 
@@ -40,17 +50,23 @@ const leadServiceFactory = (db: PrismaClient) => {
         status: leadStatus,
         priority: leadPriority,
         tags: tags || [],
+        travelStart: travelStart ? new Date(travelStart) : null,
+        travelEnd: travelEnd ? new Date(travelEnd) : null,
       },
       include: {
-        customer: true,
+        customer: {
+          include: {
+            familyMembersAsOwner: { include: { member: true } },
+            associatesAsOwner: { include: { associate: true } },
+          },
+        },
       },
     });
 
-    return { success: true, data: lead };
+    return { success: true, data: mapLeadToOutput(lead) };
   };
 
   const listLeads = async (query: ListLeadsInput["query"]) => {
-    console.log("listLeads query:", query);
     try {
       const { page = 1, limit = 10, search, status, customerId } = query;
       const skip = (page - 1) * limit;
@@ -81,32 +97,47 @@ const leadServiceFactory = (db: PrismaClient) => {
           take: limit,
           orderBy: { createdAt: "desc" },
           include: {
-            customer: true,
+            customer: {
+              include: {
+                familyMembersAsOwner: { include: { member: true } },
+                associatesAsOwner: { include: { associate: true } },
+              },
+            },
           },
         }),
         db.lead.count({ where }),
       ]);
 
-      return { success: true, data: { leads, total } };
-    } catch (error) {
-      console.error("Error in listLeads:", error);
-      throw error;
+      return {
+        success: true,
+        data: { leads: leads.map(mapLeadToOutput), total },
+      };
+    } catch (error: any) {
+      throw new ORPCError("INTERNAL_SERVER_ERROR", {
+        message: error.message,
+        cause: error,
+      });
     }
   };
 
-  const getLead = async (id: string) => {
+  const getLeadById = async (id: string): Promise<LeadOutput> => {
     const lead = await db.lead.findUnique({
       where: { id },
       include: {
-        customer: true,
+        customer: {
+          include: {
+            familyMembersAsOwner: { include: { member: true } },
+            associatesAsOwner: { include: { associate: true } },
+          },
+        },
       },
     });
 
     if (!lead) {
-      throw new Error("Lead not found");
+      throw new ORPCError("NOT_FOUND", { message: "Lead not found" });
     }
 
-    return { success: true, data: lead };
+    return { success: true, data: mapLeadToOutput(lead) };
   };
 
   const updateLead = async (
@@ -116,16 +147,27 @@ const leadServiceFactory = (db: PrismaClient) => {
     // Note: destinations and cities are scalar lists (String[]).
     // Updating them with a new array (including empty []) automatically replaces the existing values.
     // This behavior satisfies the "delete then add" requirement for scalars.
-    
+
+    const { travelStart, travelEnd, ...rest } = body;
+
     const lead = await db.lead.update({
       where: { id },
-      data: body,
+      data: {
+        ...rest,
+        travelStart: travelStart ? new Date(travelStart) : undefined,
+        travelEnd: travelEnd ? new Date(travelEnd) : undefined,
+      },
       include: {
-        customer: true,
+        customer: {
+          include: {
+            familyMembersAsOwner: { include: { member: true } },
+            associatesAsOwner: { include: { associate: true } },
+          },
+        },
       },
     });
 
-    return { success: true, data: lead };
+    return { success: true, data: mapLeadToOutput(lead) };
   };
 
   const deleteLead = async (id: string) => {
@@ -135,21 +177,25 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true };
   };
 
-  const convertLead = async (id: string) => {
+  const convertLeadToCustomer = async (id: string) => {
     const lead = await db.lead.findUnique({
       where: { id },
     });
 
     if (!lead) {
-      throw new Error("Lead not found");
+      throw new ORPCError("NOT_FOUND", { message: "Lead not found" });
     }
 
     if (lead.customerId) {
-      throw new Error("Lead is already linked to a customer");
+      throw new ORPCError("BAD_REQUEST", {
+        message: "Lead is already linked to a customer",
+      });
     }
 
     if (!lead.firstName || !lead.lastName) {
-      throw new Error("Lead must have first name and last name to convert");
+      throw new ORPCError("BAD_REQUEST", {
+        message: "Lead must have first name and last name to convert",
+      });
     }
 
     const customer = await db.customer.create({
@@ -159,6 +205,10 @@ const leadServiceFactory = (db: PrismaClient) => {
         email: lead.email,
         phone: lead.phone,
         type: "B2C",
+      },
+      include: {
+        familyMembersAsOwner: { include: { member: true } },
+        associatesAsOwner: { include: { associate: true } },
       },
     });
 
@@ -170,10 +220,13 @@ const leadServiceFactory = (db: PrismaClient) => {
       },
     });
 
-    return { success: true, data: customer };
+    return { success: true, data: mapCustomerToOutput(customer) };
   };
 
-  const addNote = async (leadId: string, body: AddNoteInput["body"]) => {
+  const addLeadNote = async (
+    leadId: string,
+    body: CreateLeadNoteInput["body"]
+  ): Promise<LeadNoteOutput> => {
     const note = await db.leadNote.create({
       data: {
         leadId,
@@ -184,7 +237,21 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true, data: note };
   };
 
-  const addLog = async (leadId: string, body: AddLogInput["body"]) => {
+  const updateLeadNote = async (
+    id: string,
+    body: { content?: string } // Using partial input manually or from types if available
+  ): Promise<LeadNoteOutput> => {
+    const note = await db.leadNote.update({
+      where: { id },
+      data: body,
+    });
+    return { success: true, data: note };
+  };
+
+  const addLeadLog = async (
+    leadId: string,
+    body: CreateLeadLogInput["body"]
+  ): Promise<LeadLogOutput> => {
     const log = await db.leadLog.create({
       data: {
         leadId,
@@ -197,7 +264,28 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true, data: log };
   };
 
-  const addTask = async (leadId: string, body: AddTaskInput["body"]) => {
+  const updateLeadLog = async (
+    id: string,
+    body: {
+      type?: any;
+      message?: string;
+      nextAction?: string;
+    }
+  ): Promise<LeadLogOutput> => {
+    const log = await db.leadLog.update({
+      where: { id },
+      data: {
+        ...body,
+        nextAction: body.nextAction ? new Date(body.nextAction) : undefined,
+      },
+    });
+    return { success: true, data: log };
+  };
+
+  const addLeadTask = async (
+    leadId: string,
+    body: CreateLeadTaskInput["body"]
+  ): Promise<LeadTaskOutput> => {
     const task = await db.leadTask.create({
       data: {
         leadId,
@@ -209,7 +297,10 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true, data: task };
   };
 
-  const updateTask = async (id: string, body: UpdateTaskInput["body"]) => {
+  const updateLeadTask = async (
+    id: string,
+    body: UpdateLeadTaskInput["body"]
+  ): Promise<LeadTaskOutput> => {
     const task = await db.leadTask.update({
       where: { id },
       data: {
@@ -222,35 +313,33 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true, data: task };
   };
 
-  const bulkDelete = async (ids: string[]) => {
+  const bulkDeleteLeads = async (body: BulkDeleteInput["body"]) => {
     await db.lead.deleteMany({
-      where: { id: { in: ids } },
+      where: { id: { in: body.ids } },
     });
     return { success: true };
   };
 
-  const bulkConvert = async (ids: string[]) => {
-    await Promise.allSettled(ids.map((id) => convertLead(id)));
-
-    // Check if any failed? For now, we just return success if the operation completed.
-    // Or we could throw if all failed.
-
+  const bulkConvertLeads = async (body: BulkConvertInput["body"]) => {
+    await Promise.allSettled(body.ids.map((id) => convertLeadToCustomer(id)));
     return { success: true };
   };
 
   return {
     createLead,
     listLeads,
-    getLead,
+    getLeadById,
     updateLead,
     deleteLead,
-    convertLead,
-    addNote,
-    addLog,
-    addTask,
-    updateTask,
-    bulkDelete,
-    bulkConvert,
+    convertLeadToCustomer,
+    addLeadNote,
+    updateLeadNote,
+    addLeadLog,
+    updateLeadLog,
+    addLeadTask,
+    updateLeadTask,
+    bulkDeleteLeads,
+    bulkConvertLeads,
   };
 };
 

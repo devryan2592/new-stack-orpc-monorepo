@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FileOutput = z.object({
+export const FileOutputSchema = z.object({
   id: z.string(),
   key: z.string(),
   url: z.string(),
@@ -11,4 +11,4 @@ export const FileOutput = z.object({
   uploaderId: z.string(),
 });
 
-export type FileOutputType = z.infer<typeof FileOutput>;
+export type FileOutputType = z.infer<typeof FileOutputSchema>;

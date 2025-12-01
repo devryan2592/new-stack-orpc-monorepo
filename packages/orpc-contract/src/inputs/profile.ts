@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const UpdateProfileInputSchema = z.object({
+export const updateProfileSchema = z.object({
   name: z.string().min(2).optional(),
   image: z.string().optional(),
   phone: z.string().optional(),
@@ -13,4 +13,4 @@ export const UpdateProfileInputSchema = z.object({
   linkedin: z.string().optional(),
 });
 
-export type UpdateProfileInputType = z.input<typeof UpdateProfileInputSchema>;
+export type UpdateProfileInputType = z.input<typeof updateProfileSchema>;

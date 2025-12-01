@@ -38,7 +38,7 @@ import { LeadOutput } from "@workspace/orpc-contract";
 import { z } from "zod";
 
 interface LeadsTableActionsProps {
-  lead: z.infer<typeof LeadOutput>;
+  lead: LeadOutput;
 }
 
 export const LeadsTableActions = ({ lead }: LeadsTableActionsProps) => {

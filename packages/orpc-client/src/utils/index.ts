@@ -100,11 +100,11 @@ export function useLeadsQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: leadsORPC.list.key(),
+        queryKey: leadsORPC.getAllLeads.key(),
       }),
     invalidateById: (id: string) =>
       queryClient.invalidateQueries({
-        queryKey: leadsORPC.get.key({ input: { params: { id } } }),
+        queryKey: leadsORPC.getLeadById.key({ input: { params: { id } } }),
       }),
     invalidateAllLeads: () =>
       queryClient.invalidateQueries({

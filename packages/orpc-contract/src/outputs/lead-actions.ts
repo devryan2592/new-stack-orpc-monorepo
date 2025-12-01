@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { LeadLogType, LeadTaskStatus } from "../shared";
 
-export const LeadNoteOutput = z.object({
+export const LeadNoteOutputSchema = z.object({
   id: z.string(),
   leadId: z.string(),
   content: z.string(),
@@ -9,7 +9,7 @@ export const LeadNoteOutput = z.object({
   createdAt: z.date(),
 });
 
-export const LeadLogOutput = z.object({
+export const LeadLogOutputSchema = z.object({
   id: z.string(),
   leadId: z.string(),
   type: LeadLogType,
@@ -19,7 +19,7 @@ export const LeadLogOutput = z.object({
   createdAt: z.date(),
 });
 
-export const LeadTaskOutput = z.object({
+export const LeadTaskOutputSchema = z.object({
   id: z.string(),
   leadId: z.string(),
   title: z.string(),
@@ -29,3 +29,7 @@ export const LeadTaskOutput = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
 });
+
+export type LeadNoteOutputType = z.infer<typeof LeadNoteOutputSchema>;
+export type LeadLogOutputType = z.infer<typeof LeadLogOutputSchema>;
+export type LeadTaskOutputType = z.infer<typeof LeadTaskOutputSchema>;
