@@ -32,9 +32,13 @@ import {
 } from "@workspace/ui/components/dialog";
 import { RoleForm } from "../_forms/role-form";
 import { RoleRow } from "./columns";
+import { RoleOutputSchema } from "@workspace/orpc-contract";
+import { z } from "zod";
 
 interface RolesTableActionsProps {
-  role: RoleRow;
+  role: z.infer<typeof RoleOutputSchema> & {
+    rolePerms?: { permissionId: string }[];
+  };
 }
 
 export function RolesTableActions({ role }: RolesTableActionsProps) {

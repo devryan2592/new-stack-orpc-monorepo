@@ -34,7 +34,9 @@ export default function AvatarInput({
       if (onChange) {
         const file = files[0]?.file;
         if (!file) return;
-        onChange(file);
+        if (file instanceof File) {
+          onChange(file);
+        }
       }
     },
   });
@@ -77,7 +79,8 @@ export default function AvatarInput({
             onClick={(e) => {
               e.stopPropagation();
               if (files.length > 0) {
-                removeFile(files[0].id);
+                const fileId = files[0]?.id;
+                if (fileId) removeFile(fileId);
               }
               if (onChange) onChange(null);
             }}

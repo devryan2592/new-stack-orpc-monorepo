@@ -5,5 +5,5 @@ import { usePermissionsClient } from "../utils";
 
 export function usePermissions() {
   const client = usePermissionsClient();
-  return useQuery(client.list.queryOptions());
+  return useQuery(client.listPermissions.queryOptions());
 }

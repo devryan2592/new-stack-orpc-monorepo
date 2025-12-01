@@ -1,24 +1,15 @@
 "use client";
 
 import { useMe } from "@workspace/orpc-client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { AUTH_LINKS } from "@/lib/links";
+import { UserOutputSchema } from "@workspace/orpc-contract";
+import { z } from "zod";
 
-export interface AuthUser {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  image?: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  roles?: { id: string; name: string }[];
-}
+export type AuthUser = z.infer<typeof UserOutputSchema>;
 
 export function useAuth() {
-  const { data: user, isLoading, error, refetch } = useMe();
+  const { data: response, isLoading, error, refetch } = useMe();
 
+  const user = response?.data;
   const isAuthenticated = !!user;
 
   return {

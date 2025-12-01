@@ -4,7 +4,7 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  UpdateProfileInputSchema,
+  updateProfileSchema,
   UpdateProfileInputType,
 } from "@workspace/orpc-contract";
 import { useUpdateMe } from "@workspace/orpc-client";
@@ -42,7 +42,7 @@ const BasicDetailsForm: FC<BasicDetailsFormProps> = ({ children }) => {
   const updateMe = useUpdateMe();
 
   const form = useForm<UpdateProfileInputType>({
-    resolver: zodResolver(UpdateProfileInputSchema),
+    resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       name: "",
       phone: "",
@@ -53,13 +53,13 @@ const BasicDetailsForm: FC<BasicDetailsFormProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    if (UserData?.success) {
+    if (UserData) {
       form.reset({
-        name: UserData.data?.name || "",
-        phone: UserData.data?.phone || "",
-        altPhone: UserData.data?.altPhone || "",
-        bio: UserData.data?.bio || "",
-        address: UserData.data?.address || "",
+        name: UserData.name || "",
+        phone: UserData.phone || "",
+        altPhone: UserData.altPhone || "",
+        bio: UserData.bio || "",
+        address: UserData.address || "",
       });
     }
   }, [UserData, form]);
@@ -105,7 +105,7 @@ const BasicDetailsForm: FC<BasicDetailsFormProps> = ({ children }) => {
                 </Field>
                 <Field>
                   <FieldLabel>Email</FieldLabel>
-                  <Input value={UserData?.data?.email || ""} disabled />
+                  <Input value={UserData?.email || ""} disabled />
                   <p className="text-xs text-indigo-400 mt-1">
                     Email cannot be changed.
                   </p>

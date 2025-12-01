@@ -35,7 +35,7 @@ const DashboardHeader: FC<DashboardHeaderProps> = ({ children }) => {
   };
 
   // Default user data for development when auth is disabled
-  const displayUser = UserData?.data || {
+  const displayUser = UserData || {
     name: "Development User",
     email: "dev@example.com",
     image: undefined,
@@ -60,22 +60,8 @@ const DashboardHeader: FC<DashboardHeaderProps> = ({ children }) => {
         </div>
       </div>
       <div className="ml-auto flex items-center gap-2 px-4">
+        {/* <UserNav user={UserData} /> */}
         <ThemeToggle />
-        <Separator
-          orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4 "
-        />
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium hidden sm:inline-block">
-            {displayUser.name}
-          </span>
-          <Avatar className="h-8 w-8">
-            {displayUser.image && (
-              <AvatarImage src={displayUser.image} alt={displayUser.name} />
-            )}
-            <AvatarFallback>{getInitials(displayUser.name)}</AvatarFallback>
-          </Avatar>
-        </div>
       </div>
     </header>
   );

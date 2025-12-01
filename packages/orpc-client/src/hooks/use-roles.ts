@@ -5,7 +5,7 @@ import { useRolesClient, useRolesQueryInvalidation } from "../utils";
 
 export function useRoles() {
   const client = useRolesClient();
-  return useQuery(client.list.queryOptions());
+  return useQuery(client.listRoles.queryOptions());
 }
 
 export function useCreateRole() {
@@ -13,7 +13,7 @@ export function useCreateRole() {
   const { invalidateAll, invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
-    client.create.mutationOptions({
+    client.createRole.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllRoles();
@@ -27,7 +27,7 @@ export function useUpdateRole() {
   const { invalidateAll, invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
-    client.update.mutationOptions({
+    client.updateRole.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllRoles();
@@ -41,7 +41,7 @@ export function useDeleteRole() {
   const { invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
-    client.delete.mutationOptions({
+    client.deleteRole.mutationOptions({
       onSuccess: () => {
         invalidateAllRoles();
       },
@@ -54,7 +54,7 @@ export function useAssignRole() {
   const { invalidateAll, invalidateAllRoles } = useRolesQueryInvalidation();
 
   return useMutation(
-    client.assign.mutationOptions({
+    client.assignRole.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllRoles();

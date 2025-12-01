@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  CreateUserInput,
+  createUserSchema,
   CreateUserInputType,
 } from "@workspace/orpc-contract";
 import { useCreateUser } from "@workspace/orpc-client";
@@ -26,7 +26,7 @@ interface UserFormProps {
 export function UserForm({ onSuccess }: UserFormProps) {
   const createUser = useCreateUser();
   const form = useForm<CreateUserInputType>({
-    resolver: zodResolver(CreateUserInput),
+    resolver: zodResolver(createUserSchema),
     defaultValues: {
       name: "",
       email: "",

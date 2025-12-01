@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  UpdateProfileInputSchema,
+  updateProfileSchema,
   UpdateProfileInputType,
 } from "@workspace/orpc-contract";
 import { useUpdateMe, useMe } from "@workspace/orpc-client";
@@ -36,7 +36,7 @@ const SocialProfileForm: FC<SocialProfileFormProps> = () => {
   const updateMe = useUpdateMe();
 
   const form = useForm<UpdateProfileInputType>({
-    resolver: zodResolver(UpdateProfileInputSchema),
+    resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       facebook: "",
       instagram: "",

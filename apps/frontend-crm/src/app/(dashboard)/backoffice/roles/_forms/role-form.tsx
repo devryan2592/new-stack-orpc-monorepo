@@ -3,8 +3,9 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  CreateRoleInputSchema,
-  UpdateRoleInputSchema,
+  createRoleSchema,
+  updateRoleSchema,
+  RoleOutputSchema,
 } from "@workspace/orpc-contract";
 import { useCreateRole, useUpdateRole } from "@workspace/orpc-client";
 import { usePermissions } from "@workspace/orpc-client";
@@ -33,18 +34,14 @@ import {
 } from "@workspace/ui/components/table";
 
 // Combined schema for form, handling both create and update needs
-const roleFormSchema = CreateRoleInputSchema.extend({
+const roleFormSchema = createRoleSchema.extend({
   permissions: z.array(z.string()).default([]),
 });
 
 type RoleFormValues = z.input<typeof roleFormSchema>;
 
 interface RoleFormProps {
-  role?: {
-    id: string;
-    name: string;
-    label?: string | null;
-    description?: string | null;
+  role?: z.infer<typeof RoleOutputSchema> & {
     rolePerms?: { permissionId: string }[];
   };
   onSuccess?: () => void;

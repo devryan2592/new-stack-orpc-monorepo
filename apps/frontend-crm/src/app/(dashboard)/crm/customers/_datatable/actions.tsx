@@ -26,11 +26,11 @@ import {
 import { CustomerSheetForm } from "../_forms/customer-sheet-form";
 import { useDeleteCustomer } from "@workspace/orpc-client";
 import { toast } from "sonner";
-import { CustomerOutput } from "@workspace/orpc-contract";
+import { CustomerOutputSchema } from "@workspace/orpc-contract";
 import { z } from "zod";
 
 interface CustomersTableActionsProps {
-  customer: z.infer<typeof CustomerOutput>;
+  customer: z.infer<typeof CustomerOutputSchema>;
 }
 
 export const CustomersTableActions = ({ customer }: CustomersTableActionsProps) => {

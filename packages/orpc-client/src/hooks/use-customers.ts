@@ -3,18 +3,23 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCustomersClient, useCustomersQueryInvalidation } from "../utils";
 import {
-  ListCustomersInput,
   ListCustomersInputType,
+  CreateCustomerInputType,
+  UpdateCustomerInputType,
 } from "@workspace/orpc-contract";
 
 export function useCustomers(input: ListCustomersInputType = {}) {
   const client = useCustomersClient();
-  return useQuery(client.getAll.queryOptions({ input: { query: input } }));
+  return useQuery(
+    client.listCustomers.queryOptions({ input: { query: input } })
+  );
 }
 
 export function useCustomer(id: string) {
   const client = useCustomersClient();
-  return useQuery(client.getById.queryOptions({ input: { params: { id } } }));
+  return useQuery(
+    client.getCustomerById.queryOptions({ input: { params: { id } } })
+  );
 }
 
 export function useCreateCustomer() {
@@ -23,7 +28,7 @@ export function useCreateCustomer() {
     useCustomersQueryInvalidation();
 
   return useMutation(
-    client.create.mutationOptions({
+    client.createCustomer.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllCustomers();
@@ -38,7 +43,7 @@ export function useUpdateCustomer() {
     useCustomersQueryInvalidation();
 
   return useMutation(
-    client.update.mutationOptions({
+    client.updateCustomer.mutationOptions({
       onSuccess: (data, variables) => {
         invalidateAll();
         invalidateAllCustomers();
@@ -53,7 +58,7 @@ export function useDeleteCustomer() {
   const { invalidateAllCustomers } = useCustomersQueryInvalidation();
 
   return useMutation(
-    client.delete.mutationOptions({
+    client.deleteCustomer.mutationOptions({
       onSuccess: () => {
         invalidateAllCustomers();
       },

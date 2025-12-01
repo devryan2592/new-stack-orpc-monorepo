@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateCustomerInputType,
   UpdateCustomerInputType,
-  CustomerOutput,
+  CustomerOutputSchema,
   CustomerOutputType,
-  CreateCustomerInput,
-  UpdateCustomerInput,
+  createCustomerSchema,
+  updateCustomerSchema,
 } from "@workspace/orpc-contract";
 import { z } from "zod";
 
@@ -37,10 +37,9 @@ const defaultCreateValues: CreateCustomerInputType = {
 
 // Helper function to map CustomerOutput to UpdateCustomerInputType
 const mapCustomerOutputToInput = (
-  customer: z.infer<typeof CustomerOutput>
+  customer: z.infer<typeof CustomerOutputSchema>
 ): UpdateCustomerInputType => {
   return {
-    id: customer.id,
     firstName: customer.firstName,
     lastName: customer.lastName,
     email: customer.email || "",
@@ -83,7 +82,7 @@ export const useCustomerForm = ({
 }: UseCustomerFormProps) => {
   if (mode === "create") {
     const form = useForm<CreateCustomerInputType>({
-      resolver: zodResolver(CreateCustomerInput),
+      resolver: zodResolver(createCustomerSchema),
       defaultValues: defaultCreateValues,
       mode: "onChange",
     });
@@ -97,13 +96,13 @@ export const useCustomerForm = ({
     const transformedInitialData = initialData
       ? "createdAt" in initialData
         ? mapCustomerOutputToInput(
-            initialData as z.infer<typeof CustomerOutput>
+            initialData as z.infer<typeof CustomerOutputSchema>
           )
         : (initialData as UpdateCustomerInputType)
       : {};
 
     const form = useForm<UpdateCustomerInputType>({
-      resolver: zodResolver(UpdateCustomerInput),
+      resolver: zodResolver(updateCustomerSchema),
       defaultValues: transformedInitialData,
       mode: "onChange",
     });

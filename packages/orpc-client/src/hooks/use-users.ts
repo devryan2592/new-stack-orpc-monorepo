@@ -6,12 +6,12 @@ import { ListUsersInputType } from "@workspace/orpc-contract";
 
 export function useUsers(input: ListUsersInputType = {}) {
   const client = useUsersClient();
-  return useQuery(client.list.queryOptions({ input: { query: input } }));
+  return useQuery(client.listUsers.queryOptions({ input: { query: input } }));
 }
 
 export function useMe() {
   const client = useUsersClient();
-  return useQuery(client.me.queryOptions());
+  return useQuery(client.getMe.queryOptions());
 }
 
 export function useUpdateMe() {
@@ -35,7 +35,7 @@ export function useCreateUser() {
   const { invalidateAll, invalidateAllUsers } = useUsersQueryInvalidation();
 
   return useMutation(
-    client.create.mutationOptions({
+    client.createUser.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllUsers();
@@ -49,7 +49,7 @@ export function useDeleteUser() {
   const { invalidateAllUsers } = useUsersQueryInvalidation();
 
   return useMutation(
-    client.delete.mutationOptions({
+    client.deleteUser.mutationOptions({
       onSuccess: () => {
         invalidateAllUsers();
       },

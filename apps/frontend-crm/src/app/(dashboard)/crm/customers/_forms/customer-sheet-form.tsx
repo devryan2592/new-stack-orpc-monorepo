@@ -10,13 +10,16 @@ import {
 import { CustomerForm } from "./customer-form";
 import { useCustomerForm } from "../_form-hooks/use-customer-form";
 import { useCreateCustomer, useUpdateCustomer } from "@workspace/orpc-client";
-import { CreateCustomerInputType, CustomerOutput } from "@workspace/orpc-contract";
+import {
+  CreateCustomerInputType,
+  CustomerOutputSchema,
+} from "@workspace/orpc-contract";
 import { z } from "zod";
 import { toast } from "sonner";
 
 interface CustomerSheetFormProps {
   children?: React.ReactNode;
-  customer?: z.infer<typeof CustomerOutput>;
+  customer?: z.infer<typeof CustomerOutputSchema>;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }

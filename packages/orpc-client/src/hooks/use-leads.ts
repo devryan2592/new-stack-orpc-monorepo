@@ -2,12 +2,12 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLeadsClient, useLeadsQueryInvalidation } from "../utils";
-import { ListLeadsInput } from "@workspace/orpc-contract";
+import { ListLeadsInputType } from "@workspace/orpc-contract";
 
-export function useLeads(input: ListLeadsInput = {}) {
+export function useLeads(input: ListLeadsInputType = {}) {
   const client = useLeadsClient();
   return useQuery(
-    client.getAllLeads.queryOptions({
+    client.listLeads.queryOptions({
       input: { query: input },
       refetchOnWindowFocus: false,
     })

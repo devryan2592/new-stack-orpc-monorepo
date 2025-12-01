@@ -60,7 +60,7 @@ const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
     router.push(AUTH_LINKS.LOGIN);
   };
 
-  if (!UserData?.success) return null;
+  if (!UserData) return null;
 
   return (
     <Footer>
@@ -73,22 +73,22 @@ const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
               >
                 <Avatar className="h-8 w-8 rounded-lg">
-                  {UserData?.data?.image && (
+                  {UserData.image && (
                     <AvatarImage
-                      src={UserData?.data?.image}
-                      alt={UserData?.data?.name}
+                      src={UserData.image}
+                      alt={UserData.name}
                     />
                   )}
                   <AvatarFallback className="rounded-lg">
-                    {getInitials(UserData?.data?.name)}
+                    {getInitials(UserData.name)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {UserData?.data?.name}
+                    {UserData.name}
                   </span>
                   <span className="truncate text-xs">
-                    {UserData?.data?.email}
+                    {UserData.email}
                   </span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4" />
@@ -103,22 +103,22 @@ const SidebarFooter: FC<SidebarFooterProps> = ({ children }) => {
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
-                    {UserData?.data?.image && (
+                    {UserData.image && (
                       <AvatarImage
-                        src={UserData?.data?.image}
-                        alt={UserData?.data?.name}
+                        src={UserData.image}
+                        alt={UserData.name}
                       />
                     )}
                     <AvatarFallback className="rounded-lg">
-                      {getInitials(UserData?.data?.name)}
+                      {getInitials(UserData.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">
-                      {UserData?.data?.name}
+                      {UserData.name}
                     </span>
                     <span className="truncate text-xs">
-                      {UserData?.data?.email}
+                      {UserData.email}
                     </span>
                   </div>
                 </div>

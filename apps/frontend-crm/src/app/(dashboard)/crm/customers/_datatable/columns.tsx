@@ -1,12 +1,12 @@
 import { ColumnDef } from "@workspace/ui/data-table";
-import { CustomerOutput } from "@workspace/orpc-contract";
+import { CustomerOutputSchema } from "@workspace/orpc-contract";
 import { z } from "zod";
 import { Badge } from "@workspace/ui/components/badge";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { CustomersTableActions } from "./actions";
 import { format } from "date-fns";
 
-export type CustomerRow = z.infer<typeof CustomerOutput>;
+export type CustomerRow = z.infer<typeof CustomerOutputSchema>;
 
 export const columns: ColumnDef<CustomerRow>[] = [
   {

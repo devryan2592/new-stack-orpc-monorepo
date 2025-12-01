@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  UpdateProfileInputSchema,
+  updateProfileSchema,
   UpdateProfileInputType,
 } from "@workspace/orpc-contract";
 import { useUpdateMe } from "@workspace/orpc-client";
@@ -29,16 +29,16 @@ const ProfileForm: FC<ProfileFormProps> = () => {
   const updateMe = useUpdateMe();
 
   const form = useForm<UpdateProfileInputType>({
-    resolver: zodResolver(UpdateProfileInputSchema),
+    resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       image: "",
     },
   });
 
   useEffect(() => {
-    if (UserData?.success) {
+    if (UserData) {
       form.reset({
-        image: UserData.data?.image || "",
+        image: UserData.image || "",
       });
     }
   }, [UserData, form]);
@@ -90,25 +90,25 @@ const ProfileForm: FC<ProfileFormProps> = () => {
                 )}
               />
               <div className="text-center">
-                <h3 className="font-medium text-lg">{UserData?.data?.name}</h3>
+                <h3 className="font-medium text-lg">{UserData?.name}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {UserData?.data?.email}
+                  {UserData?.email}
                 </p>
               </div>
               <div className="w-full pt-4 border-t space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Joined</span>
                   <span>
-                    {UserData?.data?.createdAt
-                      ? new Date(UserData?.data?.createdAt).toLocaleDateString()
+                    {UserData?.createdAt
+                      ? new Date(UserData.createdAt).toLocaleDateString()
                       : "-"}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Updated</span>
                   <span>
-                    {UserData?.data?.updatedAt
-                      ? new Date(UserData?.data?.updatedAt).toLocaleDateString()
+                    {UserData?.updatedAt
+                      ? new Date(UserData.updatedAt).toLocaleDateString()
                       : "-"}
                   </span>
                 </div>

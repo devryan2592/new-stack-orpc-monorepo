@@ -34,11 +34,11 @@ import {
 } from "../_components/action-dialogs";
 import { useDeleteLead, useLead } from "@workspace/orpc-client";
 import { toast } from "sonner";
-import { LeadOutput } from "@workspace/orpc-contract";
+import { LeadOutputSchema } from "@workspace/orpc-contract";
 import { z } from "zod";
 
 interface LeadsTableActionsProps {
-  lead: LeadOutput;
+  lead: z.infer<typeof LeadOutputSchema>;
 }
 
 export const LeadsTableActions = ({ lead }: LeadsTableActionsProps) => {

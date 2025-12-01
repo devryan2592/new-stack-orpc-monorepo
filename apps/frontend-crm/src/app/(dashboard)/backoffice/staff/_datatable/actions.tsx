@@ -24,9 +24,11 @@ import {
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog";
 import { StaffRow } from "./columns";
+import { UserOutputSchema } from "@workspace/orpc-contract";
+import { z } from "zod";
 
 interface StaffTableActionsProps {
-  user: StaffRow;
+  user: z.infer<typeof UserOutputSchema>;
 }
 
 export function StaffTableActions({ user }: StaffTableActionsProps) {

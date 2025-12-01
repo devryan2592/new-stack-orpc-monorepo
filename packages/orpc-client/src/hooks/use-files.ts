@@ -6,12 +6,14 @@ import { ListFilesInputType } from "@workspace/orpc-contract";
 
 export function useFiles(input: ListFilesInputType = {}) {
   const client = useFilesClient();
-  return useQuery(client.list.queryOptions({ input: { query: input } }));
+  return useQuery(client.listFiles.queryOptions({ input: { query: input } }));
 }
 
 export function useFile(id: string) {
   const client = useFilesClient();
-  return useQuery(client.get.queryOptions({ input: { params: { id } } }));
+  return useQuery(
+    client.getFileById.queryOptions({ input: { params: { id } } })
+  );
 }
 
 export function useDeleteFile() {
@@ -19,7 +21,7 @@ export function useDeleteFile() {
   const { invalidateAllFiles } = useFilesQueryInvalidation();
 
   return useMutation(
-    client.delete.mutationOptions({
+    client.deleteFile.mutationOptions({
       onSuccess: () => {
         invalidateAllFiles();
       },

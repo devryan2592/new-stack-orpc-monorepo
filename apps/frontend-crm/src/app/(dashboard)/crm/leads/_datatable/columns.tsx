@@ -1,12 +1,12 @@
 import { ColumnDef } from "@workspace/ui/data-table";
-import { LeadOutput } from "@workspace/orpc-contract";
+import { LeadOutputSchema } from "@workspace/orpc-contract";
 import { z } from "zod";
 import { Badge } from "@workspace/ui/components/badge";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { LeadsTableActions } from "./actions";
 import { format } from "date-fns";
 
-export type LeadRow = LeadOutput;
+export type LeadRow = z.infer<typeof LeadOutputSchema>;
 
 export const columns: ColumnDef<LeadRow>[] = [
   {

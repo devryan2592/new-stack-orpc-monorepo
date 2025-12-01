@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  CreateLeadInput,
-  UpdateLeadInput,
+  CreateLeadInputType,
+  UpdateLeadInputType,
   createLeadSchema,
   updateLeadSchema,
-  LeadOutput,
+  LeadOutputSchema,
 } from "@workspace/orpc-contract";
 import { z } from "zod";
 
 // Default values for create mode
-const defaultCreateValues: CreateLeadInput = {
+const defaultCreateValues: CreateLeadInputType = {
   firstName: "",
   lastName: "",
   email: "",
@@ -41,8 +41,8 @@ const defaultCreateValues: CreateLeadInput = {
 
 // Helper function to map LeadOutput to UpdateLeadInput
 const mapLeadOutputToInput = (
-  lead: LeadOutput
-): UpdateLeadInput => {
+  lead: z.infer<typeof LeadOutputSchema>
+): UpdateLeadInputType => {
   return {
     firstName: lead.firstName || undefined,
     lastName: lead.lastName || undefined,
@@ -78,15 +78,15 @@ const mapLeadOutputToInput = (
 
 interface UseLeadFormProps {
   mode: "create" | "edit";
-  initialData?: UpdateLeadInput | LeadOutput;
+  initialData?: UpdateLeadInputType | z.infer<typeof LeadOutputSchema>;
 }
 
 // Union type for form data
-type LeadFormData = CreateLeadInput | UpdateLeadInput;
+type LeadFormData = CreateLeadInputType | UpdateLeadInputType;
 
 export const useLeadForm = ({ mode, initialData }: UseLeadFormProps) => {
   if (mode === "create") {
-    const form = useForm<CreateLeadInput>({
+    const form = useForm<CreateLeadInputType>({
       resolver: zodResolver(createLeadSchema),
       defaultValues: defaultCreateValues,
       mode: "onChange",
@@ -100,11 +100,11 @@ export const useLeadForm = ({ mode, initialData }: UseLeadFormProps) => {
     // Transform initialData if it's a LeadOutput (from API)
     const transformedInitialData = initialData
       ? "createdAt" in initialData
-        ? mapLeadOutputToInput(initialData as LeadOutput)
-        : (initialData as UpdateLeadInput)
+        ? mapLeadOutputToInput(initialData as z.infer<typeof LeadOutputSchema>)
+        : (initialData as UpdateLeadInputType)
       : {};
 
-    const form = useForm<UpdateLeadInput>({
+    const form = useForm<UpdateLeadInputType>({
       resolver: zodResolver(updateLeadSchema),
       defaultValues: transformedInitialData,
       mode: "onChange",

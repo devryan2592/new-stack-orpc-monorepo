@@ -11,15 +11,16 @@ import { LeadForm } from "./lead-form";
 import { useLeadForm } from "../_form-hooks/use-lead-form";
 import { useCreateLead, useUpdateLead } from "@workspace/orpc-client";
 import {
-  CreateLeadInput,
-  UpdateLeadInput,
-  LeadOutput,
+  CreateLeadInputType,
+  UpdateLeadInputType,
+  LeadOutputSchema,
 } from "@workspace/orpc-contract";
 import { toast } from "sonner";
+import { z } from "zod";
 
 interface LeadSheetFormProps {
   children?: React.ReactNode;
-  lead?: LeadOutput;
+  lead?: z.infer<typeof LeadOutputSchema>;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
@@ -40,7 +41,7 @@ export const LeadSheetForm = ({
   const createLead = useCreateLead();
   const updateLead = useUpdateLead();
 
-  const onSubmit = async (data: CreateLeadInput | UpdateLeadInput) => {
+  const onSubmit = async (data: CreateLeadInputType | UpdateLeadInputType) => {
     const cleanData = {
       ...data,
       tags: data.tags?.map((t: string) => t.trim()).filter(Boolean) || [],
@@ -49,13 +50,13 @@ export const LeadSheetForm = ({
     };
     try {
       if (mode === "create") {
-        await createLead.mutateAsync({ body: cleanData as CreateLeadInput });
+        await createLead.mutateAsync({ body: cleanData as CreateLeadInputType });
         toast.success("Lead created successfully");
       } else {
         if (!lead?.id) return;
         await updateLead.mutateAsync({
           params: { id: lead.id },
-          body: cleanData as UpdateLeadInput,
+          body: cleanData as UpdateLeadInputType,
         });
         toast.success("Lead updated successfully");
       }

@@ -23,11 +23,13 @@ export function useCustomersQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: customersORPC.list.key(),
+        queryKey: customersORPC.listCustomers.key(),
       }),
     invalidateById: (id: string) =>
       queryClient.invalidateQueries({
-        queryKey: customersORPC.get.key({ input: { params: { id } } }),
+        queryKey: customersORPC.getCustomerById.key({
+          input: { params: { id } },
+        }),
       }),
     invalidateAllCustomers: () =>
       queryClient.invalidateQueries({
@@ -50,11 +52,11 @@ export function useFilesQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: filesORPC.list.key(),
+        queryKey: filesORPC.listFiles.key(),
       }),
     invalidateById: (id: string) =>
       queryClient.invalidateQueries({
-        queryKey: filesORPC.get.key({ input: { params: { id } } }),
+        queryKey: filesORPC.getFileById.key({ input: { params: { id } } }),
       }),
     invalidateAllFiles: () =>
       queryClient.invalidateQueries({
@@ -77,7 +79,7 @@ export function useGalleryQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: galleryORPC.list.key(),
+        queryKey: galleryORPC.listGalleryItems.key(),
       }),
     invalidateAllGallery: () =>
       queryClient.invalidateQueries({
@@ -100,7 +102,7 @@ export function useLeadsQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: leadsORPC.getAllLeads.key(),
+        queryKey: leadsORPC.listLeads.key(),
       }),
     invalidateById: (id: string) =>
       queryClient.invalidateQueries({
@@ -129,7 +131,7 @@ export function usePermissionsQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: permissionsORPC.list.key(),
+        queryKey: permissionsORPC.listPermissions.key(),
       }),
     invalidateAllPermissions: () =>
       queryClient.invalidateQueries({
@@ -152,7 +154,7 @@ export function useRolesQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: rolesORPC.list.key(),
+        queryKey: rolesORPC.listRoles.key(),
       }),
     invalidateAllRoles: () =>
       queryClient.invalidateQueries({
@@ -175,11 +177,11 @@ export function useUsersQueryInvalidation() {
   return {
     invalidateAll: () =>
       queryClient.invalidateQueries({
-        queryKey: usersORPC.list.key(),
+        queryKey: usersORPC.listUsers.key(),
       }),
     invalidateMe: () =>
       queryClient.invalidateQueries({
-        queryKey: usersORPC.me.key(),
+        queryKey: usersORPC.getMe.key(),
       }),
     invalidateAllUsers: () =>
       queryClient.invalidateQueries({

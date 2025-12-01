@@ -3,13 +3,10 @@
 import { ColumnDef } from "@workspace/ui/data-table";
 import { StaffTableActions } from "./actions";
 import { Badge } from "@workspace/ui/components/badge";
+import { UserOutputSchema } from "@workspace/orpc-contract";
+import { z } from "zod";
 
-export type StaffRow = {
-  id: string;
-  name: string;
-  email: string;
-  roles?: { id: string; name: string }[];
-};
+export type StaffRow = z.infer<typeof UserOutputSchema>;
 
 export const columns: ColumnDef<StaffRow>[] = [
   {

@@ -6,7 +6,9 @@ import { ListGalleryItemsInputType } from "@workspace/orpc-contract";
 
 export function useGallery(input: ListGalleryItemsInputType = {}) {
   const client = useGalleryClient();
-  return useQuery(client.list.queryOptions({ input: { query: input } }));
+  return useQuery(
+    client.listGalleryItems.queryOptions({ input: { query: input } })
+  );
 }
 
 export function useCreateFolder() {
@@ -14,7 +16,7 @@ export function useCreateFolder() {
   const { invalidateAll, invalidateAllGallery } = useGalleryQueryInvalidation();
 
   return useMutation(
-    client.createFolder.mutationOptions({
+    client.createGalleryFolder.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllGallery();
@@ -28,7 +30,7 @@ export function useUpdateFolder() {
   const { invalidateAll, invalidateAllGallery } = useGalleryQueryInvalidation();
 
   return useMutation(
-    client.updateFolder.mutationOptions({
+    client.updateGalleryFolder.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllGallery();
@@ -42,7 +44,7 @@ export function useDeleteFolder() {
   const { invalidateAllGallery } = useGalleryQueryInvalidation();
 
   return useMutation(
-    client.deleteFolder.mutationOptions({
+    client.deleteGalleryFolder.mutationOptions({
       onSuccess: () => {
         invalidateAllGallery();
       },
@@ -60,7 +62,7 @@ export function useCreateFile() {
   const { invalidateAll, invalidateAllGallery } = useGalleryQueryInvalidation();
 
   return useMutation(
-    client.createFile.mutationOptions({
+    client.createGalleryFile.mutationOptions({
       onSuccess: () => {
         invalidateAll();
         invalidateAllGallery();
@@ -69,12 +71,12 @@ export function useCreateFile() {
   );
 }
 
-export function useDeleteFile() {
+export function useDeleteGalleryFile() {
   const client = useGalleryClient();
   const { invalidateAllGallery } = useGalleryQueryInvalidation();
 
   return useMutation(
-    client.deleteFile.mutationOptions({
+    client.deleteGalleryFile.mutationOptions({
       onSuccess: () => {
         invalidateAllGallery();
       },

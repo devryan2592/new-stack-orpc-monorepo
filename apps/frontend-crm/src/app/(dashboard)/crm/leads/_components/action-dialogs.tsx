@@ -22,9 +22,9 @@ import {
 import { Field, FieldLabel, FieldError } from "@workspace/ui/components/field";
 import { useAddNote, useAddLog, useAddTask } from "@workspace/orpc-client";
 import {
-  CreateLeadNoteInput,
-  CreateLeadLogInput,
-  CreateLeadTaskInput,
+  CreateLeadNoteInputType,
+  CreateLeadLogInputType,
+  CreateLeadTaskInputType,
   createLeadNoteSchema,
   createLeadLogSchema,
   createLeadTaskSchema,
@@ -44,12 +44,12 @@ export const AddNoteDialog = ({
   onOpenChange,
 }: ActionDialogProps) => {
   const addNote = useAddNote();
-  const form = useForm<CreateLeadNoteInput>({
+  const form = useForm<CreateLeadNoteInputType>({
     resolver: zodResolver(createLeadNoteSchema),
     defaultValues: { leadId, content: "" },
   });
 
-  const onSubmit = async (data: CreateLeadNoteInput) => {
+  const onSubmit = async (data: CreateLeadNoteInputType) => {
     try {
       await addNote.mutateAsync({
         params: { leadId },
@@ -103,12 +103,12 @@ export const AddLogDialog = ({
   onOpenChange,
 }: ActionDialogProps) => {
   const addLog = useAddLog();
-  const form = useForm<CreateLeadLogInput>({
+  const form = useForm<CreateLeadLogInputType>({
     resolver: zodResolver(createLeadLogSchema),
     defaultValues: { leadId, type: "CALL", message: "" },
   });
 
-  const onSubmit = async (data: CreateLeadLogInput) => {
+  const onSubmit = async (data: CreateLeadLogInputType) => {
     try {
       await addLog.mutateAsync({
         params: { leadId },
@@ -184,12 +184,12 @@ export const AddTaskDialog = ({
   onOpenChange,
 }: ActionDialogProps) => {
   const addTask = useAddTask();
-  const form = useForm<CreateLeadTaskInput>({
+  const form = useForm<CreateLeadTaskInputType>({
     resolver: zodResolver(createLeadTaskSchema),
     defaultValues: { leadId, title: "" },
   });
 
-  const onSubmit = async (data: CreateLeadTaskInput) => {
+  const onSubmit = async (data: CreateLeadTaskInputType) => {
     try {
       await addTask.mutateAsync({
         params: { leadId },

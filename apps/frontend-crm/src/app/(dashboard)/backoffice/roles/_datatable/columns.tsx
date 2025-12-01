@@ -2,12 +2,10 @@
 
 import { ColumnDef } from "@workspace/ui/data-table";
 import { RolesTableActions } from "./actions";
+import { RoleOutputSchema } from "@workspace/orpc-contract";
+import { z } from "zod";
 
-export type RoleRow = {
-  id: string;
-  name: string;
-  label?: string | null;
-  description?: string | null;
+export type RoleRow = z.infer<typeof RoleOutputSchema> & {
   rolePerms?: { permissionId: string }[];
 };
 

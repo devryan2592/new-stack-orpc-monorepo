@@ -26,11 +26,11 @@ import { PhoneInput } from "@workspace/ui/custom/phone-input";
 import ArrayInput from "@workspace/ui/custom/array-input";
 import PositiveNumberInput from "@workspace/ui/custom/positive-number-input";
 import { Label } from "@workspace/ui/components/label";
-import { CreateLeadInput, UpdateLeadInput } from "@workspace/orpc-contract";
+import { CreateLeadInputType, UpdateLeadInputType } from "@workspace/orpc-contract";
 
 interface LeadFormProps {
   form: UseLeadFormReturn["form"];
-  onSubmit: (data: CreateLeadInput | UpdateLeadInput) => void;
+  onSubmit: (data: CreateLeadInputType | UpdateLeadInputType) => void;
   isSubmitting?: boolean;
 }
 
