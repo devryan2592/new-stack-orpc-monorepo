@@ -1,5 +1,5 @@
 import type { Prisma } from "@workspace/db";
-import { CustomerOutput } from "@workspace/orpc-contract";
+import { CustomerOutputType } from "@workspace/orpc-contract";
 
 export type CustomerWithRelations = Prisma.CustomerGetPayload<{
   include: {
@@ -18,7 +18,7 @@ export type CustomerWithRelations = Prisma.CustomerGetPayload<{
 
 const mapCustomerToOutput = (
   customer: CustomerWithRelations
-): CustomerOutput => {
+): CustomerOutputType => {
   return {
     id: customer.id,
     avatar: customer.avatar,

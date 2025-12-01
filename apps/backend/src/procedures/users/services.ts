@@ -25,7 +25,7 @@ export const usersServiceFactory = (db: typeof prisma) => {
     }
   };
 
-  async function me(userId: string): Promise<UserOutput> {
+  async function getMe(userId: string): Promise<UserOutput> {
     const user = await db.user.findUniqueOrThrow({
       where: { id: userId },
       include: {
@@ -136,7 +136,7 @@ export const usersServiceFactory = (db: typeof prisma) => {
     };
   }
 
-  async function create(
+  async function createUser(
     requesterId: string,
     input: CreateUserInput
   ): Promise<UserOutput> {
@@ -186,7 +186,7 @@ export const usersServiceFactory = (db: typeof prisma) => {
     };
   }
 
-  async function list(
+  async function listUsers(
     requesterId: string,
     input: ListUsersInput
   ): Promise<ListUsersOutput> {
@@ -290,11 +290,11 @@ export const usersServiceFactory = (db: typeof prisma) => {
   }
 
   return {
-    me,
+    getMe,
     updateMe,
-    create,
-    list,
-    delete: deleteUser,
+    createUser,
+    listUsers,
+    deleteUser,
   };
 };
 

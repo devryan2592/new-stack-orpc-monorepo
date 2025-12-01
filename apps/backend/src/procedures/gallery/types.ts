@@ -1,17 +1,18 @@
 import { Inputs, Outputs } from "@/config/orpc";
 
-export type CreateFolderInput = Inputs["gallery"]["createFolder"];
-export type UpdateFolderInput = Inputs["gallery"]["updateFolder"];
-export type DeleteFolderInput = Inputs["gallery"]["deleteFolder"];
-export type GenerateUploadSignatureInput =
-  Inputs["gallery"]["generateUploadSignature"];
-export type CreateFileInput = Inputs["gallery"]["createFile"];
-export type DeleteFileInput = Inputs["gallery"]["deleteFile"];
-export type ListGalleryItemsInput = Inputs["gallery"]["list"];
+export type CreateGalleryFolderInput = Inputs["gallery"]["createGalleryFolder"];
+export type UpdateGalleryFolderInput = Inputs["gallery"]["updateGalleryFolder"];
+export type DeleteGalleryFolderInput = Inputs["gallery"]["deleteGalleryFolder"];
+export type GenerateUploadSignatureInput = Inputs["gallery"]["generateUploadSignature"];
+export type CreateGalleryFileInput = Inputs["gallery"]["createGalleryFile"];
+export type DeleteGalleryFileInput = Inputs["gallery"]["deleteGalleryFile"];
+export type GetGalleryFileByIdInput = Inputs["gallery"]["getGalleryFileById"];
+export type ListGalleryItemsInput = Inputs["gallery"]["listGalleryItems"];
 
-export type GalleryFolderOutput = Outputs["gallery"]["createFolder"];
-export type GalleryFileOutput = Outputs["gallery"]["createFile"];
-export type UploadSignatureOutput =
-  Outputs["gallery"]["generateUploadSignature"];
-export type ListGalleryItemsOutput = Outputs["gallery"]["list"];
-export type SuccessOutput = Outputs["gallery"]["deleteFolder"];
+export type GalleryFolderOutput = Outputs["gallery"]["createGalleryFolder"];
+export type GalleryFileOutput = Outputs["gallery"]["createGalleryFile"];
+export type UploadSignatureOutput = Outputs["gallery"]["generateUploadSignature"];
+export type ListGalleryItemsOutput = Outputs["gallery"]["listGalleryItems"];
+export type DeleteGalleryFolderOutput = Outputs["gallery"]["deleteGalleryFolder"];
+export type DeleteGalleryFileOutput = Outputs["gallery"]["deleteGalleryFile"];
+export type GetGalleryFileByIdOutput = Outputs["gallery"]["getGalleryFileById"];

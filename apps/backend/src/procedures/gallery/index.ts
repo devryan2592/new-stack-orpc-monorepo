@@ -1,55 +1,45 @@
 import { privateProcedure } from "@/config/orpc";
 import { galleryService } from "./services";
 
-const createFolder = privateProcedure.gallery.createFolder.handler(
-  async ({ input, context }) => {
-    return galleryService.createFolder(context.user.id, input);
-  }
-);
+const createGalleryFolder = privateProcedure.gallery.createGalleryFolder.handler(async ({ input, context }) => {
+  return galleryService.createGalleryFolder(context.user.id, input.body);
+});
 
-const updateFolder = privateProcedure.gallery.updateFolder.handler(
-  async ({ input, context }) => {
-    return galleryService.updateFolder(context.user.id, input);
-  }
-);
+const updateGalleryFolder = privateProcedure.gallery.updateGalleryFolder.handler(async ({ input, context }) => {
+  return galleryService.updateGalleryFolder(context.user.id, input.params.id, input.body);
+});
 
-const deleteFolder = privateProcedure.gallery.deleteFolder.handler(
-  async ({ input, context }) => {
-    return galleryService.deleteFolder(context.user.id, input);
-  }
-);
+const deleteGalleryFolder = privateProcedure.gallery.deleteGalleryFolder.handler(async ({ input, context }) => {
+  return galleryService.deleteGalleryFolder(context.user.id, input.params.id);
+});
 
-const generateUploadSignature =
-  privateProcedure.gallery.generateUploadSignature.handler(
-    async ({ input, context }) => {
-      return galleryService.generateUploadSignature(context.user.id, input);
-    }
-  );
+const generateUploadSignature = privateProcedure.gallery.generateUploadSignature.handler(async ({ input, context }) => {
+  return galleryService.generateUploadSignature(context.user.id, input.body);
+});
 
-const createFile = privateProcedure.gallery.createFile.handler(
-  async ({ input, context }) => {
-    return galleryService.createFile(context.user.id, input);
-  }
-);
+const createGalleryFile = privateProcedure.gallery.createGalleryFile.handler(async ({ input, context }) => {
+  return galleryService.createGalleryFile(context.user.id, input.body);
+});
 
-const deleteFile = privateProcedure.gallery.deleteFile.handler(
-  async ({ input, context }) => {
-    return galleryService.deleteFile(context.user.id, input);
-  }
-);
+const deleteGalleryFile = privateProcedure.gallery.deleteGalleryFile.handler(async ({ input, context }) => {
+  return galleryService.deleteGalleryFile(context.user.id, input.params.id);
+});
 
-const list = privateProcedure.gallery.list.handler(
-  async ({ input, context }) => {
-    return galleryService.list(context.user.id, input);
-  }
-);
+const getGalleryFileById = privateProcedure.gallery.getGalleryFileById.handler(async ({ input, context }) => {
+  return galleryService.getGalleryFileById(context.user.id, input.params.id);
+});
+
+const listGalleryItems = privateProcedure.gallery.listGalleryItems.handler(async ({ input, context }) => {
+  return galleryService.listGalleryItems(context.user.id, input.query);
+});
 
 export const galleryRouter = {
-  createFolder,
-  updateFolder,
-  deleteFolder,
+  createGalleryFolder,
+  updateGalleryFolder,
+  deleteGalleryFolder,
   generateUploadSignature,
-  createFile,
-  deleteFile,
-  list,
+  createGalleryFile,
+  deleteGalleryFile,
+  getGalleryFileById,
+  listGalleryItems,
 };

@@ -2,19 +2,25 @@ import { prisma } from "@workspace/db";
 import { ORPCError } from "@orpc/server";
 import { v2 as cloudinary } from "cloudinary";
 import {
-  CreateFileInput,
-  CreateFolderInput,
-  DeleteFileInput,
-  DeleteFolderInput,
+  CreateGalleryFolderInput,
+  UpdateGalleryFolderInput,
   GenerateUploadSignatureInput,
+  CreateGalleryFileInput,
   ListGalleryItemsInput,
-  UpdateFolderInput,
   GalleryFolderOutput,
   GalleryFileOutput,
   UploadSignatureOutput,
   ListGalleryItemsOutput,
-  SuccessOutput,
+  DeleteGalleryFolderOutput,
+  DeleteGalleryFileOutput,
+  GetGalleryFileByIdOutput,
 } from "./types";
+import {
+  mapFolderToOutput,
+  mapFileToOutput,
+  mapFolderToItem,
+  mapFileToItem,
+} from "./mapper";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -24,11 +30,11 @@ cloudinary.config({
 });
 
 export const galleryServiceFactory = (db: typeof prisma) => {
-  async function createFolder(
+  async function createGalleryFolder(
     userId: string,
-    input: CreateFolderInput
+    input: CreateGalleryFolderInput["body"]
   ): Promise<GalleryFolderOutput> {
-    const { name, parentId } = input.body;
+    const { name, parentId } = input;
 
     if (parentId) {
       const parent = await db.galleryFolder.findUnique({
@@ -51,16 +57,16 @@ export const galleryServiceFactory = (db: typeof prisma) => {
 
     return {
       success: true,
-      data: folder,
+      data: mapFolderToOutput(folder),
     };
   }
 
-  async function updateFolder(
+  async function updateGalleryFolder(
     userId: string,
-    input: UpdateFolderInput
+    id: string,
+    input: UpdateGalleryFolderInput["body"]
   ): Promise<GalleryFolderOutput> {
-    const { id } = input.params;
-    const { name } = input.body;
+    const { name } = input;
 
     const folder = await db.galleryFolder.findUnique({
       where: { id },
@@ -80,16 +86,14 @@ export const galleryServiceFactory = (db: typeof prisma) => {
 
     return {
       success: true,
-      data: updated,
+      data: mapFolderToOutput(updated),
     };
   }
 
-  async function deleteFolder(
+  async function deleteGalleryFolder(
     userId: string,
-    input: DeleteFolderInput
-  ): Promise<SuccessOutput> {
-    const { id } = input.params;
-
+    id: string
+  ): Promise<DeleteGalleryFolderOutput> {
     const folder = await db.galleryFolder.findUnique({
       where: { id },
       include: {
@@ -115,9 +119,9 @@ export const galleryServiceFactory = (db: typeof prisma) => {
 
   async function generateUploadSignature(
     userId: string,
-    input: GenerateUploadSignatureInput
+    input: GenerateUploadSignatureInput["body"]
   ): Promise<UploadSignatureOutput> {
-    const { folderId, type } = input.body;
+    const { folderId, type } = input;
     const timestamp = Math.round(new Date().getTime() / 1000);
     const folder = folderId ? folderId : "root"; // You might want to map folderId to a Cloudinary folder path
 
@@ -144,11 +148,11 @@ export const galleryServiceFactory = (db: typeof prisma) => {
     };
   }
 
-  async function createFile(
+  async function createGalleryFile(
     userId: string,
-    input: CreateFileInput
+    input: CreateGalleryFileInput["body"]
   ): Promise<GalleryFileOutput> {
-    const { name, url, type, size, publicId, folderId } = input.body;
+    const { name, url, type, size, publicId, folderId } = input;
 
     const file = await db.galleryFile.create({
       data: {
@@ -164,16 +168,14 @@ export const galleryServiceFactory = (db: typeof prisma) => {
 
     return {
       success: true,
-      data: file,
+      data: mapFileToOutput(file),
     };
   }
 
-  async function deleteFile(
+  async function deleteGalleryFile(
     userId: string,
-    input: DeleteFileInput
-  ): Promise<SuccessOutput> {
-    const { id } = input.params;
-
+    id: string
+  ): Promise<DeleteGalleryFileOutput> {
     const file = await db.galleryFile.findUnique({
       where: { id },
     });
@@ -194,11 +196,29 @@ export const galleryServiceFactory = (db: typeof prisma) => {
     return { success: true };
   }
 
-  async function list(
+  async function getGalleryFileById(
     userId: string,
-    input: ListGalleryItemsInput
+    id: string
+  ): Promise<GetGalleryFileByIdOutput> {
+    const file = await db.galleryFile.findUnique({
+      where: { id },
+    });
+
+    if (!file) {
+      throw new ORPCError("NOT_FOUND", { message: "File not found" });
+    }
+
+    return {
+      success: true,
+      data: mapFileToOutput(file),
+    };
+  }
+
+  async function listGalleryItems(
+    userId: string,
+    input: ListGalleryItemsInput["query"]
   ): Promise<ListGalleryItemsOutput> {
-    const { folderId, type } = input.query;
+    const { folderId, type } = input;
 
     const whereFolder: any = {
       parentId: folderId || null,
@@ -224,8 +244,8 @@ export const galleryServiceFactory = (db: typeof prisma) => {
     ]);
 
     const items = [
-      ...folders.map((f) => ({ ...f, itemType: "FOLDER" as const })),
-      ...files.map((f) => ({ ...f, itemType: "FILE" as const })),
+      ...folders.map(mapFolderToItem),
+      ...files.map(mapFileToItem),
     ];
 
     return {
@@ -235,13 +255,14 @@ export const galleryServiceFactory = (db: typeof prisma) => {
   }
 
   return {
-    createFolder,
-    updateFolder,
-    deleteFolder,
+    createGalleryFolder,
+    updateGalleryFolder,
+    deleteGalleryFolder,
     generateUploadSignature,
-    createFile,
-    deleteFile,
-    list,
+    createGalleryFile,
+    deleteGalleryFile,
+    getGalleryFileById,
+    listGalleryItems,
   };
 };
 

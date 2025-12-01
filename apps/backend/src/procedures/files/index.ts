@@ -1,22 +1,20 @@
 import { privateProcedure } from "@/config/orpc";
 import { filesService } from "./services";
 
-const list = privateProcedure.files.list.handler(async ({ input, context }) => {
-  return filesService.list(context.user.id, input);
+const listFiles = privateProcedure.files.listFiles.handler(async ({ input, context }) => {
+  return filesService.listFiles(context.user.id, input.query);
 });
 
-const get = privateProcedure.files.get.handler(async ({ input, context }) => {
-  return filesService.get(context.user.id, input);
+const getFileById = privateProcedure.files.getFileById.handler(async ({ input, context }) => {
+  return filesService.getFileById(context.user.id, input.params.id);
 });
 
-const deleteFile = privateProcedure.files.delete.handler(
-  async ({ input, context }) => {
-    return filesService.delete(context.user.id, input);
-  }
-);
+const deleteFile = privateProcedure.files.deleteFile.handler(async ({ input, context }) => {
+  return filesService.deleteFile(context.user.id, input.params.id);
+});
 
 export const filesRouter = {
-  list,
-  get,
-  delete: deleteFile,
+  listFiles,
+  getFileById,
+  deleteFile,
 };

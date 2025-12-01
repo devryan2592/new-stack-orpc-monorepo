@@ -1,8 +1,8 @@
 import { privateProcedure } from "@/config/orpc";
 import { usersService } from "./services";
 
-const me = privateProcedure.users.me.handler(async ({ context }) => {
-  return usersService.me(context.user.id);
+const getMe = privateProcedure.users.getMe.handler(async ({ context }) => {
+  return usersService.getMe(context.user.id);
 });
 
 const updateMe = privateProcedure.users.updateMe.handler(
@@ -11,26 +11,26 @@ const updateMe = privateProcedure.users.updateMe.handler(
   }
 );
 
-const create = privateProcedure.users.create.handler(
+const createUser = privateProcedure.users.createUser.handler(
   async ({ input, context }) => {
-    return usersService.create(context.user.id, input);
+    return usersService.createUser(context.user.id, input);
   }
 );
 
-const list = privateProcedure.users.list.handler(async ({ input, context }) => {
-  return usersService.list(context.user.id, input);
+const listUsers = privateProcedure.users.listUsers.handler(async ({ input, context }) => {
+  return usersService.listUsers(context.user.id, input);
 });
 
-const deleteUser = privateProcedure.users.delete.handler(
+const deleteUser = privateProcedure.users.deleteUser.handler(
   async ({ input, context }) => {
-    return usersService.delete(context.user.id, input);
+    return usersService.deleteUser(context.user.id, input);
   }
 );
 
 export const usersRouter = {
-  me,
+  getMe,
   updateMe,
-  create,
-  list,
-  delete: deleteUser,
+  createUser,
+  listUsers,
+  deleteUser,
 };

@@ -1,24 +1,34 @@
-import { prisma, PrismaClient } from "@workspace/db";
+import { prisma } from "@workspace/db";
+import { ORPCError } from "@orpc/server";
 import {
   CreateLeadInput,
   LeadOutput,
   ListLeadsInput,
   UpdateLeadInput,
-  CreateLeadLogInput,
-  CreateLeadNoteInput,
-  CreateLeadTaskInput,
+  AddLeadNoteInput,
+  AddLeadLogInput,
+  AddLeadTaskInput,
   UpdateLeadTaskInput,
   LeadLogOutput,
   LeadNoteOutput,
   LeadTaskOutput,
-  BulkDeleteInput,
-  BulkConvertInput,
+  BulkDeleteLeadsInput,
+  BulkConvertLeadToCustomerInput,
+  CustomerOutput,
+  ListLeadsOutput,
+  ConvertLeadToCustomerInput,
+  UpdateLeadNoteInput,
+  UpdateLeadLogInput,
 } from "./types";
-import { ORPCError } from "@orpc/server";
-import mapLeadToOutput from "./mapper";
+import {
+  mapLeadToOutput,
+  mapLeadNoteToOutput,
+  mapLeadLogToOutput,
+  mapLeadTaskToOutput,
+} from "./mapper";
 import mapCustomerToOutput from "../customers/mapper";
 
-const leadServiceFactory = (db: PrismaClient) => {
+export const leadServiceFactory = (db: typeof prisma) => {
   const createLead = async (
     body: CreateLeadInput["body"]
   ): Promise<LeadOutput> => {
@@ -66,7 +76,9 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true, data: mapLeadToOutput(lead) };
   };
 
-  const listLeads = async (query: ListLeadsInput["query"]) => {
+  const listLeads = async (
+    query: ListLeadsInput["query"]
+  ): Promise<ListLeadsOutput> => {
     try {
       const { page = 1, limit = 10, search, status, customerId } = query;
       const skip = (page - 1) * limit;
@@ -177,7 +189,10 @@ const leadServiceFactory = (db: PrismaClient) => {
     return { success: true };
   };
 
-  const convertLeadToCustomer = async (id: string) => {
+  const convertLeadToCustomer = async (
+    id: string,
+    input?: ConvertLeadToCustomerInput["body"]
+  ): Promise<CustomerOutput> => {
     const lead = await db.lead.findUnique({
       where: { id },
     });
@@ -205,6 +220,7 @@ const leadServiceFactory = (db: PrismaClient) => {
         email: lead.email,
         phone: lead.phone,
         type: "B2C",
+        ...input,
       },
       include: {
         familyMembersAsOwner: { include: { member: true } },
@@ -224,33 +240,35 @@ const leadServiceFactory = (db: PrismaClient) => {
   };
 
   const addLeadNote = async (
+    userId: string,
     leadId: string,
-    body: CreateLeadNoteInput["body"]
+    body: AddLeadNoteInput["body"]
   ): Promise<LeadNoteOutput> => {
     const note = await db.leadNote.create({
       data: {
         leadId,
         content: body.content,
-        createdBy: "system", // TODO: Get from context
+        createdBy: userId,
       },
     });
-    return { success: true, data: note };
+    return { success: true, data: mapLeadNoteToOutput(note) };
   };
 
   const updateLeadNote = async (
     id: string,
-    body: { content?: string } // Using partial input manually or from types if available
+    body: UpdateLeadNoteInput["body"]
   ): Promise<LeadNoteOutput> => {
     const note = await db.leadNote.update({
       where: { id },
       data: body,
     });
-    return { success: true, data: note };
+    return { success: true, data: mapLeadNoteToOutput(note) };
   };
 
   const addLeadLog = async (
+    userId: string,
     leadId: string,
-    body: CreateLeadLogInput["body"]
+    body: AddLeadLogInput["body"]
   ): Promise<LeadLogOutput> => {
     const log = await db.leadLog.create({
       data: {
@@ -258,19 +276,15 @@ const leadServiceFactory = (db: PrismaClient) => {
         type: body.type,
         message: body.message,
         nextAction: body.nextAction ? new Date(body.nextAction) : null,
-        loggedBy: "system", // TODO: Get from context
+        loggedBy: userId,
       },
     });
-    return { success: true, data: log };
+    return { success: true, data: mapLeadLogToOutput(log) };
   };
 
   const updateLeadLog = async (
     id: string,
-    body: {
-      type?: any;
-      message?: string;
-      nextAction?: string;
-    }
+    body: UpdateLeadLogInput["body"]
   ): Promise<LeadLogOutput> => {
     const log = await db.leadLog.update({
       where: { id },
@@ -279,12 +293,12 @@ const leadServiceFactory = (db: PrismaClient) => {
         nextAction: body.nextAction ? new Date(body.nextAction) : undefined,
       },
     });
-    return { success: true, data: log };
+    return { success: true, data: mapLeadLogToOutput(log) };
   };
 
   const addLeadTask = async (
     leadId: string,
-    body: CreateLeadTaskInput["body"]
+    body: AddLeadTaskInput["body"]
   ): Promise<LeadTaskOutput> => {
     const task = await db.leadTask.create({
       data: {
@@ -294,7 +308,7 @@ const leadServiceFactory = (db: PrismaClient) => {
         assignedTo: body.assignedTo,
       },
     });
-    return { success: true, data: task };
+    return { success: true, data: mapLeadTaskToOutput(task) };
   };
 
   const updateLeadTask = async (
@@ -306,21 +320,23 @@ const leadServiceFactory = (db: PrismaClient) => {
       data: {
         title: body.title,
         dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
-        status: body.status,
+        status: body.status as any,
         assignedTo: body.assignedTo,
       },
     });
-    return { success: true, data: task };
+    return { success: true, data: mapLeadTaskToOutput(task) };
   };
 
-  const bulkDeleteLeads = async (body: BulkDeleteInput["body"]) => {
+  const bulkDeleteLeads = async (body: BulkDeleteLeadsInput["body"]) => {
     await db.lead.deleteMany({
       where: { id: { in: body.ids } },
     });
     return { success: true };
   };
 
-  const bulkConvertLeads = async (body: BulkConvertInput["body"]) => {
+  const bulkConvertLeads = async (
+    body: BulkConvertLeadToCustomerInput["body"]
+  ) => {
     await Promise.allSettled(body.ids.map((id) => convertLeadToCustomer(id)));
     return { success: true };
   };

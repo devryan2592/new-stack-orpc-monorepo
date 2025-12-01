@@ -1,38 +1,38 @@
 import { privateProcedure } from "@/config/orpc";
 import { rolesService } from "./services";
 
-const create = privateProcedure.roles.create.handler(
+const createRole = privateProcedure.roles.createRole.handler(
   async ({ input, context }) => {
-    return rolesService.create(context.user.id, input);
+    return rolesService.createRole(context.user.id, input);
   }
 );
 
-const list = privateProcedure.roles.list.handler(async ({ context }) => {
-  return rolesService.list(context.user.id);
+const listRoles = privateProcedure.roles.listRoles.handler(async ({ context }) => {
+  return rolesService.listRoles(context.user.id);
 });
 
-const update = privateProcedure.roles.update.handler(
+const updateRole = privateProcedure.roles.updateRole.handler(
   async ({ input, context }) => {
-    return rolesService.update(context.user.id, input);
+    return rolesService.updateRole(context.user.id, input);
   }
 );
 
-const deleteRole = privateProcedure.roles.delete.handler(
+const deleteRole = privateProcedure.roles.deleteRole.handler(
   async ({ input, context }) => {
-    return rolesService.delete(context.user.id, input);
+    return rolesService.deleteRole(context.user.id, input);
   }
 );
 
-const assign = privateProcedure.roles.assign.handler(
+const assignRole = privateProcedure.roles.assignRole.handler(
   async ({ input, context }) => {
-    return rolesService.assign(context.user.id, input);
+    return rolesService.assignRole(context.user.id, input);
   }
 );
 
 export const rolesRouter = {
-  create,
-  list,
-  update,
-  delete: deleteRole,
-  assign,
+  createRole,
+  listRoles,
+  updateRole,
+  deleteRole,
+  assignRole,
 };

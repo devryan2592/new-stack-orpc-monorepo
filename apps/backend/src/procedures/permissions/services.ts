@@ -2,7 +2,7 @@ import { prisma } from "@workspace/db";
 import { ListPermissionsOutput } from "./types";
 
 export const permisssionServiceFactory = (db: typeof prisma) => {
-  async function list(): Promise<ListPermissionsOutput> {
+  async function listPermissions(): Promise<ListPermissionsOutput> {
     const permissions = await db.permission.findMany();
     return {
       success: true,
@@ -11,7 +11,7 @@ export const permisssionServiceFactory = (db: typeof prisma) => {
   }
 
   return {
-    list,
+    listPermissions,
   };
 };
 

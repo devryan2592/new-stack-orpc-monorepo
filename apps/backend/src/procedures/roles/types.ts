@@ -1,9 +1,9 @@
 import { Inputs, Outputs } from "@/config/orpc";
 
-export type CreateRoleInput = Inputs["roles"]["create"];
-export type UpdateRoleInput = Inputs["roles"]["update"];
-export type AssignRoleInput = Inputs["roles"]["assign"];
-export type DeleteRoleInput = Inputs["roles"]["delete"];
+export type CreateRoleInput = Inputs["roles"]["createRole"];
+export type UpdateRoleInput = Inputs["roles"]["updateRole"];
+export type AssignRoleInput = Inputs["roles"]["assignRole"];
+export type DeleteRoleInput = Inputs["roles"]["deleteRole"];
 
-export type RoleOutput = Outputs["roles"]["create"];
-export type ListRolesOutput = Outputs["roles"]["list"];
+export type RoleOutput = Outputs["roles"]["createRole"];
+export type ListRolesOutput = Outputs["roles"]["listRoles"];

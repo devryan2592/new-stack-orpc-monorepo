@@ -1,19 +1,18 @@
 import { prisma } from "@workspace/db";
 import { ORPCError } from "@orpc/server";
-import type { ListFilesInputType } from "@workspace/orpc-contract";
 import {
-  GetFileInput,
-  DeleteFileInput,
+  ListFilesInput,
   ListFilesOutput,
-  GetFileOutput,
+  FileOutput,
 } from "./types";
+import mapFileToOutput from "./mapper";
 
 export const filesServiceFactory = (db: typeof prisma) => {
-  async function list(
+  async function listFiles(
     userId: string,
-    input: { query: ListFilesInputType }
+    input: ListFilesInput["query"]
   ): Promise<ListFilesOutput> {
-    const { limit = 10, offset = 0, search } = input.query;
+    const { limit = 10, offset = 0, search } = input;
 
     const where: any = {
       uploaderId: userId,
@@ -39,18 +38,16 @@ export const filesServiceFactory = (db: typeof prisma) => {
     return {
       success: true,
       data: {
-        files,
+        files: files.map(mapFileToOutput),
         total,
       },
     };
   }
 
-  async function get(
+  async function getFileById(
     userId: string,
-    input: GetFileInput
-  ): Promise<GetFileOutput> {
-    const { id } = input.params;
-
+    id: string
+  ): Promise<FileOutput> {
     const file = await db.file.findFirst({
       where: {
         id,
@@ -64,16 +61,14 @@ export const filesServiceFactory = (db: typeof prisma) => {
 
     return {
       success: true,
-      data: file,
+      data: mapFileToOutput(file),
     };
   }
 
   async function deleteFile(
     userId: string,
-    input: DeleteFileInput
+    id: string
   ): Promise<{ success: boolean }> {
-    const { id } = input.params;
-
     const file = await db.file.findFirst({
       where: {
         id,
@@ -94,9 +89,9 @@ export const filesServiceFactory = (db: typeof prisma) => {
   }
 
   return {
-    list,
-    get,
-    delete: deleteFile,
+    listFiles,
+    getFileById,
+    deleteFile,
   };
 };
 

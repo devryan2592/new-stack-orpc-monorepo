@@ -24,7 +24,9 @@ export const createLeadTaskSchema = z.object({
   assignedTo: z.string().optional(),
 });
 
-export const updateLeadTaskSchema = createLeadTaskSchema.partial();
+export const updateLeadTaskSchema = createLeadTaskSchema.partial().extend({
+  status: LeadTaskStatus.optional(),
+});
 
 export const bulkDeleteLeadsSchema = z.object({
   ids: z.array(z.string()),

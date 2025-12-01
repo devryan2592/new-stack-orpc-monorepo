@@ -1,10 +1,10 @@
 import { privateProcedure } from "@/config/orpc";
 import { permissionsService } from "./services";
 
-const listPermissions = privateProcedure.permissions.list.handler(async () => {
-  return permissionsService.list();
+const listPermissions = privateProcedure.permissions.listPermissions.handler(async () => {
+  return permissionsService.listPermissions();
 });
 
 export const permissionsRouter = {
-  list: listPermissions,
+  listPermissions,
 };

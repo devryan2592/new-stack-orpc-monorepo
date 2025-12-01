@@ -24,7 +24,7 @@ export const rolesServiceFactory = (db: typeof prisma) => {
     }
   };
 
-  async function create(
+  async function createRole(
     requesterId: string,
     input: CreateRoleInput
   ): Promise<RoleOutput> {
@@ -42,7 +42,7 @@ export const rolesServiceFactory = (db: typeof prisma) => {
     });
   }
 
-  async function list(requesterId: string): Promise<ListRolesOutput> {
+  async function listRoles(requesterId: string): Promise<ListRolesOutput> {
     await ensureAdmin(requesterId);
     return db.role.findMany({
       include: {
@@ -55,7 +55,7 @@ export const rolesServiceFactory = (db: typeof prisma) => {
     });
   }
 
-  async function update(
+  async function updateRole(
     requesterId: string,
     input: UpdateRoleInput
   ): Promise<RoleOutput> {
@@ -86,7 +86,7 @@ export const rolesServiceFactory = (db: typeof prisma) => {
     return { success: true };
   }
 
-  async function assign(
+  async function assignRole(
     requesterId: string,
     input: AssignRoleInput
   ): Promise<{ success: boolean }> {
@@ -111,11 +111,11 @@ export const rolesServiceFactory = (db: typeof prisma) => {
   }
 
   return {
-    create,
-    list,
-    update,
-    delete: deleteRole,
-    assign,
+    createRole,
+    listRoles,
+    updateRole,
+    deleteRole,
+    assignRole,
   };
 };
 
