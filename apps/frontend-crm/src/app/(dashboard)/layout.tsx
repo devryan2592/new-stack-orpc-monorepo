@@ -1,9 +1,5 @@
-import DashboardSidebar from "@/components/dashboard/dashboard-sidebar";
+import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 import AuthGuard from "@/providers/auth-guard";
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@workspace/ui/components/sidebar";
 import React from "react";
 
 interface AppDashboardLayoutProps {
@@ -15,12 +11,7 @@ export default function AppDashboardLayout({
 }: AppDashboardLayoutProps) {
   return (
     <AuthGuard>
-      <SidebarProvider>
-        <DashboardSidebar />
-        <SidebarInset className="relative h-svh overflow-hidden">
-          {children}
-        </SidebarInset>
-      </SidebarProvider>
+      <DashboardLayout>{children}</DashboardLayout>
     </AuthGuard>
   );
 }
