@@ -26,24 +26,47 @@ import Link from "next/link";
 import { useLayoutStore } from "../../store/layout";
 import { usePathname } from "next/navigation";
 import { getMenuList, NavMenuItem } from "@/lib/nav-menu";
-import { MODULES, ModuleId } from "@/lib/modules";
+import { MODULES, ModuleId, MODULE_LIST } from "@/lib/modules";
 import SidebarModuleSelector from "./sidebar-module-selector";
+import { useNavStore } from "@/store/nav";
+import { CRM_LINKS, BACKOFFICE_LINKS, WEBSITE_LINKS } from "@/lib/links";
 
 const LeftSidebar = () => {
   const { open, toggleSidebar } = useSidebar();
   const { leftOpen } = useLayoutStore();
-
+  const { activeModule, setActiveModule } = useNavStore();
   const pathname = usePathname();
 
-  const getModuleId = (path: string): ModuleId => {
-    if (path.startsWith("/crm")) return MODULES.CRM;
-    if (path.startsWith("/backoffice")) return MODULES.BACKOFFICE;
-    if (path.startsWith("/website")) return MODULES.WEBSITE;
-    return MODULES.CRM; // Default to CRM
+  const getModuleIdFromPath = (path: string): ModuleId | null => {
+    if (
+      Object.values(CRM_LINKS).some(
+        (link) => link !== "/" && (path === link || path.startsWith(link + "/"))
+      )
+    )
+      return MODULES.CRM;
+    if (
+      Object.values(BACKOFFICE_LINKS).some(
+        (link) => link !== "/" && (path === link || path.startsWith(link + "/"))
+      )
+    )
+      return MODULES.BACKOFFICE;
+    if (
+      Object.values(WEBSITE_LINKS).some(
+        (link) => link !== "/" && (path === link || path.startsWith(link + "/"))
+      )
+    )
+      return MODULES.WEBSITE;
+    return null;
   };
 
-  const moduleId = getModuleId(pathname);
-  const menuGroups = getMenuList(moduleId);
+  React.useEffect(() => {
+    const detected = getModuleIdFromPath(pathname);
+    if (detected && detected !== activeModule) {
+      setActiveModule(detected);
+    }
+  }, [pathname, activeModule, setActiveModule]);
+
+  const menuGroups = getMenuList(activeModule);
 
   const isPathActive = (url?: string, exact: boolean = false) => {
     if (!url) return false;
@@ -138,13 +161,14 @@ const LeftSidebar = () => {
     );
   };
 
+  const activeModuleLabel =
+    MODULE_LIST.find((m) => m.id === activeModule)?.label || "CRM";
+
   const sidebarHeader = (
     <div className="sticky top-0 flex shrink-0 items-center justify-between gap-2 border-b  px-3 py-2 z-10">
       <div className="h-9 flex items-center justify-center-safe text-sm font-medium ">
-        <span className="text-xs mr-1 mt-0.5 font-bold text-muted-foreground">
-          Module:
-        </span>{" "}
-        {moduleId.charAt(0).toUpperCase() + moduleId.slice(1)}
+        <span className="text-xs mr-1.5   text-muted-foreground">Module:</span>{" "}
+        {activeModuleLabel}
       </div>
     </div>
   );
@@ -166,7 +190,7 @@ const LeftSidebar = () => {
     <Sidebar className="border-r left-[calc(var(--sidebar-width-icon)_+_1px)]">
       {sidebarHeader}
       {sidebarContent}
-      <SidebarFooter className="">
+      <SidebarFooter>
         <SidebarModuleSelector />
       </SidebarFooter>
     </Sidebar>
@@ -177,7 +201,7 @@ export const LeftSidebarContainer = () => {
   return (
     <SidebarProvider
       accessKey="left-sidebar"
-      className="w-fit overflow-hidden max-h-dvh hidden md:flex"
+      className="w-fit shrink-0 overflow-hidden max-h-dvh hidden md:flex"
     >
       <LeftSidebar />
     </SidebarProvider>

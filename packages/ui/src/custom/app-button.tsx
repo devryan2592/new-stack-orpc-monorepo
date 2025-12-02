@@ -52,7 +52,13 @@ function AppButton({
       {loading ? (
         <Spinner className={cn(iconOnly ? undefined : "mr-1.5")} />
       ) : Icon && iconPosition === "left" ? (
-        <span aria-hidden className="inline-flex items-center">
+        <span
+          aria-hidden
+          className={cn(
+            "inline-flex items-center",
+            iconOnly ? undefined : "mr-1.5"
+          )}
+        >
           <Icon className="h-4 w-4" />
         </span>
       ) : null}
@@ -60,7 +66,13 @@ function AppButton({
       {iconOnly ? null : <span className="truncate">{children}</span>}
 
       {!loading && Icon && iconPosition === "right" ? (
-        <span aria-hidden className="inline-flex items-center">
+        <span
+          aria-hidden
+          className={cn(
+            "inline-flex items-center",
+            iconOnly ? undefined : "ml-1.5"
+          )}
+        >
           <Icon className="h-4 w-4" />
         </span>
       ) : null}

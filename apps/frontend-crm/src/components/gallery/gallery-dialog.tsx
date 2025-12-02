@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import { GalleryView } from "./gallery-view";
 import { useState } from "react";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import type { GalleryItemOutputType } from "@workspace/orpc-contract";
 
 interface GalleryDialogProps {
@@ -56,10 +56,10 @@ export function GalleryDialog({
           />
         </div>
         <div className="p-4 border-t flex justify-end gap-2">
-          <Button variant="outline" onClick={() => setIsOpen(false)}>
+          <AppButton variant="outline" onClick={() => setIsOpen(false)}>
             Close
-          </Button>
-          <Button onClick={() => setIsOpen(false)}>Done</Button>
+          </AppButton>
+          <AppButton onClick={() => setIsOpen(false)}>Done</AppButton>
         </div>
       </DialogContent>
     </Dialog>

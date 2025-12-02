@@ -59,7 +59,7 @@ export const RightSidebarContainer = () => {
   return (
     <SidebarProvider
       accessKey="right-sidebar"
-      className="w-fit overflow-hidden max-h-dvh hidden md:flex"
+      className="w-fit shrink-0 overflow-hidden max-h-dvh hidden md:flex"
     >
       <RightSidebar />
     </SidebarProvider>

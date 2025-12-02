@@ -18,7 +18,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     <div className="w-full flex max-h-dvh overflow-hidden">
       <MiniNavContainer />
       <LeftSidebarContainer />
-      <SidebarInset className="w-full bg-muted/10 flex flex-col h-dvh">
+      <SidebarInset className="bg-muted/10 flex flex-col h-dvh">
         <DashboardHeader />
         <main className="flex-1 p-4 overflow-auto">{children}</main>
         <DashboardFooter />

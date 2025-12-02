@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@workspace/ui/components/button";
 import { AppButton } from "@workspace/ui/custom/app-button";
 import { HelpCircleIcon } from "lucide-react";
 
@@ -11,13 +10,13 @@ export function DashboardFooter() {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} ORPC. All rights reserved.
         </div>
-        <Button
+        <AppButton
           variant="link"
           size="sm"
           className="text-sm text-muted-foreground"
         >
           Terms of Service
-        </Button>
+        </AppButton>
         <AppButton icon={HelpCircleIcon} />
       </div>
     </footer>

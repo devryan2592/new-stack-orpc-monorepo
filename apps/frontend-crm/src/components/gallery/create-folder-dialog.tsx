@@ -19,7 +19,7 @@ import {
   FieldGroup,
 } from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import { useCreateFolder } from "@workspace/orpc-client";
 import { toast } from "sonner";
 
@@ -91,7 +91,7 @@ export function CreateFolderDialog({
             </Field>
           </FieldGroup>
           <DialogFooter className="mt-6">
-            <Button
+            <AppButton
               type="button"
               variant="outline"
               onClick={() => {
@@ -101,10 +101,10 @@ export function CreateFolderDialog({
               disabled={isSubmitting}
             >
               Cancel
-            </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Creating..." : "Create"}
-            </Button>
+            </AppButton>
+            <AppButton type="submit" loading={isSubmitting}>
+              Create
+            </AppButton>
           </DialogFooter>
         </form>
       </DialogContent>

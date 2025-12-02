@@ -8,26 +8,26 @@ export const AUTH_LINKS = {
 
 export const DASHBOARD_LINKS = {
   HOME: "/",
-  ACCOUNT: "/settings/account",
+  ACCOUNT: "/account",
 };
 
 export const CRM_LINKS = {
-  HOME: "/crm",
-  LEADS: "/crm/leads",
-  CUSTOMERS: "/crm/customers",
-  QUOTATIONS: "/crm/quotations",
-  USERS: "/crm/users",
-  GALLERY: "/gallery",
+  HOME: "/crm-dashboard",
+  LEADS: "/leads",
+  CUSTOMERS: "/customers",
+  QUOTATIONS: "/quotations",
+  USERS: "/users",
 };
 
 export const BACKOFFICE_LINKS = {
-  HOME: "/backoffice",
-  STAFF: "/backoffice/staff",
-  ROLES: "/backoffice/roles",
+  HOME: "/backoffice-dashboard",
+  STAFF: "/staff",
+  ROLES: "/roles",
 };
 
 export const WEBSITE_LINKS = {
-  HOME: "/website",
-  CONTENT: "/website/content",
-  BLOGS: "/website/blogs",
+  HOME: "/website-dashboard",
+  CONTENT: "/content",
+  BLOGS: "/blogs",
+  GALLERY: "/gallery",
 };

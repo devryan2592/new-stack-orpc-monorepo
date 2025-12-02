@@ -12,7 +12,7 @@ import {
 import { FolderItem } from "./folder-item";
 import { FileItem } from "./file-item";
 import { CreateFolderDialog } from "./create-folder-dialog";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -266,18 +266,18 @@ export function GalleryView({
           {index > 0 && (
             <ChevronRight className="h-4 w-4 text-muted-foreground mx-1" />
           )}
-          <Button
+          <AppButton
             variant="ghost"
             size="sm"
             className={cn(
-              "h-8 px-2",
+              "h-8 px-2 ",
               index === folderHistory.length - 1 && "font-bold"
             )}
             onClick={() => handleNavigate(folder.id, folder.name)}
+            icon={index === 0 ? Home : undefined}
           >
-            {index === 0 && <Home className="h-4 w-4 mr-1" />}
-            <p className="text-xs">{folder.name}</p>
-          </Button>
+            <span className="text-xs">{folder.name}</span>
+          </AppButton>
         </div>
       ));
     }
@@ -294,22 +294,29 @@ export function GalleryView({
     return (
       <>
         <div className="flex items-center">
-          <Button
+          <AppButton
             variant="ghost"
             size="sm"
-            className="h-8 px-2"
+            className="h-8 px-2 "
             onClick={() => handleNavigate(home.id, home.name)}
+            icon={Home}
+            iconOnly={middleFolders.length >= 2}
           >
-            <Home className="h-4 w-4 mr-1" />
-            {middleFolders.length < 2 && <p className="text-xs">{home.name}</p>}
-          </Button>
+            {middleFolders.length < 2 && (
+              <span className="text-xs">{home.name}</span>
+            )}
+          </AppButton>
         </div>
         <ChevronRight className="h-4 w-4 text-muted-foreground " />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-8 px-2">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
+            <AppButton
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2"
+              icon={MoreHorizontal}
+              iconOnly
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             {middleFolders.map((folder) => (
@@ -323,31 +330,30 @@ export function GalleryView({
           </DropdownMenuContent>
         </DropdownMenu>
         <ChevronRight className="h-4 w-4 text-muted-foreground " />
-        <Button
+        <AppButton
           variant="ghost"
           size="sm"
           className="h-8 px-2 font-bold"
           onClick={() => handleNavigate(current.id, current.name)}
         >
-          <p className="text-xs">{current.name}</p>
-        </Button>
+          <span className="text-xs">{current.name}</span>
+        </AppButton>
       </>
     );
   };
 
   return (
-    <div className="flex flex-col h-full gap-4">
+    <div className="flex h-full flex-col  gap-4">
       {/* Header / Toolbar */}
-      <div className="flex items-center justify-between p-2 border-b">
+      <div className="flex items-center justify-between p-2 border-b bg-card">
         <div className="flex items-center gap-2 overflow-x-auto">
           {renderBreadcrumbs()}
         </div>
         <div className="flex items-center gap-2">
           <CreateFolderDialog currentFolderId={currentFolderId}>
-            <Button variant="outline" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
+            <AppButton variant="outline" size="sm" icon={Plus}>
               New Folder
-            </Button>
+            </AppButton>
           </CreateFolderDialog>
           <div className="relative">
             <input
@@ -358,18 +364,14 @@ export function GalleryView({
               onChange={handleUpload}
               accept="image/*,video/*"
             />
-            <Button
+            <AppButton
               size="sm"
               onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading}
+              loading={isUploading}
+              icon={Upload}
             >
-              {isUploading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : (
-                <Upload className="h-4 w-4 mr-2" />
-              )}
               Upload
-            </Button>
+            </AppButton>
           </div>
         </div>
       </div>

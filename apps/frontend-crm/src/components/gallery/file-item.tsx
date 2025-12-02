@@ -1,5 +1,5 @@
 import { FileVideo, Trash2 } from "lucide-react";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
 import type { GalleryFileOutputType } from "@workspace/orpc-contract";
@@ -45,7 +45,7 @@ export function FileItem({
         {/* Overlay Actions */}
         {(isSelected || !selectionMode) && (
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-            <Button
+            <AppButton
               variant="destructive"
               size="icon"
               className="h-8 w-8 shadow-sm"
@@ -55,7 +55,7 @@ export function FileItem({
               }}
             >
               <Trash2 className="h-4 w-4" />
-            </Button>
+            </AppButton>
           </div>
         )}
       </div>

@@ -165,7 +165,7 @@ export const MiniNavContainer = () => {
   return (
     <SidebarProvider
       accessKey="mini-nav"
-      className="w-fit overflow-hidden max-h-dvh hidden md:flex"
+      className="w-fit shrink-0 overflow-hidden max-h-dvh hidden md:flex"
       defaultOpen={true}
     >
       <MiniNav />

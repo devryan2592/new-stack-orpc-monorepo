@@ -1,5 +1,5 @@
 import { Folder, Pencil, Trash2 } from "lucide-react";
-import { Button } from "@workspace/ui/components/button";
+import { AppButton } from "@workspace/ui/custom/app-button";
 import { Input } from "@workspace/ui/components/input";
 import { cn } from "@workspace/ui/lib/utils";
 import type { GalleryFolderOutputType } from "@workspace/orpc-contract";
@@ -66,7 +66,7 @@ export function FolderItem({
         {/* Overlay Actions */}
         {(isSelected || isEditing) && (
           <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-            <Button
+            <AppButton
               variant="secondary"
               size="icon"
               className="h-8 w-8 bg-background/80 backdrop-blur-sm shadow-sm hover:bg-background border border-border"
@@ -76,8 +76,8 @@ export function FolderItem({
               }}
             >
               <Pencil className="h-4 w-4" />
-            </Button>
-            <Button
+            </AppButton>
+            <AppButton
               variant="destructive"
               size="icon"
               className="h-8 w-8 shadow-sm"
@@ -87,7 +87,7 @@ export function FolderItem({
               }}
             >
               <Trash2 className="h-4 w-4" />
-            </Button>
+            </AppButton>
           </div>
         )}
       </div>
