@@ -26,17 +26,6 @@ export function DashboardHeader() {
         </div>
         <DashboardBreadcrumbs />
       </div>
-      <div className="flex items-center gap-2">
-        <ThemeToggle />
-        <AppButton
-          aria-label="Toggle right sidebar"
-          variant="ghost"
-          size="icon"
-          onClick={toggleRight}
-        >
-          <ChevronRight className="size-5" />
-        </AppButton>
-      </div>
     </header>
   );
 }

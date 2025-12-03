@@ -103,17 +103,17 @@ function DataTablePagination<TData>({
         className
       )}
     >
-      <div className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between w-full">
+      <div className="flex gap-4 items-center justify-between w-full">
         {/* Page Information */}
         {showPageInfo && (
-          <div className="flex items-center justify-center text-sm text-muted-foreground">
+          <div className="hidden md:flex items-center justify-center text-sm text-muted-foreground ">
             <span className="whitespace-nowrap">
               Page {currentPage} of {totalPages}
             </span>
           </div>
         )}
 
-        <div className="flex flex-col-reverse md:flex-row gap-4 items-center justify-center">
+        <div className="flex  gap-4 items-center justify-between md:justify-center">
           {/* Rows per page selector */}
           {showRowsPerPage && (
             <div className="flex items-center space-x-2">
